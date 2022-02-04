@@ -1,0 +1,25 @@
+{
+  "name": "dhis2-crosscut-link",
+  "author": "crosscut.io",
+  "version": "1.0.0",
+  "description": "",
+  "license": "BSD-3-Clause",
+  "private": true,
+  "scripts": {
+    "build": "d2-app-scripts build",
+    "start": "d2-app-scripts start",
+    "start:cluster": "d2 cluster up 2.36.8",
+    "stop:cluster": "d2 cluster down 2.36.8",
+    "setup:cluster": "d2 cluster up 2.36.8 --db-version 2.36 --seed",
+    "test": "d2-app-scripts test",
+    "deploy": "d2-app-scripts deploy",
+    "format": "prettier . -w"
+  },
+  "devDependencies": {
+    "@dhis2/cli-app-scripts": "^8.3.2",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "@dhis2/app-runtime": "^3.2.8"
+  }
+}
