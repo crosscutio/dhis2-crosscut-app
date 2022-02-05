@@ -1,3 +1,3 @@
-# DHIS2 Crosscut Link
+# DHIS2 Crosscut App
 
-A DHIS2 application to bring crosscut catchment areas into DHIS2.
+A DHIS2 application to create catchment areas for health facilities.
