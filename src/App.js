@@ -1,7 +1,15 @@
 import React from "react";
-import { DataQuery } from "@dhis2/app-runtime";
-import i18n from "@dhis2/d2-i18n";
 import classes from "./App.module.css";
+import ListCatchmentJobs from './ListCatchmentJobs';
+import Amplify from "aws-amplify";
+import { withAuthenticator } from "aws-amplify-react";
+
+const poolDate = {
+  userPoolId: "us-east-1_qSuVlXKCf",
+  userPoolWebClientId: "1kqueg45v60hm4aggobci2jf93",
+};
+
+Amplify.configure(poolDate);
 
 const query = {
   me: {
@@ -9,21 +17,13 @@ const query = {
   },
 };
 
-const MyApp = () => (
-  <div className={classes.container}>
-    <DataQuery query={query}>
-      {({ error, loading, data }) => {
-        if (error) return <span>ERROR</span>;
-        if (loading) return <span>...</span>;
-        return (
-          <>
-            <h1>{i18n.t("Hello {{name}}", { name: data.me.name })}</h1>
-            <h3>{i18n.t("Welcome to the DHIS2 Crosscut Link!")}</h3>
-          </>
-        );
-      }}
-    </DataQuery>
-  </div>
-);
+const MyApp = (props) => {
+  const token = props?.authData?.signInUserSession?.accessToken?.jwtToken;
+  return (
+    <div className={classes.container}>
+      <ListCatchmentJobs token={token} />
+    </div>
+  );
+};
 
-export default MyApp;
+export default withAuthenticator(MyApp);

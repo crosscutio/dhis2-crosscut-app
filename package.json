@@ -1,5 +1,5 @@
 {
-  "name": "dhis2-crosscut-link",
+  "name": "dhis2-crosscut-app",
   "author": "crosscut.io",
   "version": "1.0.0",
   "description": "",
@@ -20,6 +20,9 @@
     "prettier": "^2.5.1"
   },
   "dependencies": {
-    "@dhis2/app-runtime": "^3.2.8"
+    "@dhis2/app-runtime": "^3.2.8",
+    "aws-amplify": "^4.3.14",
+    "aws-amplify-react": "^5.1.9",
+    "ky": "^0.28.7"
   }
 }
