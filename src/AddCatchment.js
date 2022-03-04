@@ -1,5 +1,5 @@
 const ATTRIBUTE_ID = "JTOrLhPcwuk"; // From local setup, need to find a way to get this
-const ORG_UNIT_ID = "ImspTQPwCqd"; // From local setup, all of Sierra Leone
+const ORG_UNIT_ID = "BV4IomHvri4"; // From local setup, all of Sierra Leone
 
 import React from "react";
 import ky from "ky";
@@ -16,11 +16,10 @@ class AddCatchment extends React.Component {
       type: "Polygon",
       coordinates: [
         [
-          [-13.414, 6.85],
-          [-9.909, 6.85],
-          [-9.909, 9.86],
-          [-13.414, 9.86],
-          [-13.414, 6.85],
+          [-11.194, 7.884],
+          [-11.192, 7.87],
+          [-11.177, 7.875],
+          [-11.194, 7.884],
         ],
       ],
     });
@@ -29,9 +28,10 @@ class AddCatchment extends React.Component {
     const res = await ky
       .patch(url, {
         headers: {
-          Authorization: `Basic ${btoa('admin:district')}`
+          Authorization: `Basic ${btoa("admin:district")}`,
+          "content-type": "application/json-patch+json",
         },
-        json: {
+        body: JSON.stringify([{
           op: "add",
           path: "/attributeValues/-",
           value: {
@@ -40,16 +40,15 @@ class AddCatchment extends React.Component {
               id: ATTRIBUTE_ID,
             },
           },
-        },
+        }]),
       })
       .json();
     console.log(res);
     const unit = await ky(url, {
-        headers: {
-          Authorization: `Basic ${btoa('admin:district')}`
-        },
-      })
-      .json();
+      headers: {
+        Authorization: `Basic ${btoa("admin:district")}`,
+      },
+    }).json();
     console.log(unit);
   }
 }
