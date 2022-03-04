@@ -8,9 +8,10 @@
   "scripts": {
     "build": "d2-app-scripts build",
     "start": "d2-app-scripts start",
-    "cluster:start": "d2 cluster up 2.36.8",
-    "cluster:stop": "d2 cluster down 2.36.8",
-    "cluster:setup": "d2 cluster up 2.36.8 --db-version 2.36 --seed",
+    "cluster:start": "d2 cluster up 2.38",
+    "cluster:stop": "d2 cluster down 2.38",
+    "cluster:setup": "d2 cluster up 2.38 --seed --channel dev",
+    "cluster:clean": "d2 cluster down 2.38 --clean",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
     "format": "prettier . -w"

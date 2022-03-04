@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./App.module.css";
 import ListCatchmentJobs from './ListCatchmentJobs';
+import AddCatchment from './AddCatchment';
 import Amplify from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
 
@@ -19,8 +20,10 @@ const query = {
 
 const MyApp = (props) => {
   const token = props?.authData?.signInUserSession?.accessToken?.jwtToken;
+  console.log(props);
   return (
     <div className={classes.container}>
+    <AddCatchment token={token} />
       <ListCatchmentJobs token={token} />
     </div>
   );
