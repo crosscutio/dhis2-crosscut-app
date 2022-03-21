@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./App.module.css";
-import ListCatchmentJobs from './ListCatchmentJobs';
-import AddCatchment from './AddCatchment';
+import ListCatchmentJobs from './pages/ListCatchmentJobs';
+import AddCatchment from './pages/AddCatchment';
 import Amplify from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
 
@@ -23,7 +23,7 @@ const MyApp = (props) => {
   console.log(props);
   return (
     <div className={classes.container}>
-    <AddCatchment token={token} />
+      <AddCatchment token={token} />
       <ListCatchmentJobs token={token} />
     </div>
   );
