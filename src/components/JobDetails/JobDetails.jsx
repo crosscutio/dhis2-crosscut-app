@@ -11,12 +11,10 @@ import {
 } from 'dhis2/ui'
 
 
-
-
 function JobDetails() {
-    return <div>
+    return <StackedTable>
 
-    </div>
+    </StackedTable>
 }
 
 export default JobDetails
