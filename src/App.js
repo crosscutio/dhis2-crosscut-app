@@ -4,6 +4,7 @@ import ListCatchmentJobs from './pages/ListCatchmentJobs';
 import AddCatchment from './pages/AddCatchment';
 import Amplify from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
+import Layout from './layout/Layout'
 
 const poolDate = {
   userPoolId: "us-east-1_qSuVlXKCf",
@@ -23,8 +24,9 @@ const MyApp = (props) => {
   console.log(props);
   return (
     <div className={classes.container}>
-      <AddCatchment token={token} />
-      <ListCatchmentJobs token={token} />
+      <Layout token={token}/>
+      {/* <AddCatchment token={token} /> */}
+      {/* <ListCatchmentJobs token={token} /> */}
     </div>
   );
 };

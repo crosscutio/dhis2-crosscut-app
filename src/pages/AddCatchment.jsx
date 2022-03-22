@@ -5,7 +5,10 @@ import React from "react";
 import ky from "ky";
 
 function AddCatchment (props) {
-  const handleClick = async () => {
+  const handleClick = () => {
+    console.log("click")
+  }
+  const whatever = async () => {
     const geojson = JSON.stringify({
       type: "Polygon",
       coordinates: [
