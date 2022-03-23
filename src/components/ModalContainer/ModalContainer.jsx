@@ -1,11 +1,20 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Button, Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import styles from './ModalContainer.module.css'
+import { fetchOrgUnits } from '../../services/requests'
 
 function ModalContainer(props) {
     const { title, action, setShowModal } = props
 
+    useEffect(() => {
+        fetchOrgUnits()
+    }, [])
+
+    const fetchOrgUnits = async () => {
+        const resp = await fetchOrgUnits()
+        console.log(resp)
+    }
     const close = () => {
         setShowModal(false)
     }

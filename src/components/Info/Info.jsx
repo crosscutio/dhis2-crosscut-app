@@ -20,7 +20,17 @@ function Info(props) {
             </TabBar>
             {activeTab === 1 ? <div>
                 <p>1</p>
-            </div> : <p>2</p>}
+            </div> : 
+            <div>
+                <h5>Additional Features</h5>
+                <li>Make changes to the catchment area borders</li>
+                <li>See heat maps for walking distance for each catchment area</li>
+                <p>Go to <a href="app.crosscut.io" target="_blank" >app.crosscut.io</a></p>
+                <h5>Contact Us</h5>
+                <p>Having trouble? Have ideas for new features?</p>
+                <p>Email us at <a href=":mailto:" target="_blank">insert email</a></p>
+            </div>
+            }
         </ModalContent>
         <ModalActions><ButtonItem handleClick={props.setShowInfoModal} buttonText={"Close"} primary={true}/></ModalActions>
     </Modal>
