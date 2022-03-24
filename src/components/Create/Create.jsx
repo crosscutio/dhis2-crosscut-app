@@ -38,8 +38,13 @@ function Create(props) {
         setShowModal(false)
     }
 
+    const handleCountryChange = (e) => {
+        setFormInputs(prevState => ({
+            ...prevState,
+            country: e.selected
+        }))
+    }
     const handleLevelChange = (e) => {
-        console.log(e)
         setFormInputs(prevState => ({
             ...prevState,
             level: e.selected
@@ -47,25 +52,31 @@ function Create(props) {
     }
 
     const handleGroupChange = (e) => {
-        console.log(e)
         setFormInputs(prevState => ({
             ...prevState,
             group: e.selected
         }))
     }
-console.log(formInputs)
+
+    const handleNameChange = (e) => {
+        setFormInputs(prevState => ({
+            ...prevState,
+            name: e.value
+        }))
+    } 
+
     const renderForm = () => {
         return (
             <form>
                 <Field label="Select the country">
-                    <SingleSelect >
+                    <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
                         <SingleSelectOption value="1" label="Sierra Leone"/>
                         <SingleSelectOption value="2" label="Haiti"/>
                     </SingleSelect>
                 </Field>
 
                 <Field label="Name the catchment areas">
-                    <Input/>
+                    <Input onChange={handleNameChange}/>
                 </Field>
                 <Field label="Select the facility level">
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
