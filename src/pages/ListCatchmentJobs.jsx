@@ -56,7 +56,7 @@ function ListCatchmentJobs(props) {
           </DataTableRow>
         </TableHead>
         <TableBody>{jobs && jobs.map((job) => {
-          return <JobDetails key={job.id} name={job.name} status={job.status}/>
+          return <JobDetails key={job.id} name={job.name} status={job.status} id={job.id}/>
         })}</TableBody>
       </DataTable>
     </Card>

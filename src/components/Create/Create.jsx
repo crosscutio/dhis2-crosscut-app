@@ -1,29 +1,64 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Button, Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import styles from './Create.module.css'
-import {fetchOrgUnitFields} from '../../util/requests'
+import { fetchOrgUnitLevels, fetchOrgUnitGroups } from '../../util/requests.js'
 
 function Create(props) {
     const { title, action, setShowModal } = props
+    const [formInputs, setFormInputs] = useState({
+        country: "",
+        level: "",
+        group: [],
+        name: ""
+    })
+    const [levels, setLevels] = useState([])
+    const [groups, setGroups] = useState([])
 
     useEffect(() => {
-        fetchOrgUnitFields()
+        fetchOrgUnit()
+
     }, [])
 
-    const fetchOrgUnitFields = async () => {
-        const resp = await fetchOrgUnitFields()
-        console.log(resp)
+    const fetchOrgUnit = async () => {
+       const respLevels = await fetchOrgUnitLevels()
+       respLevels.organisationUnitLevels.sort((a,b) => {
+            if (a.level > b.level) return 1
+            if (a.level < b.level) return -1
+            return 0
+        })
+    
+       setLevels(respLevels.organisationUnitLevels)
+
+       const respGroups = await fetchOrgUnitGroups()
+       setGroups(respGroups.organisationUnitGroups)
     }
+
     const close = () => {
         setShowModal(false)
     }
 
+    const handleLevelChange = (e) => {
+        console.log(e)
+        setFormInputs(prevState => ({
+            ...prevState,
+            level: e.selected
+        }))
+    }
+
+    const handleGroupChange = (e) => {
+        console.log(e)
+        setFormInputs(prevState => ({
+            ...prevState,
+            group: e.selected
+        }))
+    }
+console.log(formInputs)
     const renderForm = () => {
         return (
             <form>
                 <Field label="Select the country">
-                    <SingleSelect>
+                    <SingleSelect >
                         <SingleSelectOption value="1" label="Sierra Leone"/>
                         <SingleSelectOption value="2" label="Haiti"/>
                     </SingleSelect>
@@ -33,15 +68,17 @@ function Create(props) {
                     <Input/>
                 </Field>
                 <Field label="Select the facility level">
-                    <SingleSelect>
-                        <SingleSelectOption value="1" label="Sierra Leone"/>
-                        <SingleSelectOption value="2" label="Haiti"/>
+                    <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
+                        {levels && levels.map((level, index) => {
+                            return <SingleSelectOption key={index} label={level.name} value={level.name}/>
+                        })}
                     </SingleSelect>
                 </Field>
                 <Field label="Select the groups">
-                    <MultiSelect>
-                        <MultiSelectOption value="1" label="Sierra Leone"/>
-                        <MultiSelectOption value="2" label="Haiti"/>
+                    <MultiSelect onChange={handleGroupChange} selected={formInputs.group}>
+                        {groups && groups.map((group) => {
+                            return <MultiSelectOption key={group.id} label={group.name} value={group.name}/>
+                        })}
                     </MultiSelect>
                 </Field>
             </form>

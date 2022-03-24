@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import Lang from '../Lang/Lang'
-import { IconInfo24, IconMail24, IconWorld24 } from '@dhis2/ui';
+import { IconInfo24, IconMail24, IconWorld24, Button } from '@dhis2/ui';
 import styles from './Nav.module.css';
 import i18n from '../../locales/index.js'
 

@@ -3,7 +3,7 @@ import classes from "./App.module.css";
 import Amplify from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
 import Layout from './layout/Layout'
-
+ 
 const poolDate = {
   userPoolId: "us-east-1_qSuVlXKCf",
   userPoolWebClientId: "1kqueg45v60hm4aggobci2jf93",
