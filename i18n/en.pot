@@ -5,11 +5,32 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-09T01:42:03.085Z\n"
-"PO-Revision-Date: 2022-02-09T01:42:03.085Z\n"
+"POT-Creation-Date: 2022-03-24T15:43:37.137Z\n"
+"PO-Revision-Date: 2022-03-24T15:43:37.137Z\n"
 
-msgid "Hello {{name}}"
-msgstr "Hello {{name}}"
+msgid "User Guide"
+msgstr "User Guide"
 
-msgid "Welcome to the DHIS2 Crosscut Link!"
-msgstr "Welcome to the DHIS2 Crosscut Link!"
+msgid "Additional Features"
+msgstr "Additional Features"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Create new catchment areas"
+msgstr "Create new catchment areas"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Date Created"
+msgstr "Date Created"
+
+msgid "Publish DHIS2"
+msgstr "Publish DHIS2"

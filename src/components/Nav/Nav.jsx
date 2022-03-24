@@ -3,6 +3,7 @@ import ButtonItem from '../ButtonItem/ButtonItem'
 import Lang from '../Lang/Lang'
 import { IconInfo24, IconMail24, IconWorld24 } from '@dhis2/ui';
 import styles from './Nav.module.css';
+import i18n from '../../locales/index.js'
 
 function Nav(props) {
     const [showLang, setShowLang] = useState(false)
@@ -17,7 +18,7 @@ function Nav(props) {
     return <>
         <nav className={styles.navbar}>
             <div>
-                <ButtonItem buttonText={"Create"} handleClick={props.handleClick} primary={true}/>
+                <ButtonItem buttonText={i18n.t("Create")} handleClick={props.handleClick} primary={true}/>
             </div>
             <div className={styles.sidebar} >
                 <ButtonItem handleClick={sendEmail} buttonText={<IconMail24/>} borderless={true}/> 

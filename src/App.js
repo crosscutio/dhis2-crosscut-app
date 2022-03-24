@@ -1,7 +1,5 @@
 import React from "react";
 import classes from "./App.module.css";
-import ListCatchmentJobs from './pages/ListCatchmentJobs';
-import AddCatchment from './pages/AddCatchment';
 import Amplify from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
 import Layout from './layout/Layout'
@@ -25,8 +23,6 @@ const MyApp = (props) => {
   return (
     <div className={classes.container}>
       <Layout token={token}/>
-      {/* <AddCatchment token={token} /> */}
-      {/* <ListCatchmentJobs token={token} /> */}
     </div>
   );
 };

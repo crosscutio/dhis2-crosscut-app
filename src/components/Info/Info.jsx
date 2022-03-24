@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { TabBar, Tab, Modal, ModalContent, ModalActions } from "@dhis2/ui"
 import ButtonItem from "../ButtonItem/ButtonItem"
+import i18n from '../../locales/index.js'
 
 function Info(props) {
     const [activeTab, setActiveTab] = useState(1)
@@ -15,10 +16,17 @@ function Info(props) {
     return <Modal>
         <ModalContent>
             <TabBar fixed>
-                <Tab onClick={handleTabSwitch1} selected={activeTab === 1} dataTest="dhis2-uicore-tab">User Guide</Tab>
-                <Tab onClick={handleTabSwitch2} selected={activeTab === 2} dataTest="dhis2-uicore-tab">Additional Features</Tab>
+                <Tab onClick={handleTabSwitch1} selected={activeTab === 1} dataTest="dhis2-uicore-tab">{i18n.t("User Guide")}</Tab>
+                <Tab onClick={handleTabSwitch2} selected={activeTab === 2} dataTest="dhis2-uicore-tab">{i18n.t("Additional Features")}</Tab>
             </TabBar>
             {activeTab === 1 ? <div>
+                <h5>How to reate new catchment areas</h5>
+                <p>Click INSERT BUTTON</p>
+                <p>Select the country you want to target</p>
+                <p>Name the catchment areas</p>
+                <p>Choose the admin level where your facilities are located</p>
+                <p>Choose which groups of facilities to include</p>
+                <p>You can use your catchment areas to create thematic maps and other views in the maps module of DHIS2</p>
                 <p>1</p>
             </div> : 
             <div>
@@ -32,7 +40,7 @@ function Info(props) {
             </div>
             }
         </ModalContent>
-        <ModalActions><ButtonItem handleClick={props.setShowInfoModal} buttonText={"Close"} primary={true}/></ModalActions>
+        <ModalActions><ButtonItem handleClick={props.setShowInfoModal} buttonText={i18n.t("Close")} primary={true}/></ModalActions>
     </Modal>
 }
 

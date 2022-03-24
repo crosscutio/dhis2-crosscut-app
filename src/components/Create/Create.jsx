@@ -1,18 +1,18 @@
 import React, { useEffect } from "react"
 import { Button, Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
-import styles from './ModalContainer.module.css'
-import { fetchOrgUnits } from '../../services/requests'
+import styles from './Create.module.css'
+import {fetchOrgUnitFields} from '../../util/requests'
 
-function ModalContainer(props) {
+function Create(props) {
     const { title, action, setShowModal } = props
 
     useEffect(() => {
-        fetchOrgUnits()
+        fetchOrgUnitFields()
     }, [])
 
-    const fetchOrgUnits = async () => {
-        const resp = await fetchOrgUnits()
+    const fetchOrgUnitFields = async () => {
+        const resp = await fetchOrgUnitFields()
         console.log(resp)
     }
     const close = () => {
@@ -56,4 +56,4 @@ function ModalContainer(props) {
     </Modal>
 }
 
-export default ModalContainer
+export default Create
