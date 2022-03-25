@@ -3,27 +3,24 @@ import ky from "ky";
 import ButtonItem from "../components/ButtonItem/ButtonItem";
 import {
   Card,
-  TableCell,
   TableHead,
   TableBody,
   DataTableRow,
   DataTable,
-  DataTableCell,
-  Button,
   DataTableColumnHeader,
-  IconFileDocument24,
-  IconDelete24
 } from "@dhis2/ui";
 import styles from './ListCatchmentJobs.module.css'
 import JobDetails from "../components/JobDetails/JobDetails";
 import { fetchCatchmentJobs } from "../util/crosscutRequests";
+import { useToggle } from "../hooks/useToggle"
 
 function ListCatchmentJobs(props) {
   const [jobs, setJobs] = useState(null)
+  const [isToggled, toggle] = useToggle(false)
 
   useEffect(() => {
     fetchJobs()
-  }, [])
+  }, [isToggled])
 
   const fetchJobs = async () => {
     const resp = await fetchCatchmentJobs(props.token)
@@ -49,7 +46,7 @@ function ListCatchmentJobs(props) {
           </DataTableRow>
         </TableHead>
         <TableBody>{jobs && jobs.map((job) => {
-          return <JobDetails token={props.token} key={job.id} name={job.name} status={job.status} id={job.id}/>
+          return <JobDetails toggle={toggle} token={props.token} key={job.id} name={job.name} status={job.status} id={job.id}/>
         })}</TableBody>
       </DataTable>
     </Card>
