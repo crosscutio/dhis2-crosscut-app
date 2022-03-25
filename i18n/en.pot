@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-24T15:43:37.137Z\n"
-"PO-Revision-Date: 2022-03-24T15:43:37.137Z\n"
+"POT-Creation-Date: 2022-03-25T15:58:50.753Z\n"
+"PO-Revision-Date: 2022-03-25T15:58:50.753Z\n"
 
 msgid "User Guide"
 msgstr "User Guide"
@@ -17,20 +17,11 @@ msgstr "Additional Features"
 msgid "Close"
 msgstr "Close"
 
+msgid "Send"
+msgstr "Send"
+
 msgid "Create"
 msgstr "Create"
 
 msgid "Create new catchment areas"
 msgstr "Create new catchment areas"
-
-msgid "Name"
-msgstr "Name"
-
-msgid "Status"
-msgstr "Status"
-
-msgid "Date Created"
-msgstr "Date Created"
-
-msgid "Publish DHIS2"
-msgstr "Publish DHIS2"

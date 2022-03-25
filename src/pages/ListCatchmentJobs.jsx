@@ -16,8 +16,7 @@ import {
 } from "@dhis2/ui";
 import styles from './ListCatchmentJobs.module.css'
 import JobDetails from "../components/JobDetails/JobDetails";
-
-const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
+import { fetchCatchmentJobs } from "../util/crosscutRequests";
 
 function ListCatchmentJobs(props) {
   const [jobs, setJobs] = useState(null)
@@ -27,14 +26,8 @@ function ListCatchmentJobs(props) {
   }, [])
 
   const fetchJobs = async () => {
-    const url = `${CROSSCUT_API}/catchment-jobs`;
-    const resp = await ky(url, {
-      mode: "cors",
-      headers: {
-        authorization: props.token,
-      },
-    }).json();
-    setJobs(resp.jobs)
+    const resp = await fetchCatchmentJobs(props.token)
+    setJobs(resp)
   }
 
   const onSortIconClick = (e, b) => {
@@ -56,7 +49,7 @@ function ListCatchmentJobs(props) {
           </DataTableRow>
         </TableHead>
         <TableBody>{jobs && jobs.map((job) => {
-          return <JobDetails key={job.id} name={job.name} status={job.status} id={job.id}/>
+          return <JobDetails token={props.token} key={job.id} name={job.name} status={job.status} id={job.id}/>
         })}</TableBody>
       </DataTable>
     </Card>

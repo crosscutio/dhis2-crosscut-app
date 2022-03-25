@@ -14,24 +14,32 @@ import {
 } from '@dhis2/ui'
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
-
+import { deleteCatchmentJob } from '../../util/crosscutRequests'
+import { fetchCatchmentsInUse } from '../../util/requests'
 
 function JobDetails(props) {
-    const { name, status, id } = props
+    const { name, status, id, token } = props
     // get key when click on send
     const handleClick = (e) => {
         console.log(e)
         // take the value which is the catchmentId to do something about it
     }
 
-    const handleDelete = (e) => {
-        console.log(e, "delete")
+    const handleDelete = async () => {
+        // check if catchment is being used in map
+        const resp = await fetchCatchmentsInUse()
+        if (resp.maps.length === 0) {
+            // await deleteCatchmentJob(token, id)
+            // reload list
+        } else {
+            // alert user that the map is in use
+        }
     }
 
     const handleGetDetails = (e) => {
         console.log(e, "details")
     }
-    
+
     return (
         <DataTableRow id={id}>
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>

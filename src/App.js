@@ -19,7 +19,7 @@ const query = {
 
 const MyApp = (props) => {
   const token = props?.authData?.signInUserSession?.accessToken?.jwtToken;
-  console.log(props);
+  // store token in HTTP cookie
   return (
     <div className={classes.container}>
       <Layout token={token}/>

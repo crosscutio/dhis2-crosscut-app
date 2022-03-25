@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Button, Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import styles from './Create.module.css'
-import { fetchOrgUnitLevels, fetchOrgUnitGroups } from '../../util/requests.js'
+import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../util/requests.js'
 
 function Create(props) {
     const { title, action, setShowModal } = props
@@ -14,10 +14,11 @@ function Create(props) {
     })
     const [levels, setLevels] = useState([])
     const [groups, setGroups] = useState([])
+    const [currentNames, setCurrentNames] = useState([])
 
     useEffect(() => {
         fetchOrgUnit()
-
+        fetchCurrentNames()
     }, [])
 
     const fetchOrgUnit = async () => {
@@ -32,6 +33,11 @@ function Create(props) {
 
        const respGroups = await fetchOrgUnitGroups()
        setGroups(respGroups.organisationUnitGroups)
+    }
+
+    const fetchCurrentNames = async () => {
+        const resp = await fetchCurrentAttributes()
+        setCurrentNames(resp)
     }
 
     const close = () => {
@@ -58,7 +64,10 @@ function Create(props) {
         }))
     }
 
-    const handleNameChange = (e) => {
+    const handleNameChange = async (e) => {
+        // should we prevent users from name the same as catchments in general and current attributes
+        // users might create a catchment without publishing it...?
+        console.log(currentNames.find((name) => name.name === e.value))
         setFormInputs(prevState => ({
             ...prevState,
             name: e.value
