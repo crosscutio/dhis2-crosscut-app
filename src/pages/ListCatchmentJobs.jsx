@@ -11,7 +11,7 @@ import {
 } from "@dhis2/ui";
 import styles from './ListCatchmentJobs.module.css'
 import JobDetails from "../components/JobDetails/JobDetails";
-import { fetchCatchmentJobs } from "../util/crosscutRequests";
+import { fetchCatchmentJobs } from "../api/crosscutRequests";
 import { useToggle } from "../hooks/useToggle"
 
 function ListCatchmentJobs(props) {

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react"
 import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import styles from './Create.module.css'
-import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../util/requests.js'
-import { createCatchmentJob } from '../../util/crosscutRequests'
+import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
+import { createCatchmentJob } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 
 function Create(props) {

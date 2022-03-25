@@ -14,8 +14,8 @@ import {
 } from '@dhis2/ui'
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
-import { deleteCatchmentJob } from '../../util/crosscutRequests'
-import { fetchCatchmentsInUse } from '../../util/requests'
+import { deleteCatchmentJob } from '../../api/crosscutRequests'
+import { fetchCatchmentsInUse } from '../../api/requests'
 
 function JobDetails(props) {
     const { name, status, id, token, toggle } = props
