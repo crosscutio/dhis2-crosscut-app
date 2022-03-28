@@ -6,7 +6,7 @@ import Info from '../components/Info/Info'
 import Nav from '../components/Nav/Nav'
 import i18n from '../locales/index.js'
 
-function Layout(props) {
+function Layout() {
     const [showModal, setShowModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
     const [modalText, setModalText] = useState({ title: "", action: ""})
@@ -24,7 +24,7 @@ function Layout(props) {
         <Nav handleClick={handleClick} handleInfo={handleInfo}/>
         { showModal === true ? <Create title={modalText.title} setShowModal={setShowModal} action={modalText.action}/> : null}
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
-        <ListCatchmentJobs token={props.token}/>
+        <ListCatchmentJobs />
     </>
 }
 

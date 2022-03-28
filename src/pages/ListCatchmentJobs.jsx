@@ -23,7 +23,7 @@ function ListCatchmentJobs(props) {
   }, [isToggled])
 
   const fetchJobs = async () => {
-    const resp = await fetchCatchmentJobs(props.token)
+    const resp = await fetchCatchmentJobs()
     setJobs(resp)
   }
 
@@ -46,7 +46,7 @@ function ListCatchmentJobs(props) {
           </DataTableRow>
         </TableHead>
         <TableBody>{jobs && jobs.map((job) => {
-          return <JobDetails toggle={toggle} token={props.token} key={job.id} name={job.name} status={job.status} id={job.id}/>
+          return <JobDetails toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id}/>
         })}</TableBody>
       </DataTable>
     </Card>

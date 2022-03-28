@@ -1,37 +1,36 @@
-import axios from 'axios'
+import ky from 'ky'
 import { fetchGeoJSON } from './requests';
+import { getToken } from '../services/JWTManager'
 const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
 
-// need to store token somewhere (HTTP COOKIE)
-
-export const fetchCatchmentJobs = async (token) => {
+export const fetchCatchmentJobs = async () => {
     const url = `${CROSSCUT_API}/catchment-jobs`;
     try {
-        const resp = await axios.get(url, {
+        const resp = await ky(url, {
           mode: "cors",
           headers: {
-            authorization: token,
+            authorization: getToken(),
           },
-        })
-        return resp.data.jobs
+        }).json()
+        return resp.jobs
     } catch (err) {
         throw err
     }
 }
 
-export const createCatchmentJob = async (token, json) => {
+export const createCatchmentJob = async (json) => {
     const url = `${CROSSCUT_API}/catchment-jobs`
     try {
         const id = json.level
-        const sites = await fetchGeoJSON(id)
-        console.log(sites)
+        const geojson = await fetchGeoJSON(id)
+        console.log(geojson)
     
 
-        // const resp = await axios.post(url, {
+        // const resp = await ky.post(url, {
         //     json,
         //     mode: "cors",
         //     headers: {
-        //       authorization: token,
+        //       authorization: getToken(),
         //     },
         // })
         // console.log(resp)
@@ -41,13 +40,13 @@ export const createCatchmentJob = async (token, json) => {
     }
 }
 
-export const deleteCatchmentJob = async (token, id) => {
+export const deleteCatchmentJob = async (id) => {
     const url = `${CROSSCUT_API}/catchment-jobs/${id}`
     try {
-        const resp = await axios.delete(url, {
+        const resp = await ky.delete(url, {
             mode: "cors",
             headers: {
-              authorization: token,
+              authorization: getToken(),
             },
         })
         console.log(resp)

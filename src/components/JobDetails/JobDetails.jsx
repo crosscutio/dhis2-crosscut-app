@@ -18,7 +18,7 @@ import { deleteCatchmentJob } from '../../api/crosscutRequests'
 import { fetchCatchmentsInUse } from '../../api/requests'
 
 function JobDetails(props) {
-    const { name, status, id, token, toggle } = props
+    const { name, status, id, toggle } = props
     // get key when click on send
     const handleClick = (e) => {
         console.log(e)
@@ -28,8 +28,8 @@ function JobDetails(props) {
     const handleDelete = async () => {
         // check if catchment is being used in map
         const resp = await fetchCatchmentsInUse()
-        if (resp.maps.length === 0) {
-            await deleteCatchmentJob(token, id)
+        if (resp.length === 0) {
+            // await deleteCatchmentJob(id)
             // reload list, but might want to do that if it succeeds?
             toggle()
         } else {

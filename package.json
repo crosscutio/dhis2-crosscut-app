@@ -21,11 +21,11 @@
     "prettier": "^2.5.1"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^2.11.0",
     "@dhis2/app-runtime": "^3.2.8",
     "@dhis2/ui": "^7.16.2",
-    "aws-amplify": "^4.3.14",
+    "aws-amplify": "^4.3.17",
     "aws-amplify-react": "^5.1.9",
-    "axios": "^0.26.1",
     "d2": "^31.10.2",
     "ky": "^0.28.7"
   }

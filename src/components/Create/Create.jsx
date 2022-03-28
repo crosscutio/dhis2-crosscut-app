@@ -29,13 +29,11 @@ function Create(props) {
     const fetchLevels = async () => {
        const respLevels = await fetchOrgUnitLevels()
        setLevels(respLevels)
-       console.log(respLevels)
     }
 
     const fetchGroups = async () => {
         const respGroups = await fetchOrgUnitGroups()
-        setGroups(respGroups.organisationUnitGroups)
-        console.log(respGroups)
+        setGroups(respGroups)
     }
 
     const fetchCurrentNames = async () => {
