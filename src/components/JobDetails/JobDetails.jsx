@@ -20,7 +20,7 @@ import { fetchCatchmentsInUse } from '../../api/requests'
 function JobDetails(props) {
     const { name, status, date, id, toggle } = props
    
-    // get key when click on send
+    // get key when click on to publish/unpublish
     const handleClick = (e) => {
         console.log(e)
         // take the value which is the catchmentId to do something about it
@@ -46,8 +46,8 @@ function JobDetails(props) {
         <DataTableRow id={id}>
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
-          <DataTableCell>{status}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
+          <DataTableCell>{status}</DataTableCell>
           <DataTableCell><ButtonItem value={id} handleClick={handleClick} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>

@@ -21,7 +21,7 @@ function ListCatchmentJobs(props) {
     column: 'date',
     direction: 'desc',
   })
-  
+
   useEffect(() => {
     fetchJobs()
   }, [isToggled])
@@ -50,8 +50,8 @@ function ListCatchmentJobs(props) {
           <DataTableRow>
             <DataTableColumnHeader fixed top="0" width="48px" onSortIconClick={onSortIconClick} ></DataTableColumnHeader>
             <DataTableColumnHeader fixed top="0" name="name" sortIconTitle="sort by name" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('name')}>Name</DataTableColumnHeader>
-            <DataTableColumnHeader fixed top="0" name="status" sortIconTitle="sort by status" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('status')}>Status</DataTableColumnHeader>
             <DataTableColumnHeader fixed top="0" name="date" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('date')}>Date Created</DataTableColumnHeader>
+            <DataTableColumnHeader fixed top="0" name="status" sortIconTitle="sort by status" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('status')}>Status</DataTableColumnHeader>
             <DataTableColumnHeader fixed top="0">Publish DHIS2</DataTableColumnHeader>
             <DataTableColumnHeader fixed top="0" width="48px" ></DataTableColumnHeader>
           </DataTableRow>

@@ -23,8 +23,8 @@ msgstr "Additional Features"
 msgid "Close"
 msgstr "Close"
 
-msgid "Send"
-msgstr "Send"
+msgid "Publish"
+msgstr "Publish"
 
 msgid "Create"
 msgstr "Create"

@@ -26,7 +26,9 @@ export const fetchCatchmentJobs = async () => {
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
         
         siteBasedJobs.map((job) => {
-            job.status = "Ready"
+            if (job.status === "SUCCESS") {
+                job.status = "Ready"
+            }
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
         return siteBasedJobs
