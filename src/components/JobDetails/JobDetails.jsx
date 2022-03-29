@@ -19,14 +19,7 @@ import { fetchCatchmentsInUse } from '../../api/requests'
 
 function JobDetails(props) {
     const { name, status, date, id, toggle } = props
-    const [formatDate, setFormatDate] = useState()
-    useEffect(() => {
-        if (date !== undefined) {
-            setFormatDate(date.split("T")[0])
-        } else {
-            setFormatDate("")
-        }
-    }, [])
+   
     // get key when click on send
     const handleClick = (e) => {
         console.log(e)
@@ -54,7 +47,7 @@ function JobDetails(props) {
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell>{formatDate}</DataTableCell>
+          <DataTableCell>{date}</DataTableCell>
           <DataTableCell><ButtonItem value={id} handleClick={handleClick} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>

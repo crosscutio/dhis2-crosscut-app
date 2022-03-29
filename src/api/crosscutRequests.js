@@ -27,6 +27,7 @@ export const fetchCatchmentJobs = async () => {
         
         siteBasedJobs.map((job) => {
             job.status = "Ready"
+            job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
         return siteBasedJobs
     } catch (err) {

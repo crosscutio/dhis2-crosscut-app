@@ -17,7 +17,11 @@ import { useToggle } from "../hooks/useToggle"
 function ListCatchmentJobs(props) {
   const [jobs, setJobs] = useState(null)
   const [isToggled, toggle] = useToggle(false)
-
+  const [{ column, direction }, setSortInstructions] = useState({
+    column: 'date',
+    direction: 'desc',
+  })
+  
   useEffect(() => {
     fetchJobs()
   }, [isToggled])
@@ -27,15 +31,11 @@ function ListCatchmentJobs(props) {
     setJobs(resp)
   }
 
-  const [{ column, direction }, setSortInstructions] = useState({
-    column: 'date',
-    direction: 'desc',
-  })
+
   const getSortDirection = (columnName) =>
       columnName === column ? direction : 'default'
 
   const onSortIconClick = ({ name, direction }) => {
-    console.log(name, direction)
       setSortInstructions({
           column: name,
           direction,
