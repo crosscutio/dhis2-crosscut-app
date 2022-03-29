@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./App.module.css";
-import Amplify from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
 import Layout from './layout/Layout'
 import { getToken, setToken } from "./services/JWTManager";

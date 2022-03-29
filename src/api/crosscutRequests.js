@@ -1,5 +1,5 @@
 import ky from 'ky'
-import { fetchGeoJSON } from './requests';
+import { fetchGeoJSON, fetchCurrentAttributes } from './requests';
 import { getToken } from '../services/JWTManager'
 const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
 
@@ -12,7 +12,23 @@ export const fetchCatchmentJobs = async () => {
             authorization: getToken(),
           },
         }).json()
-        return resp.jobs
+        // check to see if catchment has been published
+        // currently has name and id from DHIS2 (will need to check a different way)
+        const catchmentsPublished = await fetchCurrentAttributes()
+        console.log(catchmentsPublished)
+
+        const statuses = {
+            "READY": "Ready",
+            "PUBLISHED": "Publish",
+            "UNPUBLISH": "Unpublish"
+        }
+        // filter out jobs that aren't site-based
+        const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
+        
+        siteBasedJobs.map((job) => {
+            job.status = "Ready"
+        })
+        return siteBasedJobs
     } catch (err) {
         throw err
     }
@@ -25,7 +41,7 @@ export const createCatchmentJob = async (json) => {
         const geojson = await fetchGeoJSON(id)
         console.log(geojson)
     
-
+// need name, lat, lng, csv
         // const resp = await ky.post(url, {
         //     json,
         //     mode: "cors",
