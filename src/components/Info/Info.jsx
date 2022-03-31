@@ -4,8 +4,10 @@ import ButtonItem from "../ButtonItem/ButtonItem"
 import i18n from '../../locales/index.js'
 
 function Info(props) {
+    const { setShowInfoModal } = props
     const [activeTab, setActiveTab] = useState(1)
 
+    // handle switch between the tabs
     const handleTabSwitch1 = () => {
         setActiveTab(1)
     }
@@ -40,7 +42,7 @@ function Info(props) {
             </div>
             }
         </ModalContent>
-        <ModalActions><ButtonItem handleClick={props.setShowInfoModal} buttonText={i18n.t("Close")} primary={true}/></ModalActions>
+        <ModalActions><ButtonItem handleClick={setShowInfoModal} buttonText={i18n.t("Close")} primary={true}/></ModalActions>
     </Modal>
 }
 

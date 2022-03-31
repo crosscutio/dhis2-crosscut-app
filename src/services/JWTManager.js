@@ -1,4 +1,4 @@
-    let inMemory = null
+let inMemory = null
     
 export const getToken = () => inMemory
 
@@ -11,5 +11,3 @@ export const deleteToken = () => {
     inMemory = null
     return true
 }
-
- 

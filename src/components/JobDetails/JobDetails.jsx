@@ -15,7 +15,6 @@ function JobDetails(props) {
    
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = (e) => {
-        console.log(e)
         // take the value which is the catchmentId to do something about it
     }
 
