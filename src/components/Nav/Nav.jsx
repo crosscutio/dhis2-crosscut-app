@@ -15,6 +15,7 @@ function Nav(props) {
     const openLang = () => {
         setShowLang(prevState => !prevState)
     }
+    
     return <>
         <nav className={styles.navbar}>
             <div>

@@ -7,7 +7,7 @@ import { createCatchmentJob } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 
 function Create(props) {
-    const { title, action, setShowModal } = props
+    const { title, action, setShowCreateModal } = props
     const [formInputs, setFormInputs] = useState({
         country: "",
         level: "",
@@ -42,7 +42,7 @@ function Create(props) {
     }
 
     const close = () => {
-        setShowModal(false)
+        setShowCreateModal(false)
     }
 
 
@@ -68,8 +68,6 @@ function Create(props) {
     }
 
     const handleNameChange = async (e) => {
-        // should we prevent users from name the same as catchments in general and current attributes
-        // users might create a catchment without publishing it...?
         if (currentNames.find((name) => name.name === e.value) === undefined) {
             setFormInputs(prevState => ({
                 ...prevState,
@@ -77,10 +75,11 @@ function Create(props) {
             }))
             setWarningText(null)
         } else {
-            setWarningText(i18n.t("Name is already taken"))
+            setWarningText(i18n.t("Name is already in use"))
         }
     } 
 
+    // handle create catchment
     const handleCreate = async () => {
         // {
         //     name,
@@ -93,7 +92,7 @@ function Create(props) {
         //         name
         //     }
         // }
-        await createCatchmentJob("moo", formInputs)
+        await createCatchmentJob(formInputs)
     }
 
     const renderForm = () => {

@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import {
-    Card,
-    TableCell,
-    TableHead,
-    TableBody,
     DataTableRow,
-    DataTable,
     DataTableCell,
-    Button,
-    DataTableColumnHeader,
     IconFileDocument16,
     IconDelete16
 } from '@dhis2/ui'
@@ -21,7 +14,7 @@ function JobDetails(props) {
     const { name, status, date, id, toggle } = props
    
     // get key when click on to publish/unpublish
-    const handleClick = (e) => {
+    const handleConnectionDHIS2 = (e) => {
         console.log(e)
         // take the value which is the catchmentId to do something about it
     }
@@ -39,7 +32,7 @@ function JobDetails(props) {
     }
 
     const handleGetDetails = (e) => {
-        console.log(e, "details")
+        // get details of catchment
     }
 
     return (
@@ -48,7 +41,7 @@ function JobDetails(props) {
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} handleClick={handleClick} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} handleClick={handleConnectionDHIS2} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );
