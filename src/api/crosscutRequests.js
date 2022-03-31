@@ -12,11 +12,12 @@ export const fetchCatchmentJobs = async () => {
             authorization: getToken(),
           },
         }).json()
-        // check to see if catchment has been published
+        // check to see if catchment has been published to update the status
         // currently has name and id from DHIS2 (will need to check a different way)
         const catchmentsPublished = await fetchCurrentAttributes()
         console.log(catchmentsPublished)
 
+        // the different statues to display
         const statuses = {
             "READY": "Ready",
             "PUBLISHED": "Publish",
@@ -44,16 +45,14 @@ export const createCatchmentJob = async (json) => {
         const geojson = await fetchGeoJSON(id)
         console.log(geojson)
     
-// need name, lat, lng, csv
+        // needs name, lat, lng, csv
         // const resp = await ky.post(url, {
         //     json,
         //     mode: "cors",
         //     headers: {
         //       authorization: getToken(),
         //     },
-        // })
-        // console.log(resp)
-        console.log(json)
+        // })       
     } catch (err) {
         throw err
     }
@@ -62,13 +61,12 @@ export const createCatchmentJob = async (json) => {
 export const deleteCatchmentJob = async (id) => {
     const url = `${CROSSCUT_API}/catchment-jobs/${id}`
     try {
-        const resp = await ky.delete(url, {
+        await ky.delete(url, {
             mode: "cors",
             headers: {
               authorization: getToken(),
             },
         })
-        console.log(resp)
     } catch (err) {
         throw err
     }
