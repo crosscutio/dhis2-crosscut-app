@@ -6,7 +6,6 @@ const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
 export const fetchCatchmentJobs = async () => {
     const url = `${CROSSCUT_API}/catchment-jobs`;
     try {
-        console.log("here")
         const resp = await ky(url, {
           mode: "cors",
           headers: {

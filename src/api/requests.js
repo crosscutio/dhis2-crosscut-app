@@ -1,22 +1,7 @@
 import ky from 'ky'
+import { options, getBaseURL } from "./apiConfig"
 
-// uncomment config and baseUrl for prod
-// import { config } from 'd2'
-// const baseURL = config.baseUrl
-
-// play and localhost are for dev
-// auth required for play, not localhost
-const baseURL = "https://play.dhis2.org/dev/api/37"
-// const baseURL = "http://localhost:8080/api"
-const auth = `Basic ${btoa("admin:district")}`
-
-const options = {
-    headers: { authorization: auth },
-    "Content-Type": "application/json",
-    credentials: "include",
-}
-
-
+const baseURL = getBaseURL()
 
 export const fetchOrgUnitLevels = async () => {
     const meh = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
