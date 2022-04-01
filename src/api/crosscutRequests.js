@@ -6,6 +6,7 @@ const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
 export const fetchCatchmentJobs = async () => {
     const url = `${CROSSCUT_API}/catchment-jobs`;
     try {
+        console.log("here")
         const resp = await ky(url, {
           mode: "cors",
           headers: {
@@ -15,7 +16,6 @@ export const fetchCatchmentJobs = async () => {
         // check to see if catchment has been published to update the status
         // currently has name and id from DHIS2 (will need to check a different way)
         const catchmentsPublished = await fetchCurrentAttributes()
-        console.log(catchmentsPublished)
 
         // the different statues to display
         const statuses = {

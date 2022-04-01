@@ -5,11 +5,11 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-25T23:21:44.950Z\n"
-"PO-Revision-Date: 2022-03-25T23:21:44.950Z\n"
+"POT-Creation-Date: 2022-03-31T20:38:14.481Z\n"
+"PO-Revision-Date: 2022-03-31T20:38:14.481Z\n"
 
-msgid "Name is already taken"
-msgstr "Name is already taken"
+msgid "Name is already in use"
+msgstr "Name is already in use"
 
 msgid "Cancel"
 msgstr "Cancel"
@@ -31,3 +31,15 @@ msgstr "Create"
 
 msgid "Create new catchment areas"
 msgstr "Create new catchment areas"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Date Created"
+msgstr "Date Created"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Publish DHIS2"
+msgstr "Publish DHIS2"
