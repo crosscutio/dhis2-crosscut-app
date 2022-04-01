@@ -16,7 +16,6 @@ export const getBaseURL = () => {
     } else {
         baseURL = apiUrls.production
     }
-    console.log(baseURL)
     return baseURL
 }
 
