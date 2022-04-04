@@ -16,6 +16,7 @@ export const fetchCatchmentJobs = async () => {
         // currently has name and id from DHIS2 (will need to check a different way)
         const catchmentsPublished = await fetchCurrentAttributes()
 
+        // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
             "READY": "Ready",
