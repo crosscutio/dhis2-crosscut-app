@@ -4,9 +4,9 @@ import { options, getBaseURL } from "./apiConfig"
 const baseURL = getBaseURL()
 
 export const fetchOrgUnitLevels = async () => {
-    const meh = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-    console.log(meh)
-   const resp = await ky.get(`${baseURL}/organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`, options).json()
+    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
+
+    const resp = await ky.get(`${baseURL}/organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`, options).json()
     return resp.organisationUnitLevels
 }
 
