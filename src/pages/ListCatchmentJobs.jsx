@@ -8,12 +8,12 @@ import {
   DataTableColumnHeader,
 } from "@dhis2/ui";
 import styles from './ListCatchmentJobs.module.css'
-import JobDetails from "../components/JobDetails/JobDetails";
+import JobItem from "../components/JobItem/JobItem";
 import { fetchCatchmentJobs } from "../api/crosscutRequests";
 import { useToggle } from "../hooks/useToggle"
 import i18n from "../locales/index"
 
-function ListCatchmentJobs() {
+function ListCatchmentJobs(props) {
   const [jobs, setJobs] = useState(null)
   const [isToggled, toggle] = useToggle(false)
   const [{ column, direction }, setSortInstructions] = useState({
@@ -64,7 +64,7 @@ function ListCatchmentJobs() {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobDetails toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date}/>
+            return <JobItem toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={props.handleJobDetails}/>
           })}</TableBody>
         </DataTable>
       </Card>
