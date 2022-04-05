@@ -19,8 +19,8 @@ function JobDetails(props) {
     }
 
     const handleDelete = async () => {
-        // check if catchment is being used in map
-        const resp = await fetchCatchmentsInUse()
+        // check if catchment is being used in map, pass in the id to check
+        const resp = await fetchCatchmentsInUse("ihn1wb9eho8")
         if (resp.length === 0) {
             // await deleteCatchmentJob(id)
             // reload list, but might want to do that if it succeeds?
