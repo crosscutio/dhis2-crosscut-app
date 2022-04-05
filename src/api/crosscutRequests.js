@@ -1,6 +1,7 @@
 import ky from 'ky'
 import { fetchGeoJSON, fetchCurrentAttributes } from './requests';
 import { getToken } from '../services/JWTManager'
+// TO-DO: use crosscut created url
 const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
 
 export const fetchCatchmentJobs = async () => {
