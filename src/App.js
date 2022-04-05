@@ -1,9 +1,9 @@
 import React from "react";
 import classes from "./App.module.css";
-import ListCatchmentJobs from './ListCatchmentJobs';
-import AddCatchment from './AddCatchment';
-import Amplify from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
+import Layout from './layout/Layout'
+import { setToken } from "./services/JWTManager";
 
 const poolDate = {
   userPoolId: "us-east-1_qSuVlXKCf",
@@ -12,19 +12,13 @@ const poolDate = {
 
 Amplify.configure(poolDate);
 
-const query = {
-  me: {
-    resource: "me",
-  },
-};
-
 const MyApp = (props) => {
   const token = props?.authData?.signInUserSession?.accessToken?.jwtToken;
-  console.log(props);
+  setToken(token)
+
   return (
     <div className={classes.container}>
-    <AddCatchment token={token} />
-      <ListCatchmentJobs token={token} />
+      <Layout/>
     </div>
   );
 };
