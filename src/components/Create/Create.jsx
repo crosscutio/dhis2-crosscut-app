@@ -81,6 +81,7 @@ function Create(props) {
 
     // handle create catchment
     const handleCreate = async () => {
+        // TO-DO: to create catchment, will need data from DHIS2
         // {
         //     name,
         //     csv,
@@ -100,7 +101,7 @@ function Create(props) {
             <form>
                 <Field label="Select the country" required>
                     <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
-                        <SingleSelectOption value="SLE_10_All" label="Sierra Leone"/>
+                        {/* TO-DO: add countries supported */}
                     </SingleSelect>
                 </Field>
 

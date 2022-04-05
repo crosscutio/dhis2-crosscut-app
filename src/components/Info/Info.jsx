@@ -38,6 +38,7 @@ function Info(props) {
                 <p>Go to <a href="app.crosscut.io" target="_blank" >app.crosscut.io</a></p>
                 <h5>Contact Us</h5>
                 <p>Having trouble? Have ideas for new features?</p>
+                {/* TO-DO: insert email */}
                 <p>Email us at <a href=":mailto:" target="_blank">insert email</a></p>
             </div>
             }

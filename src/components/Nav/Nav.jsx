@@ -10,7 +10,7 @@ function Nav(props) {
     const [isToggled, toggle] = useToggle(false)
 
     const sendEmail = () => {
-        // need to update email with an info email
+        // TO-DO: need to update email with an info email
         window.location = "mailto:test@crosscut.io";
     }
 
