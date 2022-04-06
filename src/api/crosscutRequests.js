@@ -64,7 +64,7 @@ export const deleteCatchmentJob = async (id) => {
         await ky.delete(url, {
             mode: "cors",
             headers: {
-              Authorization: getToken(),
+              authorization: getToken(),
             },
         })
     } catch (err) {
