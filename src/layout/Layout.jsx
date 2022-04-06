@@ -39,7 +39,6 @@ function Layout(props) {
         }
       }
 
-
     // handle create modal
     const handleCreate = () => {
         setShowCreateModal(true) 
