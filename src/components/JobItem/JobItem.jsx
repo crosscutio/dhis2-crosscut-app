@@ -30,7 +30,6 @@ function JobDetails(props) {
     }
 
     const handleDelete = async () => {
-        console.log("delete")
         // check if catchment is being used in map, pass in the id to check
         // TO-DO: pass in the id to check if its in use
         // will need to know how to get id
