@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
-import styles from './Create.module.css'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
 import { createCatchmentJob } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
@@ -68,8 +67,8 @@ function Create(props) {
     }
 
     const handleNameChange = async (e) => {
-        const catchmentNames = jobs?.find((name) => name.name === e.value)
-        const publishedNames = currentNames.find((name) => name.name === e.value)
+        const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === e.value.toLowerCase())
+        const publishedNames = currentNames.find((name) => name.name.toLowerCase() === e.value.toLowerCase())
 
         if (publishedNames !== undefined || catchmentNames !== undefined) {
              setWarningText(i18n.t("Name is already in use"))

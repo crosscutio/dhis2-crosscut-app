@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   TableHead,
@@ -6,30 +6,21 @@ import {
   DataTableRow,
   DataTable,
   DataTableColumnHeader,
+  AlertBar
 } from "@dhis2/ui";
-import styles from './ListCatchmentJobs.module.css'
 import JobItem from "../components/JobItem/JobItem";
-// import { fetchCatchmentJobs } from "../api/crosscutRequests";
-// import { useToggle } from "../hooks/useToggle"
 import i18n from "../locales/index"
 
+import styles from './ListCatchmentJobs.module.css'
+
+
 function ListCatchmentJobs(props) {
+  const [warning, setWarning] = useState(null)
   const { jobs, toggle, handleJobDetails } = props
-  // const [jobs, setJobs] = useState(null)
-  // const [isToggled, toggle] = useToggle(false)
   const [{ column, direction }, setSortInstructions] = useState({
     column: 'date',
     direction: 'desc',
   })
-
-  // useEffect(() => {
-  //   fetchJobs()
-  // }, [isToggled])
-
-  // const fetchJobs = async () => {
-  //   const resp = await fetchCatchmentJobs()
-  //   setJobs(resp)
-  // }
 
   // handle sorting of columns
   const getSortDirection = (columnName) => {
@@ -45,6 +36,7 @@ function ListCatchmentJobs(props) {
 
   return (
     <div className={styles.container}>
+      {warning ? <AlertBar critical={warning.critical} warning={warning.warning}>{warning.text}</AlertBar> : null}
       <Card>
         <DataTable>
           <TableHead>
@@ -65,7 +57,7 @@ function ListCatchmentJobs(props) {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobItem toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
+            return <JobItem setWarning={setWarning} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
           })}</TableBody>
         </DataTable>
       </Card>

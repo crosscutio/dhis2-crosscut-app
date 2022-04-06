@@ -11,13 +11,21 @@ import { deleteCatchmentJob } from '../../api/crosscutRequests'
 import { fetchCatchmentsInUse, fetchCurrentAttributes } from '../../api/requests'
 
 function JobDetails(props) {
-    const { name, status, date, id, toggle, handleJobDetails } = props
+    const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
    
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = async () => {
         // take the value which is the catchmentId to do something about it
         const resp = await fetchCurrentAttributes()
-        console.log(resp)
+        const found = resp.find((attribute) => attribute.name.toLowerCase() === name.toLowerCase())
+
+        if (found !== undefined) {
+            // alert the user if the name is already in use
+            setWarning({text: i18n.t("Name is already in use. Create a new catchment with a different name."), warning: false, critical: true})
+            setTimeout(() => {
+                setWarning(null)
+            }, 5000)
+        }
     }
 
     const handleDelete = async () => {
@@ -41,11 +49,11 @@ function JobDetails(props) {
 
     return (
         <DataTableRow id={id}>
-          <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
+          <DataTableCell width="48px"><ButtonItem value={id} name={name} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} handleClick={handleConnectionDHIS2} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} name={name} handleClick={handleConnectionDHIS2} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );
