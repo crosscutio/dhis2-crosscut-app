@@ -36,7 +36,7 @@ function ListCatchmentJobs(props) {
 
   return (
     <div className={styles.container}>
-      {warning ? <AlertBar className={styles.alert} critical={warning.critical} warning={warning.warning}>{warning.text}</AlertBar> : null}
+      {warning ? <AlertBar critical={warning.critical} warning={warning.warning}>{warning.text}</AlertBar> : null}
       <Card>
         <DataTable>
           <TableHead>

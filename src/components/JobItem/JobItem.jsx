@@ -51,11 +51,11 @@ function JobDetails(props) {
 
     return (
         <DataTableRow id={id}>
-          <DataTableCell width="48px"><ButtonItem value={id} name={name} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
+          <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} name={name} handleClick={handleConnectionDHIS2} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} handleClick={handleConnectionDHIS2} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );

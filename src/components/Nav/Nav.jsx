@@ -7,7 +7,6 @@ import { useToggle } from "../../hooks/useToggle"
 
 import styles from './Nav.module.css';
 
-
 function Nav(props) {
     const [isToggled, toggle] = useToggle(false)
 

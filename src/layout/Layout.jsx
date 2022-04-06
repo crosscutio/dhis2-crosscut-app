@@ -16,7 +16,6 @@ function Layout() {
     const [jobs, setJobs] = useState()
     const [isToggled, toggle] = useToggle(false)
 
-
     useEffect(() => {
         fetchJobs()
       }, [isToggled])
