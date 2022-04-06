@@ -13,7 +13,7 @@ export const fetchCatchmentJobs = async () => {
         const resp = await ky(url, {
           mode: "cors",
           headers: {
-            Authorization: getToken(),
+            authorization: getToken(),
           },
         }).json()
         // check to see if catchment has been published to update the status
