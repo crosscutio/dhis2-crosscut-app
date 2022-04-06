@@ -15,7 +15,7 @@ export const fetchOrgUnitGroups = async () => {
     return resp.organisationUnitGroups
 }
 
-export const fetchCatchmentsInUse = async (id) => {
+export const fetchACatchmentInUse = async (id) => {
     // id is the attribute id
     const resp = await ky.get(`${baseURL}/maps.json?filter=mapViews.orgUnitField:eq:${id}`, options).json()
     return resp.maps

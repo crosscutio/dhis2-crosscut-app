@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-06T13:46:55.975Z\n"
-"PO-Revision-Date: 2022-04-06T13:46:55.975Z\n"
+"POT-Creation-Date: 2022-04-06T16:37:31.629Z\n"
+"PO-Revision-Date: 2022-04-06T16:37:31.629Z\n"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -22,6 +22,9 @@ msgstr "Additional Features"
 
 msgid "Close"
 msgstr "Close"
+
+msgid "Name is already in use. Create a new catchment with a different name."
+msgstr "Name is already in use. Create a new catchment with a different name."
 
 msgid "Publish"
 msgstr "Publish"
