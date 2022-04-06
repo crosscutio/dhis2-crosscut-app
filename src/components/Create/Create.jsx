@@ -3,7 +3,7 @@ import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSele
 import ButtonItem from '../ButtonItem/ButtonItem'
 import styles from './Create.module.css'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
-import { createCatchmentJob } from '../../api/crosscutRequests'
+import { createCatchmentJob, fetchCatchmentJobs } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 
 function Create(props) {
@@ -19,12 +19,19 @@ function Create(props) {
     const [groups, setGroups] = useState([])
     const [currentNames, setCurrentNames] = useState([])
     const [warningText, setWarningText] = useState(null)
+    const [currentJobs, setCurrentJobs] = useState()
 
     useEffect(() => {
         fetchLevels()
         fetchGroups()
         fetchCurrentNames()
+        fetchJobs()
     }, [])
+
+    const fetchJobs = async () => {
+        const resp = await fetchCatchmentJobs()
+        setCurrentJobs(resp)
+    }
 
     const fetchLevels = async () => {
        const respLevels = await fetchOrgUnitLevels()
@@ -68,19 +75,28 @@ function Create(props) {
     }
 
     const handleNameChange = async (e) => {
-        if (currentNames.find((name) => name.name === e.value) === undefined) {
+        const catchmentNames = currentJobs.find((name) => name.name === e.value)
+        const publishedNames = currentNames.find((name) => name.name === e.value)
+
+        if (publishedNames !== undefined || catchmentNames !== undefined) {
+             setWarningText(i18n.t("Name is already in use"))
             setFormInputs(prevState => ({
+                ...prevState,
+                name: ""
+            }))
+        } else {
+             setFormInputs(prevState => ({
                 ...prevState,
                 name: e.value
             }))
             setWarningText(null)
-        } else {
-            setWarningText(i18n.t("Name is already in use"))
         }
     } 
 
     // handle create catchment
     const handleCreate = async () => {
+        if (formInputs.name === "" ) return
+        if (formInputs.country === "") return
         // TO-DO: to create catchment, will need data from DHIS2
         // {
         //     name,
@@ -117,8 +133,8 @@ function Create(props) {
                 </Field>
                 <Field label="Select the groups" required>
                     <MultiSelect onChange={handleGroupChange} selected={formInputs.group}>
-                        {groups && groups.map((group) => {
-                            return <MultiSelectOption key={group.id} label={group.name} value={group.id}/>
+                        {groups && groups.map((group, index) => {
+                            return <MultiSelectOption key={index} label={group.name} value={group.id}/>
                         })}
                     </MultiSelect>
                 </Field>

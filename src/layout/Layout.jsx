@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ListCatchmentJobs from '../pages/ListCatchmentJobs'
 import Create from '../components/Create/Create'
 import Info from '../components/Info/Info'
@@ -11,6 +11,7 @@ function Layout() {
     const [showInfoModal, setShowInfoModal] = useState(false)
     const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
     const [modalText, setModalText] = useState({ title: "", action: ""})
+
 
     // handle create modal
     const handleCreate = () => {

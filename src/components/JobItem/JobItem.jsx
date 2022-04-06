@@ -8,19 +8,22 @@ import {
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
 import { deleteCatchmentJob } from '../../api/crosscutRequests'
-import { fetchCatchmentsInUse } from '../../api/requests'
+import { fetchCatchmentsInUse, fetchCurrentAttributes } from '../../api/requests'
 
 function JobDetails(props) {
     const { name, status, date, id, toggle, handleJobDetails } = props
    
     // get key when click on to publish/unpublish
-    const handleConnectionDHIS2 = (e) => {
+    const handleConnectionDHIS2 = async () => {
         // take the value which is the catchmentId to do something about it
+        const resp = await fetchCurrentAttributes()
+        console.log(resp)
     }
 
     const handleDelete = async () => {
         // check if catchment is being used in map, pass in the id to check
         // TO-DO: pass in the id to check if its in use
+        // will need to know how to get id
         const resp = await fetchCatchmentsInUse("ihn1wb9eho8")
         if (resp.length === 0) {
             // await deleteCatchmentJob(id)
