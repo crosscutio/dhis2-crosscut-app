@@ -10,7 +10,7 @@ export const fetchCatchmentJobs = async () => {
         const resp = await ky(url, {
           mode: "cors",
           headers: {
-            authorization: getToken(),
+            Authorization: getToken(),
           },
         }).json()
         // check to see if catchment has been published to update the status
@@ -65,7 +65,7 @@ export const deleteCatchmentJob = async (id) => {
         await ky.delete(url, {
             mode: "cors",
             headers: {
-              authorization: getToken(),
+              Authorization: getToken(),
             },
         })
     } catch (err) {
