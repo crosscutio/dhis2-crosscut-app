@@ -3,11 +3,11 @@ import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSele
 import ButtonItem from '../ButtonItem/ButtonItem'
 import styles from './Create.module.css'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
-import { createCatchmentJob, fetchCatchmentJobs } from '../../api/crosscutRequests'
+import { createCatchmentJob } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 
 function Create(props) {
-    const { title, action, setShowCreateModal } = props
+    const { title, action, setShowCreateModal, jobs } = props
     const [formInputs, setFormInputs] = useState({
         country: "",
         level: "",
@@ -19,19 +19,12 @@ function Create(props) {
     const [groups, setGroups] = useState([])
     const [currentNames, setCurrentNames] = useState([])
     const [warningText, setWarningText] = useState(null)
-    const [currentJobs, setCurrentJobs] = useState()
 
     useEffect(() => {
         fetchLevels()
         fetchGroups()
         fetchCurrentNames()
-        fetchJobs()
     }, [])
-
-    const fetchJobs = async () => {
-        const resp = await fetchCatchmentJobs()
-        setCurrentJobs(resp)
-    }
 
     const fetchLevels = async () => {
        const respLevels = await fetchOrgUnitLevels()
@@ -75,7 +68,7 @@ function Create(props) {
     }
 
     const handleNameChange = async (e) => {
-        const catchmentNames = currentJobs.find((name) => name.name === e.value)
+        const catchmentNames = jobs?.find((name) => name.name === e.value)
         const publishedNames = currentNames.find((name) => name.name === e.value)
 
         if (publishedNames !== undefined || catchmentNames !== undefined) {
