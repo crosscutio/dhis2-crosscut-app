@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
-import { createCatchmentJob } from '../../api/crosscutRequests'
+import { createCatchmentJob, fetchCatchmentJobs } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 
 function Create(props) {
@@ -18,12 +18,19 @@ function Create(props) {
     const [groups, setGroups] = useState([])
     const [currentNames, setCurrentNames] = useState([])
     const [warningText, setWarningText] = useState(null)
+    const [currentJobs, setCurrentJobs] = useState()
 
     useEffect(() => {
         fetchLevels()
         fetchGroups()
         fetchCurrentNames()
+        fetchJobs()
     }, [])
+
+    const fetchJobs = async () => {
+        const resp = await fetchCatchmentJobs()
+        setCurrentJobs(resp)
+    }
 
     const fetchLevels = async () => {
        const respLevels = await fetchOrgUnitLevels()
