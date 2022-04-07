@@ -4,6 +4,8 @@ import ButtonItem from "../ButtonItem/ButtonItem"
 import i18n from '../../locales/index.js'
 import styles from './Info.module.css'
 
+import styles from './Info.module.css'
+
 function Info(props) {
     const { setShowInfoModal } = props
     const [activeTab, setActiveTab] = useState(1)
