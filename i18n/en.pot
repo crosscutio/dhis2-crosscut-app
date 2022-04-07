@@ -5,6 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2022-04-14T14:39:33.104Z\n"
 "PO-Revision-Date: 2022-04-14T14:39:33.104Z\n"
 
@@ -16,6 +17,10 @@ msgstr "Publish"
 
 msgid "Unpublish"
 msgstr "Unpublish"
+=======
+"POT-Creation-Date: 2022-04-07T18:28:17.553Z\n"
+"PO-Revision-Date: 2022-04-07T18:28:17.553Z\n"
+>>>>>>> c2365e5 (refactor: info text)
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
