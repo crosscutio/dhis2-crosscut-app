@@ -34,8 +34,9 @@ export const fetchGeoJSON = async (levelId, groupId) => {
         groupLink = groupId
     }
 
-    const resp = await ky(`${baseURL}/geoFeatures?ou=ou%3ALEVEL-${levelId}%3BOU_GROUP-${groupLink}&displayProperty=NAME`, options).json()
+   const resp = await ky(`${baseURL}/geoFeatures?ou=ou%3ALEVEL-${levelId}%3BOU_GROUP-${groupLink}&displayProperty=NAME`, options).json()
 
+   console.log(resp)
     const features = resp.map((feature) => {
         const coord = JSON.parse(feature.co)
         let type = "Point" 
