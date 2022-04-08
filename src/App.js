@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./App.module.css";
 import { Amplify, I18n } from "aws-amplify";
+// import { Authenticator } from "aws-amplify-react";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Layout from './layout/Layout'
