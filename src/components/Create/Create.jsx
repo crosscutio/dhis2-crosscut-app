@@ -17,7 +17,8 @@ function Create(props) {
     const [levels, setLevels] = useState([])
     const [groups, setGroups] = useState([])
     const [currentNames, setCurrentNames] = useState([])
-    const [warningText, setWarningText] = useState(null)
+    const [nameText, setNameText] = useState(null)
+    const [countryText, setCountryText] = useState(null)
 
     useEffect(() => {
         fetchLevels()
@@ -87,33 +88,30 @@ function Create(props) {
 
     // handle create catchment
     const handleCreate = async () => {
-        if (formInputs.name === "" ) return
-        if (formInputs.country === "") return
-        // TODO: to create catchment, will need data from DHIS2
-        // {
-        //     name,
-        //     csv,
-        //     country,
-        //     algorithm,
-        //     fields: {
-        //         lat,
-        //         lng,
-        //         name
-        //     }
-        // }
-        await createCatchmentJob(formInputs)
+        if (formInputs.country === "") {
+            setCountryText(i18n.t("Country required"))
+            return
+        }
+        console.log(formInputs)
+        if (formInputs.name === "") {
+            setNameText(i18n.t("Name required"))
+            return
+        }
+
+        // await createCatchmentJob(formInputs)
     }
 
     const renderForm = () => {
         return (
             <form>
-                <Field label="Select the country" required>
+                <Field label="Select the country" required validationText={countryText} error>
                     <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
-                        {/* TODO: add countries supported */}
+                        <SingleSelectOption value="SLE_10_ALL" label="Sierra Leonne"/>
+                        {/* TO-DO: add countries supported */}
                     </SingleSelect>
                 </Field>
 
-                <Field label="Name the catchment areas" required validationText={warningText} warning>
+                <Field label="Name the catchment areas" required validationText={nameText} warning>
                     <Input onChange={handleNameChange}/>
                 </Field>
                 <Field label="Select the facility level" required>
