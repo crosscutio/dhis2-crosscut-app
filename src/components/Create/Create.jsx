@@ -19,6 +19,7 @@ function Create(props) {
     const [currentNames, setCurrentNames] = useState([])
     const [nameText, setNameText] = useState(null)
     const [countryText, setCountryText] = useState(null)
+    const [levelText, setLevelText] = useState(null)
 
     useEffect(() => {
         fetchLevels()
@@ -72,7 +73,7 @@ function Create(props) {
         const publishedNames = currentNames.find((name) => name.name.toLowerCase() === e.value.toLowerCase())
 
         if (publishedNames !== undefined || catchmentNames !== undefined) {
-             setWarningText(i18n.t("Name is already in use"))
+             setNameText(i18n.t("Name is already in use"))
             setFormInputs(prevState => ({
                 ...prevState,
                 name: ""
@@ -82,7 +83,7 @@ function Create(props) {
                 ...prevState,
                 name: e.value
             }))
-            setWarningText(null)
+            setNameText(null)
         }
     } 
 
@@ -92,13 +93,16 @@ function Create(props) {
             setCountryText(i18n.t("Country required"))
             return
         }
-        console.log(formInputs)
         if (formInputs.name === "") {
             setNameText(i18n.t("Name required"))
             return
         }
-
-        // await createCatchmentJob(formInputs)
+        if (formInputs.level === "") {
+            setLevelText(i18n.t("Level required"))
+            return
+        }
+        console.log(formInputs)
+        await createCatchmentJob(formInputs)
     }
 
     const renderForm = () => {
@@ -114,7 +118,7 @@ function Create(props) {
                 <Field label="Name the catchment areas" required validationText={nameText} warning>
                     <Input onChange={handleNameChange}/>
                 </Field>
-                <Field label="Select the facility level" required>
+                <Field label="Select the facility level" required validationText={levelText} error>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
