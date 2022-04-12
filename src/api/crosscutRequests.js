@@ -44,7 +44,6 @@ export const createCatchmentJob = async (json) => {
     try {
         const id = json.level
         const geojson = await fetchGeoJSON(id)
-        console.log(geojson)
     
         // TO-DO: needs name, lat, lng, csv
         // const resp = await ky.post(url, {

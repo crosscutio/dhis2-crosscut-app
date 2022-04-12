@@ -10,10 +10,15 @@ const poolDate = {
   userPoolWebClientId: "1kqueg45v60hm4aggobci2jf93",
 };
 
-Amplify.configure(poolDate);
+Amplify.configure({
+  Auth: { 
+    region: "us-east-1", 
+  ...poolDate
+  }
+});
 
 const MyApp = (props) => {
-  const token = props?.authData?.signInUserSession?.accessToken?.jwtToken;
+  const token = props?.authData?.signInUserSession?.idToken?.jwtToken;
   setToken(token)
 
   return (
