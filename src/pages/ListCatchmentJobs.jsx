@@ -49,7 +49,8 @@ function ListCatchmentJobs(props) {
               <DataTableColumnHeader fixed top="0" width="48px"></DataTableColumnHeader>
             </DataTableRow>
           </TableHead>
-          <TableBody>{jobs && jobs.sort((a, b) => {
+          <TableBody loading>
+            {jobs && jobs.sort((a, b) => {
               const strA = a[column]
               const strB = b[column]
 
@@ -58,7 +59,8 @@ function ListCatchmentJobs(props) {
               return 0
           }).map((job) => {
             return <JobItem setWarning={setWarning} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
-          })}</TableBody>
+          })}
+          </TableBody>
         </DataTable>
       </Card>
     </div>
