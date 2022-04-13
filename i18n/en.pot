@@ -5,8 +5,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-<<<<<<< HEAD
-<<<<<<< HEAD
 "POT-Creation-Date: 2022-04-14T14:39:33.104Z\n"
 "PO-Revision-Date: 2022-04-14T14:39:33.104Z\n"
 
@@ -18,14 +16,6 @@ msgstr "Publish"
 
 msgid "Unpublish"
 msgstr "Unpublish"
-=======
-"POT-Creation-Date: 2022-04-07T18:28:17.553Z\n"
-"PO-Revision-Date: 2022-04-07T18:28:17.553Z\n"
->>>>>>> c2365e5 (refactor: info text)
-=======
-"POT-Creation-Date: 2022-04-08T13:59:43.143Z\n"
-"PO-Revision-Date: 2022-04-08T13:59:43.143Z\n"
->>>>>>> 4d8411d (feat: get valid points from dhis2)
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -110,21 +100,9 @@ msgstr "Publish your catchment areas to DHIS2"
 msgid "to connect your catchments to DHIS2."
 msgstr "to connect your catchments to DHIS2."
 
-<<<<<<< HEAD
 msgid "Once published, you can access the catchment areas in DHIS2"
 msgstr "Once published, you can access the catchment areas in DHIS2"
 
-=======
-msgid "to connect your catchments to DHIS2."
-msgstr "to connect your catchments to DHIS2."
-
-msgid "Once published, you can access the catchment areas in DHIS2"
-msgstr "Once published, you can access the catchment areas in DHIS2"
-
-msgid "Unpublish"
-msgstr "Unpublish"
-
->>>>>>> 4d8411d (feat: get valid points from dhis2)
 msgid "to remove access to the catchment areas in DHIS2."
 msgstr "to remove access to the catchment areas in DHIS2."
 
