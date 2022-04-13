@@ -119,6 +119,8 @@ function Create(props) {
             const resp = papaparse.parse(data.csv.trim(), { header: true })
             return { error: resp }
         })
+        
+        // if there are errors then set the error data
         if (resp?.error) {
             resp.error.data.sort((a, b) => {
                 const ae = a["cc:ErrorMessage"] || ""
@@ -136,6 +138,7 @@ function Create(props) {
      
     }
 
+    // remove rows with errors
     const removeErrors = () => {
         let newData = errorData.data.filter((d) => {
             return d["cc:ErrorMessage"] === ""
@@ -158,6 +161,7 @@ function Create(props) {
         setHasErrors(false)
     }
 
+    // form to create a catchment
     const renderForm = () => {
         return (
             <form>
@@ -188,16 +192,18 @@ function Create(props) {
             </form>
         )
     }
+
+    // data table with sites
     const renderTable = () => {
         return (
             <>
             {hasErrors ? <ButtonItem primary={true} buttonText={i18n.t("Remove rows with errors")} handleClick={removeErrors}/> : null}
-            <DataTable>
+            <DataTable scrollHeight="350px">
                 <TableHead>
                     <DataTableRow>
                         {errorData && errorData.fields.map((field, index) => {
                              return (
-                             <DataTableColumnHeader key={index}>
+                             <DataTableColumnHeader key={index} fixed top="0">
                                  {field}
                              </DataTableColumnHeader>
                              )
