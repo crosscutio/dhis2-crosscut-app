@@ -18,7 +18,6 @@ function Info(props) {
         setActiveTab(2)
     }
 
-    // TO-DO: refactor this code to improve how we're handling text
     return <Modal>
             <TabBar fixed>
                 <Tab onClick={handleTabSwitch1} selected={activeTab === 1} dataTest="dhis2-uicore-tab">{i18n.t("User Guide")}</Tab>
