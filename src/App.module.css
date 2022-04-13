@@ -6,3 +6,10 @@
   font-size: 1rem;
 }
 
+.amplify {
+  display: flex;
+}
+
+.amplify > div {
+  margin: 30px auto;
+}

@@ -7,22 +7,35 @@ import i18n from '../locales/index.js'
 import JobDetails from '../components/JobDetails/JobDetails'
 import { fetchCatchmentJobs } from "../api/crosscutRequests"
 import { useToggle } from "../hooks/useToggle"
+import { setToken } from "../services/JWTManager";
 
-function Layout() {
+function Layout(props) {
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
     const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
     const [modalText, setModalText] = useState({ title: "", action: ""})
     const [jobs, setJobs] = useState()
     const [isToggled, toggle] = useToggle(false)
+    const { token } = props
+    setToken(token)
 
+    let poller 
     useEffect(() => {
-        fetchJobs()
+        poller = setInterval(() => {
+            fetchJobs()
+        }, 5000)
       }, [isToggled])
     
       const fetchJobs = async () => {
         const resp = await fetchCatchmentJobs()
         setJobs(resp)
+        
+        // check for loading jobs
+        const foundLoading = resp.find((job) => job.status === "Pending")
+
+        if (foundLoading === undefined) {
+           clearInterval(poller)
+        }
       }
 
     // handle create modal
@@ -41,7 +54,7 @@ function Layout() {
     }
     return <>
         <Nav handleClick={handleCreate} jobs={jobs} handleInfo={handleInfo}/>
-        { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action}/> : null}
+        { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle}/> : null}
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
         { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null}
         <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle}/>

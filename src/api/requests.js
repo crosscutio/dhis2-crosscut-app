@@ -26,8 +26,15 @@ export const fetchCurrentAttributes = async () => {
     return resp.attributes
 }
 
-export const fetchGeoJSON = async (id) => {
-    const resp = await ky(`${baseURL}/geoFeatures?includeGroupSets=false&ou=ou%3ALEVEL-${id}&displayProperty=NAME`, options).json()
+export const fetchGeoJSON = async (levelId, groupId) => {
+    let groupLink = []
+    if (groupId.length > 1) {   
+        groupId.forEach((id) => groupLink.push(`%3BOU_GROUP-${id}`))
+    } else {
+        groupLink = groupId
+    }
+
+    const resp = await ky(`${baseURL}/geoFeatures?ou=ou%3ALEVEL-${levelId}%3BOU_GROUP-${groupLink}&displayProperty=NAME`, options).json()
 
     const features = resp.map((feature) => {
         const coord = JSON.parse(feature.co)
@@ -59,4 +66,35 @@ export const fetchGeoJSON = async (id) => {
     }
 
     return geojson
+}
+
+export const fetchValidPoints = async (levelId, groupId) => {
+    let groupLink = []
+    if (groupId.length > 1) {   
+        groupId.forEach((id) => groupLink.push(`%3BOU_GROUP-${id}`))
+    } else {
+        groupLink = groupId
+    }
+
+    let resp = await ky(`${baseURL}/geoFeatures?ou=ou%3ALEVEL-${levelId}%3BOU_GROUP-${groupLink}&displayProperty=NAME`, options).json()
+
+    resp = resp.filter((feature) => feature.ty === 1)
+
+    const features = resp.map((feature) => {
+        const coord = JSON.parse(feature.co)
+        const lat = coord[1]
+        const long = coord[0]
+        return {
+            id: feature.id,
+            lat,
+            long,
+            id: feature.id,
+            name: feature.na,
+            level: feature.le,
+            pareentName: feature.pn,
+            parentId: feature.pi,
+            code: feature.code
+        }
+    })
+    return features
 }

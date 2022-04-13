@@ -1,9 +1,9 @@
 import React from "react";
 import classes from "./App.module.css";
-import { Amplify } from "aws-amplify";
-import { withAuthenticator } from "aws-amplify-react";
+import { Amplify, I18n } from "aws-amplify";
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 import Layout from './layout/Layout'
-import { setToken } from "./services/JWTManager";
 
 const poolDate = {
   userPoolId: "us-east-1_qSuVlXKCf",
@@ -17,15 +17,29 @@ Amplify.configure({
   }
 });
 
-const MyApp = (props) => {
-  const token = props?.authData?.signInUserSession?.idToken?.jwtToken;
-  setToken(token)
+// TO-DO: figure out how to integrate DHIS2 i18n with amplify
+I18n.putVocabulariesForLanguage('en', {
+  'Sign In': 'Login', // Tab header
+  'Sign in': 'Login', // Button label
+  Password: 'Enter your password', // Password label
+  'Forgot your password?': 'Reset Password',
+});
+
+const MyApp = () => {
 
   return (
-    <div className={classes.container}>
-      <Layout/>
-    </div>
+    <Authenticator 
+      className={classes.amplify} 
+      signUpAttributes={['email', 'password', 'name']}
+      loginMechanisms={['email']}
+    >
+      {(user) => (
+          <div className={classes.container}>
+          <Layout token={user?.user?.signInUserSession?.idToken?.jwtToken}/>
+        </div>
+      )}
+    </Authenticator>
   );
 };
 
-export default withAuthenticator(MyApp);
+export default MyApp;
