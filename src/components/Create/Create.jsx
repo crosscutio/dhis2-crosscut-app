@@ -25,6 +25,9 @@ function Create(props) {
         fetchLevels()
         fetchGroups()
         fetchCurrentNames()
+        return () => {
+            // This is the cleanup function
+          }
     }, [])
 
     const fetchLevels = async () => {
