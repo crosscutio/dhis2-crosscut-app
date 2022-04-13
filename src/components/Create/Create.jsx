@@ -4,7 +4,8 @@ import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSele
     DataTableRow,
     DataTable, 
     DataTableColumnHeader,
-    DataTableCell} from '@dhis2/ui'
+    DataTableCell,
+    Divider} from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
 import { createCatchmentJob } from '../../api/crosscutRequests'
@@ -120,7 +121,7 @@ function Create(props) {
             return { error: resp }
         })
         
-        // if there are errors then set the error data
+        // if there are errors then set the error
         if (resp?.error) {
             resp.error.data.sort((a, b) => {
                 const ae = a["cc:ErrorMessage"] || ""
@@ -230,6 +231,7 @@ function Create(props) {
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>
             {renderForm()}
+            <Divider/>
             {errorData && renderTable()}
         </ModalContent>
         <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={action} handleClick={handleCreate} primary={true}/></ModalActions>
