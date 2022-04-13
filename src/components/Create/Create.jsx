@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react"
-import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption } from '@dhis2/ui'
+import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption,   TableHead,
+    TableBody,
+    DataTableRow,
+    DataTable, 
+    DataTableColumnHeader,
+    DataTableCell} from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
 import { createCatchmentJob } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
+import papaparse from "papaparse"
 
 function Create(props) {
     const { title, action, setShowCreateModal, jobs } = props
@@ -11,6 +17,7 @@ function Create(props) {
         country: "",
         level: "",
         group: [],
+        csv: "",
         name: "",
         algorithm: "site-based"
     })
@@ -20,6 +27,7 @@ function Create(props) {
     const [nameText, setNameText] = useState(null)
     const [countryText, setCountryText] = useState(null)
     const [levelText, setLevelText] = useState(null)
+    const [data, setData] = useState(null)
 
     useEffect(() => {
         fetchLevels()
@@ -104,8 +112,38 @@ function Create(props) {
             setLevelText(i18n.t("Level required"))
             return
         }
-        console.log(formInputs)
-        await createCatchmentJob(formInputs)
+        if (data !== null) {
+            formInputs.csv = data
+        }
+        const resp = await createCatchmentJob(formInputs).catch( async (err) => {
+            const data = JSON.parse(await err.response.text())
+            const resp = papaparse.parse(data.csv.trim(), { header: true })
+            return { error: resp }
+        })
+
+        if (resp.error) {
+            resp.data.sort((a, b) => {
+                const ae = a["cc:ErrorMessage"] || ""
+                const be = b["cc:ErrorMessage"] || ""
+                return be.length - ae.length
+            })
+            setData({ data: resp.data, fields: resp.meta.fields})
+        }
+     
+    }
+
+    const removeErrors = () => {
+        let newData = data.data.filter((d) => {
+            return d["cc:ErrorMessage"] === ""
+        })
+        newData.map((d) => {
+            delete d["cc:ErrorMessage"]
+            return d
+        }) 
+        setData(prevState => ({
+            ...prevState,
+            data: newData
+        }))
     }
 
     const renderForm = () => {
@@ -138,11 +176,45 @@ function Create(props) {
             </form>
         )
     }
-
+    const renderTable = () => {
+        return (
+            <>
+            <ButtonItem primary={true} buttonText={i18n.t("Remove rows with errors")} handleClick={removeErrors}/>
+            <DataTable>
+                <TableHead>
+                    <DataTableRow>
+                        {data && data.fields.map((field, index) => {
+                             return (
+                             <DataTableColumnHeader key={index}>
+                                 {field}
+                             </DataTableColumnHeader>
+                             )
+                        })}
+                       
+                    </DataTableRow>
+                   
+                </TableHead>
+                <TableBody>
+                    {data && data.data.map((rowData, index) => {
+                        return (
+                        <DataTableRow key={`row-${index}`}>
+                            {Object.values(rowData).map((data, index) => {
+                                return <DataTableCell key={`cell-${index}`}>{data}</DataTableCell>
+                            })}
+                            
+                        </DataTableRow>
+                        )
+                    })}
+                </TableBody>
+            </DataTable>
+            </>
+        )
+    }
     return <Modal>
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>
             {renderForm()}
+            {data && renderTable()}
         </ModalContent>
         <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={action} handleClick={handleCreate} primary={true}/></ModalActions>
     </Modal>
