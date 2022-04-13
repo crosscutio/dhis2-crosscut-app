@@ -38,6 +38,9 @@ export const fetchCatchmentJobs = async () => {
             if (job.status === "PENDING") {
                 job.status = statuses[job.status]
             }
+            if (job.status === "PENDING") {
+                job.status = "Pending"
+            }
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
 

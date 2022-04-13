@@ -12,7 +12,7 @@ import i18n from '../../locales/index.js'
 import papaparse from "papaparse"
 
 function Create(props) {
-    const { title, action, setShowCreateModal, jobs } = props
+    const { title, action, setShowCreateModal, jobs, toggle } = props
     const [formInputs, setFormInputs] = useState({
         country: "",
         level: "",
@@ -130,7 +130,8 @@ function Create(props) {
         } else {
             // close the modal
             close()
-            // TO-DO: toggle the list to fetch for the new catchment
+            // toggle to fetch for jobs
+            toggle()
         }
      
     }
