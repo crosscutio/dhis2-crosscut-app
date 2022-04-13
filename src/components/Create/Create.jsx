@@ -112,22 +112,23 @@ function Create(props) {
             setLevelText(i18n.t("Level required"))
             return
         }
-        if (data !== null) {
-            formInputs.csv = data
-        }
+        
         const resp = await createCatchmentJob(formInputs).catch( async (err) => {
             const data = JSON.parse(await err.response.text())
             const resp = papaparse.parse(data.csv.trim(), { header: true })
             return { error: resp }
         })
-
-        if (resp.error) {
-            resp.data.sort((a, b) => {
+        if (resp?.error) {
+            resp.error.data.sort((a, b) => {
                 const ae = a["cc:ErrorMessage"] || ""
                 const be = b["cc:ErrorMessage"] || ""
                 return be.length - ae.length
             })
-            setData({ data: resp.data, fields: resp.meta.fields})
+            setData({ data: resp.error.data, fields: resp.error.meta.fields})
+        } else {
+            // close the modal
+            close()
+            // TO-DO: toggle the list to fetch for the new catchment
         }
      
     }
@@ -140,9 +141,16 @@ function Create(props) {
             delete d["cc:ErrorMessage"]
             return d
         }) 
+        const errorIndex = data.fields.indexOf("cc:ErrorMessage")
+        data.fields.splice(errorIndex, 1)
         setData(prevState => ({
             ...prevState,
-            data: newData
+            data: newData,
+        }))
+
+        setFormInputs(prevState => ({
+            ...prevState,
+            csv: newData
         }))
     }
 
