@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { TabBar, Tab, Modal, ModalContent, ModalActions, ModalTitle, IconDelete16, IconFileDocument16, Divider, Menu, MenuItem } from "@dhis2/ui"
 import ButtonItem from "../ButtonItem/ButtonItem"
 import i18n from '../../locales/index.js'
-
 import styles from './Info.module.css'
 
 function Info(props) {
@@ -17,7 +16,7 @@ function Info(props) {
         setActiveTab(2)
     }
 
-    // TO-DOL refactor this code to improve how we're handling text
+    // TO-DO: refactor this code to improve how we're handling text
     return <Modal>
             <TabBar fixed>
                 <Tab onClick={handleTabSwitch1} selected={activeTab === 1} dataTest="dhis2-uicore-tab">{i18n.t("User Guide")}</Tab>
