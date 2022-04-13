@@ -27,7 +27,8 @@ function Create(props) {
     const [nameText, setNameText] = useState(null)
     const [countryText, setCountryText] = useState(null)
     const [levelText, setLevelText] = useState(null)
-    const [data, setData] = useState(null)
+    const [errorData, setErrorData] = useState(null)
+    const [hasErrors, setHasErrors] = useState(false)
 
     useEffect(() => {
         fetchLevels()
@@ -124,7 +125,8 @@ function Create(props) {
                 const be = b["cc:ErrorMessage"] || ""
                 return be.length - ae.length
             })
-            setData({ data: resp.error.data, fields: resp.error.meta.fields})
+            setErrorData({ data: resp.error.data, fields: resp.error.meta.fields})
+            setHasErrors(true)
         } else {
             // close the modal
             close()
@@ -134,16 +136,16 @@ function Create(props) {
     }
 
     const removeErrors = () => {
-        let newData = data.data.filter((d) => {
+        let newData = errorData.data.filter((d) => {
             return d["cc:ErrorMessage"] === ""
         })
         newData.map((d) => {
             delete d["cc:ErrorMessage"]
             return d
         }) 
-        const errorIndex = data.fields.indexOf("cc:ErrorMessage")
-        data.fields.splice(errorIndex, 1)
-        setData(prevState => ({
+        const errorIndex = errorData.fields.indexOf("cc:ErrorMessage")
+        errorData.fields.splice(errorIndex, 1)
+        setErrorData(prevState => ({
             ...prevState,
             data: newData,
         }))
@@ -152,6 +154,7 @@ function Create(props) {
             ...prevState,
             csv: newData
         }))
+        setHasErrors(false)
     }
 
     const renderForm = () => {
@@ -187,23 +190,21 @@ function Create(props) {
     const renderTable = () => {
         return (
             <>
-            <ButtonItem primary={true} buttonText={i18n.t("Remove rows with errors")} handleClick={removeErrors}/>
+            {hasErrors ? <ButtonItem primary={true} buttonText={i18n.t("Remove rows with errors")} handleClick={removeErrors}/> : null}
             <DataTable>
                 <TableHead>
                     <DataTableRow>
-                        {data && data.fields.map((field, index) => {
+                        {errorData && errorData.fields.map((field, index) => {
                              return (
                              <DataTableColumnHeader key={index}>
                                  {field}
                              </DataTableColumnHeader>
                              )
                         })}
-                       
                     </DataTableRow>
-                   
                 </TableHead>
                 <TableBody>
-                    {data && data.data.map((rowData, index) => {
+                    {errorData && errorData.data.map((rowData, index) => {
                         return (
                         <DataTableRow key={`row-${index}`}>
                             {Object.values(rowData).map((data, index) => {
@@ -222,7 +223,7 @@ function Create(props) {
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>
             {renderForm()}
-            {data && renderTable()}
+            {errorData && renderTable()}
         </ModalContent>
         <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={action} handleClick={handleCreate} primary={true}/></ModalActions>
     </Modal>
