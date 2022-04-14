@@ -20,6 +20,18 @@ msgstr "Unpublish"
 msgid "Name is already in use"
 msgstr "Name is already in use"
 
+msgid "Country required"
+msgstr "Country required"
+
+msgid "Name required"
+msgstr "Name required"
+
+msgid "Level required"
+msgstr "Level required"
+
+msgid "Remove rows with errors"
+msgstr "Remove rows with errors"
+
 msgid "Cancel"
 msgstr "Cancel"
 
