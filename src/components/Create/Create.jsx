@@ -59,15 +59,29 @@ function Create(props) {
         setShowCreateModal(false)
     }
 
+    // clear out error data and message
+    const clearErrors = () => {
+        setHasErrors(false)
+        setErrorData(null)
+    }
 
     // handle form changes
     const handleCountryChange = (e) => {
-        setFormInputs(prevState => ({
-            ...prevState,
-            country: e.selected,
-             level: "",
-             group: []
-        }))
+        // if there are errors then clear out groups and levels as that should be different
+        if (hasErrors === true) {
+            setFormInputs(prevState => ({
+                ...prevState,
+                country: e.selected,
+                level: "",
+                groups: []
+            }))
+            clearErrors()
+        } else {
+            setFormInputs(prevState => ({
+                ...prevState,
+                country: e.selected
+            }))
+        }
     }
     const handleLevelChange = (e) => {
         setFormInputs(prevState => ({
@@ -75,9 +89,9 @@ function Create(props) {
             level: e.selected,
             csv: ""
         }))
+        // if the user changes level then clear out errors
         if (hasErrors === true) {
-            setHasErrors(false)
-            setErrorData(null)
+           clearErrors()
         }
     }
 
@@ -87,10 +101,9 @@ function Create(props) {
             group: e.selected,
             csv: ""
         }))
+        // if the user changes group then clear out errors
         if (hasErrors === true) {
-            setHasErrors(false)
-            setErrorData(null)
-
+            clearErrors()
         }
     }
 

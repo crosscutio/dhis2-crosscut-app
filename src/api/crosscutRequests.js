@@ -54,6 +54,8 @@ export const createCatchmentJob = async (body) => {
 
     let data = null
     let csv = body.csv
+    // csv wouldn't be an empty string if the user had errors and cleared them
+    // the csv should get passed in to be used
     if (csv === "") {
         data = await fetchValidPoints(levelId, groupId)
         csv = papaparse.unparse(data)
