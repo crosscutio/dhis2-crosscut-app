@@ -5,6 +5,10 @@ import papaparse from "papaparse"
 import { getCrossCutBaseUrl } from './apiConfig';
 
 const baseURL = getCrossCutBaseUrl()
+import i18n from '../locales/index.js'
+
+// TO-DO: use crosscut created url
+const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
 
 export const fetchCatchmentJobs = async () => {
     const url = `${baseURL}/catchment-jobs`;
@@ -22,10 +26,10 @@ export const fetchCatchmentJobs = async () => {
         // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
-            "SUCCESS": "Ready",
-            "PUBLISHED": "Publish",
-            "UNPUBLISH": "Unpublish",
-            "PENDING": "Pending"
+            "SUCcESS": i18n.t("Ready"),
+            "PUBLISHED": i18n.t("Publish"),
+            "UNPUBLISH": i18n.t("Unpublish"),
+            "PENDING": iit18n.t("Pending")
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
