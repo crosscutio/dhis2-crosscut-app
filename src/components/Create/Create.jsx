@@ -20,7 +20,6 @@ function Create(props) {
         group: [],
         csv: "",
         name: "",
-        algorithm: "site-based"
     })
     const [levels, setLevels] = useState([])
     const [groups, setGroups] = useState([])
@@ -65,21 +64,34 @@ function Create(props) {
     const handleCountryChange = (e) => {
         setFormInputs(prevState => ({
             ...prevState,
-            country: e.selected
+            country: e.selected,
+             level: "",
+             group: []
         }))
     }
     const handleLevelChange = (e) => {
         setFormInputs(prevState => ({
             ...prevState,
-            level: e.selected
+            level: e.selected,
+            csv: ""
         }))
+        if (hasErrors === true) {
+            setHasErrors(false)
+            setErrorData(null)
+        }
     }
 
     const handleGroupChange = (e) => {
         setFormInputs(prevState => ({
             ...prevState,
-            group: e.selected
+            group: e.selected,
+            csv: ""
         }))
+        if (hasErrors === true) {
+            setHasErrors(false)
+            setErrorData(null)
+
+        }
     }
 
     const handleNameChange = async (e) => {
@@ -138,8 +150,7 @@ function Create(props) {
             // toggle to fetch for jobs
             toggle()
             setIsLoading(false)
-        }
-     
+        }  
     }
 
     // remove rows with errors

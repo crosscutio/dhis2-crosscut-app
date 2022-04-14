@@ -70,7 +70,7 @@ export const createCatchmentJob = async (body) => {
         name: body.name,
         country: body.country,
         csv,
-        algorithm: body.algorithm
+        algorithm: "site-based"
     }
 
     // TODO: there needs to be a way to save the fields they chose (levels and groups)
