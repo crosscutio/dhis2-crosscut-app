@@ -5,8 +5,17 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-14T14:33:54.860Z\n"
-"PO-Revision-Date: 2022-04-14T14:33:54.860Z\n"
+"POT-Creation-Date: 2022-04-14T14:39:33.104Z\n"
+"PO-Revision-Date: 2022-04-14T14:39:33.104Z\n"
+
+msgid "Ready"
+msgstr "Ready"
+
+msgid "Publish"
+msgstr "Publish"
+
+msgid "Unpublish"
+msgstr "Unpublish"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -57,9 +66,6 @@ msgstr "Pending"
 msgid "your catchment areas are being created."
 msgstr "your catchment areas are being created."
 
-msgid "Ready"
-msgstr "Ready"
-
 msgid "your catchment areas have been created and ready to be published to DHIS2."
 msgstr "your catchment areas have been created and ready to be published to DHIS2."
 
@@ -91,17 +97,11 @@ msgstr ""
 msgid "Publish your catchment areas to DHIS2"
 msgstr "Publish your catchment areas to DHIS2"
 
-msgid "Publish"
-msgstr "Publish"
-
 msgid "to connect your catchments to DHIS2."
 msgstr "to connect your catchments to DHIS2."
 
 msgid "Once published, you can access the catchment areas in DHIS2"
 msgstr "Once published, you can access the catchment areas in DHIS2"
-
-msgid "Unpublish"
-msgstr "Unpublish"
 
 msgid "to remove access to the catchment areas in DHIS2."
 msgstr "to remove access to the catchment areas in DHIS2."
