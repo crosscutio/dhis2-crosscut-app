@@ -58,7 +58,7 @@ function Info(props) {
                 <Divider/>
                 <ModalTitle>{i18n.t("Contact Us")}</ModalTitle>
                 <p>{i18n.t("Having trouble? Have ideas for new features?")}</p>
-                <p>Email us at <a href=":mailto:coite@crosscut.io" target="_blank">coite@crosscut.io</a></p>
+                <p>{i18n.t("Email us at")} <a href=":mailto:coite@crosscut.io" target="_blank">coite@crosscut.io</a></p>
             </div>
             }
         </ModalContent>
