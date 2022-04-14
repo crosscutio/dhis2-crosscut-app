@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-13T13:00:15.091Z\n"
-"PO-Revision-Date: 2022-04-13T13:00:15.091Z\n"
+"POT-Creation-Date: 2022-04-14T14:30:45.845Z\n"
+"PO-Revision-Date: 2022-04-14T14:30:45.845Z\n"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -102,6 +102,9 @@ msgstr "Contact Us"
 
 msgid "Having trouble? Have ideas for new features?"
 msgstr "Having trouble? Have ideas for new features?"
+
+msgid "Email us at"
+msgstr "Email us at"
 
 msgid "Close"
 msgstr "Close"

@@ -4,6 +4,7 @@ import { Amplify, I18n } from "aws-amplify";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Layout from './layout/Layout'
+import i18n from './locales/index.js'
 
 const poolDate = {
   userPoolId: "us-east-1_qSuVlXKCf",
@@ -25,13 +26,19 @@ I18n.putVocabulariesForLanguage('en', {
   'Forgot your password?': 'Reset Password',
 });
 
+const buildFields = (fields) => {
+  return fields.map((field) => {
+    return i18n.t(field)
+  })
+
+}
 const MyApp = () => {
 
   return (
     <Authenticator 
       className={classes.amplify} 
-      signUpAttributes={['email', 'password', 'name']}
-      loginMechanisms={['email']}
+      signUpAttributes={buildFields(['email', 'password', 'name'])}
+      loginMechanisms={buildFields(['email'])}
     >
       {(user) => (
           <div className={classes.container}>
