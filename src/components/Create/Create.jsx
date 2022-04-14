@@ -30,6 +30,7 @@ function Create(props) {
     const [levelText, setLevelText] = useState(null)
     const [errorData, setErrorData] = useState(null)
     const [hasErrors, setHasErrors] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         fetchLevels()
@@ -114,7 +115,7 @@ function Create(props) {
             setLevelText(i18n.t("Level required"))
             return
         }
-        
+        setIsLoading(true)
         const resp = await createCatchmentJob(formInputs).catch( async (err) => {
             const data = JSON.parse(await err.response.text())
             const resp = papaparse.parse(data.csv.trim(), { header: true })
@@ -128,6 +129,7 @@ function Create(props) {
                 const be = b["cc:ErrorMessage"] || ""
                 return be.length - ae.length
             })
+            setIsLoading(false)
             setErrorData({ data: resp.error.data, fields: resp.error.meta.fields})
             setHasErrors(true)
         } else {
@@ -135,6 +137,7 @@ function Create(props) {
             close()
             // toggle to fetch for jobs
             toggle()
+            setIsLoading(false)
         }
      
     }
@@ -234,7 +237,7 @@ function Create(props) {
             <Divider/>
             {errorData && renderTable()}
         </ModalContent>
-        <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={action} handleClick={handleCreate} primary={true}/></ModalActions>
+        <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={action} handleClick={handleCreate} disabled={hasErrors} primary={true} loading={isLoading}/></ModalActions>
     </Modal>
 }
 
