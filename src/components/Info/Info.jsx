@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { TabBar, Tab, Modal, ModalContent, ModalActions, ModalTitle, IconDelete16, IconFileDocument16, Divider, Menu, MenuItem } from "@dhis2/ui"
+import { TabBar, Tab, Modal, ModalContent, ModalActions, ModalTitle, IconDelete16, IconFileDocument16, Divider } from "@dhis2/ui"
 import ButtonItem from "../ButtonItem/ButtonItem"
 import i18n from '../../locales/index.js'
 import styles from './Info.module.css'
