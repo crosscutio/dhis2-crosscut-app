@@ -25,6 +25,9 @@ function Layout(props) {
         poller = setInterval(() => {
             fetchJobs()
         }, 5000)
+        return () => {
+            // this is a clean up function
+        }
       }, [isToggled])
     
       const fetchJobs = async () => {
