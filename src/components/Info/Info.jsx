@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import { TabBar, Tab, Modal, ModalContent, ModalActions } from "@dhis2/ui"
+import { TabBar, Tab, Modal, ModalContent, ModalActions, ModalTitle, IconDelete16, IconFileDocument16, Divider, Menu, MenuItem } from "@dhis2/ui"
 import ButtonItem from "../ButtonItem/ButtonItem"
 import i18n from '../../locales/index.js'
+import styles from './Info.module.css'
 
 function Info(props) {
     const { setShowInfoModal } = props
@@ -15,31 +16,49 @@ function Info(props) {
         setActiveTab(2)
     }
 
+    // TO-DO: refactor this code to improve how we're handling text
     return <Modal>
-        <ModalContent>
             <TabBar fixed>
                 <Tab onClick={handleTabSwitch1} selected={activeTab === 1} dataTest="dhis2-uicore-tab">{i18n.t("User Guide")}</Tab>
                 <Tab onClick={handleTabSwitch2} selected={activeTab === 2} dataTest="dhis2-uicore-tab">{i18n.t("Additional Features")}</Tab>
             </TabBar>
+            <ModalContent className={styles.info}>
             {activeTab === 1 ? <div>
-                <h5>How to reate new catchment areas</h5>
-                <p>Click INSERT BUTTON</p>
-                <p>Select the country you want to target</p>
-                <p>Name the catchment areas</p>
-                <p>Choose the admin level where your facilities are located</p>
-                <p>Choose which groups of facilities to include</p>
-                <p>You can use your catchment areas to create thematic maps and other views in the maps module of DHIS2</p>
-                <p>1</p>
+                <ModalTitle>{i18n.t("How to create new catchment areas")}</ModalTitle>
+                <p className={styles.align}>{i18n.t("Click")}<ButtonItem primary={true} buttonText={i18n.t("Create")}/></p>
+                <p>{i18n.t("Select the country you want to target.")}</p>
+                <p>{i18n.t("Name the catchment areas.")}</p>
+                <p>{i18n.t("Choose the admin level where your facilities are located.")}</p>
+                <p>{i18n.t("Choose which groups of facilities to include.")}</p>
+                <p>{i18n.t("You can use your catchment areas to create thematic maps and other views in the maps module of DHIS2.")}</p>
+                <Divider/>
+                <ModalTitle>{i18n.t("Understanding the statuses")}</ModalTitle>
+                <p><b>{i18n.t("Pending")}</b>: {i18n.t("your catchment areas are being created.")}</p>
+                <p><b>{i18n.t("Ready")}</b>: {i18n.t("your catchment areas have been created and ready to be published to DHIS2.")}</p>
+                <p><b>{i18n.t("Publishing")}</b>: {i18n.t("your catchment areas is in the process of being published.")}</p>
+                <p><b>{i18n.t("Published")}</b>: {i18n.t("your catchment areas have been published to DHIS2.")}</p>
+                <Divider/>
+                <ModalTitle>{i18n.t("How to delete catchment areas")}</ModalTitle>
+                <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={<IconDelete16/>} borderless={true}/>{i18n.t("to delete the catchment area.")}</p>
+                <p>{i18n.t("If you have published the catchment area to DHIS2 then it will be removed from DHIS2.")}</p>
+                <Divider/>
+                <ModalTitle>{i18n.t("Publish your catchment areas to DHIS2")}</ModalTitle>
+                <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={i18n.t("Publish")} primary={true}/>{i18n.t("to connect your catchments to DHIS2.")}</p>
+                <p>{i18n.t("Once published, you can access the catchment areas in DHIS2")}</p>
+                <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={i18n.t("Unpublish")} primary={true}/>{i18n.t("to remove access to the catchment areas in DHIS2.")}</p>
+                <Divider/>
+                <ModalTitle>{i18n.t("Get catchment area details")}</ModalTitle>
+                <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={<IconFileDocument16/>} borderless={true}/>{i18n.t("to see details on the catchment area.")}</p>
             </div> : 
             <div>
-                <h5>Additional Features</h5>
-                <li>Make changes to the catchment area borders</li>
-                <li>See heat maps for walking distance for each catchment area</li>
-                <p>Go to <a href="app.crosscut.io" target="_blank" >app.crosscut.io</a></p>
-                <h5>Contact Us</h5>
-                <p>Having trouble? Have ideas for new features?</p>
-                {/* TODO: insert email */}
-                <p>Email us at <a href=":mailto:" target="_blank">insert email</a></p>
+                <ModalTitle>{i18n.t("Additional Features")}</ModalTitle>
+                <li>{i18n.t("Make changes to the catchment area borders.")}</li>
+                <li>{i18n.t("See heat maps for walking distance for each catchment area.")}</li>
+                <p>{i18n.t("Go to")} <a href="app.crosscut.io" target="_blank" >app.crosscut.io</a></p>
+                <Divider/>
+                <ModalTitle>{i18n.t("Contact Us")}</ModalTitle>
+                <p>{i18n.t("Having trouble? Have ideas for new features?")}</p>
+                <p>{i18n.t("Email us at")} <a href=":mailto:coite@crosscut.io" target="_blank">coite@crosscut.io</a></p>
             </div>
             }
         </ModalContent>

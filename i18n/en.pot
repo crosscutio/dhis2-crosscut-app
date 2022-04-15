@@ -5,8 +5,17 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-06T16:37:31.629Z\n"
-"PO-Revision-Date: 2022-04-06T16:37:31.629Z\n"
+"POT-Creation-Date: 2022-04-14T14:39:33.104Z\n"
+"PO-Revision-Date: 2022-04-14T14:39:33.104Z\n"
+
+msgid "Ready"
+msgstr "Ready"
+
+msgid "Publish"
+msgstr "Publish"
+
+msgid "Unpublish"
+msgstr "Unpublish"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -20,17 +29,112 @@ msgstr "User Guide"
 msgid "Additional Features"
 msgstr "Additional Features"
 
+msgid "How to create new catchment areas"
+msgstr "How to create new catchment areas"
+
+msgid "Click"
+msgstr "Click"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Select the country you want to target."
+msgstr "Select the country you want to target."
+
+msgid "Name the catchment areas."
+msgstr "Name the catchment areas."
+
+msgid "Choose the admin level where your facilities are located."
+msgstr "Choose the admin level where your facilities are located."
+
+msgid "Choose which groups of facilities to include."
+msgstr "Choose which groups of facilities to include."
+
+msgid ""
+"You can use your catchment areas to create thematic maps and other views in "
+"the maps module of DHIS2."
+msgstr ""
+"You can use your catchment areas to create thematic maps and other views in "
+"the maps module of DHIS2."
+
+msgid "Understanding the statuses"
+msgstr "Understanding the statuses"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "your catchment areas are being created."
+msgstr "your catchment areas are being created."
+
+msgid "your catchment areas have been created and ready to be published to DHIS2."
+msgstr "your catchment areas have been created and ready to be published to DHIS2."
+
+msgid "Publishing"
+msgstr "Publishing"
+
+msgid "your catchment areas is in the process of being published."
+msgstr "your catchment areas is in the process of being published."
+
+msgid "Published"
+msgstr "Published"
+
+msgid "your catchment areas have been published to DHIS2."
+msgstr "your catchment areas have been published to DHIS2."
+
+msgid "How to delete catchment areas"
+msgstr "How to delete catchment areas"
+
+msgid "to delete the catchment area."
+msgstr "to delete the catchment area."
+
+msgid ""
+"If you have published the catchment area to DHIS2 then it will be removed "
+"from DHIS2."
+msgstr ""
+"If you have published the catchment area to DHIS2 then it will be removed "
+"from DHIS2."
+
+msgid "Publish your catchment areas to DHIS2"
+msgstr "Publish your catchment areas to DHIS2"
+
+msgid "to connect your catchments to DHIS2."
+msgstr "to connect your catchments to DHIS2."
+
+msgid "Once published, you can access the catchment areas in DHIS2"
+msgstr "Once published, you can access the catchment areas in DHIS2"
+
+msgid "to remove access to the catchment areas in DHIS2."
+msgstr "to remove access to the catchment areas in DHIS2."
+
+msgid "Get catchment area details"
+msgstr "Get catchment area details"
+
+msgid "to see details on the catchment area."
+msgstr "to see details on the catchment area."
+
+msgid "Make changes to the catchment area borders."
+msgstr "Make changes to the catchment area borders."
+
+msgid "See heat maps for walking distance for each catchment area."
+msgstr "See heat maps for walking distance for each catchment area."
+
+msgid "Go to"
+msgstr "Go to"
+
+msgid "Contact Us"
+msgstr "Contact Us"
+
+msgid "Having trouble? Have ideas for new features?"
+msgstr "Having trouble? Have ideas for new features?"
+
+msgid "Email us at"
+msgstr "Email us at"
+
 msgid "Close"
 msgstr "Close"
 
 msgid "Name is already in use. Create a new catchment with a different name."
 msgstr "Name is already in use. Create a new catchment with a different name."
-
-msgid "Publish"
-msgstr "Publish"
-
-msgid "Create"
-msgstr "Create"
 
 msgid "Create new catchment areas"
 msgstr "Create new catchment areas"

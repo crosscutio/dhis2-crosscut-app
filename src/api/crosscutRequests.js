@@ -3,6 +3,7 @@ import { fetchGeoJSON, fetchCurrentAttributes, fetchValidPoints } from './reques
 import { getToken } from '../services/JWTManager'
 import papaparse from "papaparse"
 import { getCrossCutBaseUrl } from './apiConfig';
+import i18n from '../locales/index.js'
 
 const baseURL = getCrossCutBaseUrl()
 
@@ -22,10 +23,10 @@ export const fetchCatchmentJobs = async () => {
         // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
-            "SUCCESS": "Ready",
-            "PUBLISHED": "Publish",
-            "UNPUBLISH": "Unpublish",
-            "PENDING": "Pending"
+            "SUCCESS": i18n.t("Ready"),
+            "PUBLISHED": i18n.t("Publish"),
+            "UNPUBLISH": i18n.t("Unpublish"),
+            "PENDING": i18n.t("Pending")
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
@@ -39,6 +40,7 @@ export const fetchCatchmentJobs = async () => {
             }
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
+
         return siteBasedJobs
     } catch (err) {
         throw err
