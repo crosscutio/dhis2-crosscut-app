@@ -21,6 +21,7 @@ function Layout(props) {
 
     let poller 
     useEffect(() => {
+        // poll every 5s
         poller = setInterval(() => {
             fetchJobs()
         }, 5000)
