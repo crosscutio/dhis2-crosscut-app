@@ -4,8 +4,6 @@ import ButtonItem from "../ButtonItem/ButtonItem"
 import i18n from '../../locales/index.js'
 import styles from './Info.module.css'
 
-import styles from './Info.module.css'
-
 function Info(props) {
     const { setShowInfoModal } = props
     const [activeTab, setActiveTab] = useState(1)
@@ -18,6 +16,7 @@ function Info(props) {
         setActiveTab(2)
     }
 
+    // TO-DO: refactor this code to improve how we're handling text
     return <Modal>
             <TabBar fixed>
                 <Tab onClick={handleTabSwitch1} selected={activeTab === 1} dataTest="dhis2-uicore-tab">{i18n.t("User Guide")}</Tab>
