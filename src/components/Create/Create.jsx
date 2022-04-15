@@ -196,7 +196,7 @@ function Create(props) {
                 <Field label="Select the country" required validationText={countryText} error>
                     <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
                         <SingleSelectOption value="SLE_10_ALL" label="Sierra Leonne"/>
-                        {/* TO-DO: add countries supported */}
+                        {/* TODO: add countries supported */}
                     </SingleSelect>
                 </Field>
 
