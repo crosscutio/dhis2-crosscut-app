@@ -28,6 +28,7 @@ function Create(props) {
     const [countryText, setCountryText] = useState(null)
     const [levelText, setLevelText] = useState(null)
     const [errorData, setErrorData] = useState(null)
+    const [cleanData, setCleanData] = useState(null)
     const [hasErrors, setHasErrors] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -149,13 +150,11 @@ function Create(props) {
         
         // if there are errors then set the error
         if (resp?.error) {
-            resp.error.data.sort((a, b) => {
-                const ae = a["cc:ErrorMessage"] || ""
-                const be = b["cc:ErrorMessage"] || ""
-                return be.length - ae.length
-            })
+            // const noErrors = resp.error.data.filter((data) => data["cc:ErrorMessage"] === "")
+            const errors = resp.error.data.filter((data) => data["cc:ErrorMessage"] !== "") 
             setIsLoading(false)
-            setErrorData({ data: resp.error.data, fields: resp.error.meta.fields})
+            setErrorData({ data: errors, fields: resp.error.meta.fields})
+            console.log(errorData)
             setHasErrors(true)
         } else {
             // close the modal
@@ -225,7 +224,6 @@ function Create(props) {
     const renderTable = () => {
         return (
             <>
-            {hasErrors ? <ButtonItem primary={true} buttonText={i18n.t("Remove rows with errors")} handleClick={removeErrors}/> : null}
             <DataTable scrollHeight="350px">
                 <TableHead>
                     <DataTableRow>
@@ -241,13 +239,13 @@ function Create(props) {
                 <TableBody>
                     {errorData && errorData.data.map((rowData, index) => {
                         return (
-                        <DataTableRow key={`row-${index}`}>
-                            {Object.values(rowData).map((data, index) => {
-                                return <DataTableCell key={`cell-${index}`}>{data}</DataTableCell>
-                            })}
-                            
-                        </DataTableRow>
-                        )
+                            <DataTableRow key={`row-${index}`}>
+                                {Object.values(rowData).map((data, index) => {
+                                    return <DataTableCell key={`cell-${index}`}>{data}</DataTableCell>
+                                })}
+                                
+                            </DataTableRow>
+                            )
                     })}
                 </TableBody>
             </DataTable>
@@ -259,7 +257,15 @@ function Create(props) {
         <ModalContent>
             {renderForm()}
             <Divider/>
-            {errorData && renderTable()}
+            {hasErrors && <Modal>
+                <ModalTitle>{errorData.data.length} {i18n.t("errors were found")}</ModalTitle>
+                <ModalContent>
+                    {i18n.t("Click proceed if you want to continue and the errors will automatically be removed or click cancel to go back.")}
+                    {renderTable()}
+                </ModalContent>
+                <ModalActions><ButtonItem buttonText={i18n.t("Cancel")} handleClick={clearErrors}/><ButtonItem buttonText={"Proceed"} primary={true}/></ModalActions>
+            </Modal>
+            }
         </ModalContent>
         <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={action} handleClick={handleCreate} disabled={hasErrors} primary={true} loading={isLoading}/></ModalActions>
     </Modal>
