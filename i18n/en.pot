@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-14T14:39:33.104Z\n"
-"PO-Revision-Date: 2022-04-14T14:39:33.104Z\n"
+"POT-Creation-Date: 2022-04-15T21:06:54.902Z\n"
+"PO-Revision-Date: 2022-04-15T21:06:54.902Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -16,6 +16,9 @@ msgstr "Publish"
 
 msgid "Unpublish"
 msgstr "Unpublish"
+
+msgid "Pending"
+msgstr "Pending"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -41,6 +44,16 @@ msgstr ""
 
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid ""
+"Deleting will delete the catchment area from the app and remove the "
+"catchment area from DHIS2 if published."
+msgstr ""
+"Deleting will delete the catchment area from the app and remove the "
+"catchment area from DHIS2 if published."
+
+msgid "Delete Forever"
+msgstr "Delete Forever"
 
 msgid "User Guide"
 msgstr "User Guide"
@@ -78,9 +91,6 @@ msgstr ""
 
 msgid "Understanding the statuses"
 msgstr "Understanding the statuses"
-
-msgid "Pending"
-msgstr "Pending"
 
 msgid "your catchment areas are being created."
 msgstr "your catchment areas are being created."
