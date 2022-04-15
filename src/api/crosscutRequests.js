@@ -1,11 +1,13 @@
 import ky from 'ky'
-import { fetchGeoJSON, fetchCurrentAttributes } from './requests';
+import { fetchGeoJSON, fetchCurrentAttributes, fetchValidPoints } from './requests';
 import { getToken } from '../services/JWTManager'
-// TO-DO: use crosscut created url
-const CROSSCUT_API = "https://qwui27io74.execute-api.us-east-1.amazonaws.com";
+import papaparse from "papaparse"
+import { getCrossCutBaseUrl } from './apiConfig';
+
+const baseURL = getCrossCutBaseUrl()
 
 export const fetchCatchmentJobs = async () => {
-    const url = `${CROSSCUT_API}/catchment-jobs`;
+    const url = `${baseURL}/catchment-jobs`;
     try {
         const resp = await ky(url, {
           mode: "cors",
@@ -20,16 +22,20 @@ export const fetchCatchmentJobs = async () => {
         // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
-            "READY": "Ready",
+            "SUCCESS": "Ready",
             "PUBLISHED": "Publish",
-            "UNPUBLISH": "Unpublish"
+            "UNPUBLISH": "Unpublish",
+            "PENDING": "Pending"
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
         
         siteBasedJobs.map((job) => {
             if (job.status === "SUCCESS") {
-                job.status = "Ready"
+                job.status = statuses[job.status]
+            }
+            if (job.status === "PENDING") {
+                job.status = statuses[job.status]
             }
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
@@ -39,27 +45,44 @@ export const fetchCatchmentJobs = async () => {
     }
 }
 
-export const createCatchmentJob = async (json) => {
-    const url = `${CROSSCUT_API}/catchment-jobs`
-    try {
-        const id = json.level
-        const geojson = await fetchGeoJSON(id)
-    
-        // TO-DO: needs name, lat, lng, csv
-        // const resp = await ky.post(url, {
-        //     json,
-        //     mode: "cors",
-        //     headers: {
-        //       authorization: getToken(),
-        //     },
-        // })       
-    } catch (err) {
-        throw err
+export const createCatchmentJob = async (body) => {
+    const url = `${baseURL}/catchment-jobs`
+    const levelId = body.level
+    const groupId = body.group
+
+    let data = null
+    let csv = body.csv
+    if (csv === "") {
+        data = await fetchValidPoints(levelId, groupId)
+        csv = papaparse.unparse(data)
+    } else {
+        csv = papaparse.unparse(body.csv)
     }
+
+    const json = {
+        fields: {
+            lat: "lat",
+            lng: "long",
+            name: "name"
+        },
+        name: body.name,
+        country: body.country,
+        csv,
+        algorithm: body.algorithm
+    }
+
+    // TODO: there needs to be a way to save the fields they chose (levels and groups)
+    await ky.post(url, {
+        json,
+        mode: "cors",
+        headers: {
+            authorization: getToken(),
+        },
+    })    
 }
 
 export const deleteCatchmentJob = async (id) => {
-    const url = `${CROSSCUT_API}/catchment-jobs/${id}`
+    const url = `${baseURL}/catchment-jobs/${id}`
     try {
         await ky.delete(url, {
             mode: "cors",
