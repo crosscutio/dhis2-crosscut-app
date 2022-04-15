@@ -19,7 +19,7 @@ Amplify.configure({
 
 // TO-DO: figure out how to integrate DHIS2 i18n with amplify
 I18n.putVocabulariesForLanguage('en', {
-  'Sign In': 'Login', // Tab header
+  'Sign In': 'Crosscut Login', // Tab header
   'Sign in': 'Login', // Button label
   Password: 'Enter your password', // Password label
   'Forgot your password?': 'Reset Password',
