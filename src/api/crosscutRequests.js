@@ -23,7 +23,7 @@ export const fetchCatchmentJobs = async () => {
         // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
-            "SUCcESS": i18n.t("Ready"),
+            "SUCCESS": i18n.t("Ready"),
             "PUBLISHED": i18n.t("Publish"),
             "UNPUBLISH": i18n.t("Unpublish"),
             "PENDING": i18n.t("Pending")
@@ -40,7 +40,7 @@ export const fetchCatchmentJobs = async () => {
             }
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
-        
+
         return siteBasedJobs
     } catch (err) {
         throw err
