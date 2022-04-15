@@ -17,7 +17,7 @@ Amplify.configure({
   }
 });
 
-// TO-DO: figure out how to integrate DHIS2 i18n with amplify
+// TODO: figure out how to integrate DHIS2 i18n with amplify
 I18n.putVocabulariesForLanguage('en', {
   'Sign In': 'Crosscut Login', // Tab header
   'Sign in': 'Login', // Button label

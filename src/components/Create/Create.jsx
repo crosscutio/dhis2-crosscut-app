@@ -89,7 +89,7 @@ function Create(props) {
     const handleCreate = async () => {
         if (formInputs.name === "" ) return
         if (formInputs.country === "") return
-        // TO-DO: to create catchment, will need data from DHIS2
+        // TODO: to create catchment, will need data from DHIS2
         // {
         //     name,
         //     csv,
@@ -109,7 +109,7 @@ function Create(props) {
             <form>
                 <Field label="Select the country" required>
                     <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
-                        {/* TO-DO: add countries supported */}
+                        {/* TODO: add countries supported */}
                     </SingleSelect>
                 </Field>
 

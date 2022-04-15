@@ -71,7 +71,7 @@ export const createCatchmentJob = async (body) => {
         algorithm: body.algorithm
     }
 
-    // TO-DO: there needs to be a way to save the fields they chose (levels and groups)
+    // TODO: there needs to be a way to save the fields they chose (levels and groups)
     await ky.post(url, {
         json,
         mode: "cors",

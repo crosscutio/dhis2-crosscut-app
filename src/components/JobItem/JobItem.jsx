@@ -13,7 +13,7 @@ import { fetchACatchmentInUse, fetchCurrentAttributes } from '../../api/requests
 function JobDetails(props) {
     const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
    
-    // TO-DO: publish and unpublish
+    // TODO: publish and unpublish
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = async () => {
         // take the value which is the catchmentId to do something about it
@@ -31,7 +31,7 @@ function JobDetails(props) {
 
     const handleDelete = async () => {
         // check if catchment is being used in map, pass in the id to check
-        // TO-DO: pass in the id to check if its in use
+        // TODO: pass in the id to check if its in use
         // will need to know how to get id
         const resp = await fetchACatchmentInUse("ihn1wb9eho8")
 
