@@ -33,10 +33,10 @@ function Info(props) {
                 <p>{i18n.t("You can use your catchment areas to create thematic maps and other views in the maps module of DHIS2.")}</p>
                 <Divider/>
                 <ModalTitle>{i18n.t("Understanding the statuses")}</ModalTitle>
-                <p>{i18n.t("Pending")}: {i18n.t("your catchment areas are being created.")}</p>
-                <p>{i18n.t("Ready")}: {i18n.t("your catchment areas have been created and ready to be published to DHIS2.")}</p>
-                <p>{i18n.t("Publishing")}: {i18n.t("your catchment areas is in the process of being published.")}</p>
-                <p>{i18n.t("Published")}: {i18n.t("your catchment areas have been published to DHIS2.")}</p>
+                <p><b>{i18n.t("Pending")}</b>: {i18n.t("your catchment areas are being created.")}</p>
+                <p><b>{i18n.t("Ready")}</b>: {i18n.t("your catchment areas have been created and ready to be published to DHIS2.")}</p>
+                <p><b>{i18n.t("Publishing")}</b>: {i18n.t("your catchment areas is in the process of being published.")}</p>
+                <p><b>{i18n.t("Published")}</b>: {i18n.t("your catchment areas have been published to DHIS2.")}</p>
                 <Divider/>
                 <ModalTitle>{i18n.t("How to delete catchment areas")}</ModalTitle>
                 <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={<IconDelete16/>} borderless={true}/>{i18n.t("to delete the catchment area.")}</p>
