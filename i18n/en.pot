@@ -29,8 +29,15 @@ msgstr "Name required"
 msgid "Level required"
 msgstr "Level required"
 
-msgid "Remove rows with errors"
-msgstr "Remove rows with errors"
+msgid "errors were found"
+msgstr "errors were found"
+
+msgid ""
+"Click proceed if you want to continue and the errors will automatically be "
+"removed or click cancel to go back."
+msgstr ""
+"Click proceed if you want to continue and the errors will automatically be "
+"removed or click cancel to go back."
 
 msgid "Cancel"
 msgstr "Cancel"

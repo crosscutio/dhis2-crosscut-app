@@ -41,6 +41,15 @@ function Create(props) {
           }
     }, [])
 
+    useEffect(() => {
+        if (formInputs.csv !== "") {
+            handleCreate()
+            return () => {
+                // This is the cleanup function
+              }
+        }
+    }, [formInputs.csv])
+
     const fetchLevels = async () => {
        const respLevels = await fetchOrgUnitLevels()
        setLevels(respLevels)
@@ -141,6 +150,7 @@ function Create(props) {
             setLevelText(i18n.t("Level required"))
             return
         }
+        
         setIsLoading(true)
         const resp = await createCatchmentJob(formInputs).catch( async (err) => {
             const data = JSON.parse(await err.response.text())
@@ -150,11 +160,9 @@ function Create(props) {
         
         // if there are errors then set the error
         if (resp?.error) {
-            // const noErrors = resp.error.data.filter((data) => data["cc:ErrorMessage"] === "")
             const errors = resp.error.data.filter((data) => data["cc:ErrorMessage"] !== "") 
+            setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
             setIsLoading(false)
-            setErrorData({ data: errors, fields: resp.error.meta.fields})
-            console.log(errorData)
             setHasErrors(true)
         } else {
             // close the modal
@@ -165,8 +173,8 @@ function Create(props) {
         }  
     }
 
-    // remove rows with errors
-    const removeErrors = () => {
+    // remove rows with errors and create
+    const createWithoutErrors = () => {
         let newData = errorData.data.filter((d) => {
             return d["cc:ErrorMessage"] === ""
         })
@@ -174,17 +182,12 @@ function Create(props) {
             delete d["cc:ErrorMessage"]
             return d
         }) 
-        const errorIndex = errorData.fields.indexOf("cc:ErrorMessage")
-        errorData.fields.splice(errorIndex, 1)
-        setErrorData(prevState => ({
-            ...prevState,
-            data: newData,
-        }))
 
         setFormInputs(prevState => ({
             ...prevState,
             csv: newData
         }))
+
         setHasErrors(false)
     }
 
@@ -237,11 +240,11 @@ function Create(props) {
                     </DataTableRow>
                 </TableHead>
                 <TableBody>
-                    {errorData && errorData.data.map((rowData, index) => {
+                    {errorData && errorData.errors.map((rowData, index) => {
                         return (
                             <DataTableRow key={`row-${index}`}>
-                                {Object.values(rowData).map((data, index) => {
-                                    return <DataTableCell key={`cell-${index}`}>{data}</DataTableCell>
+                                {Object.values(rowData).map((error, index) => {
+                                    return <DataTableCell key={`cell-${index}`}>{error}</DataTableCell>
                                 })}
                                 
                             </DataTableRow>
@@ -258,12 +261,12 @@ function Create(props) {
             {renderForm()}
             <Divider/>
             {hasErrors && <Modal>
-                <ModalTitle>{errorData.data.length} {i18n.t("errors were found")}</ModalTitle>
+                <ModalTitle>{errorData.errors.length} {i18n.t("errors were found")}</ModalTitle>
                 <ModalContent>
                     {i18n.t("Click proceed if you want to continue and the errors will automatically be removed or click cancel to go back.")}
                     {renderTable()}
                 </ModalContent>
-                <ModalActions><ButtonItem buttonText={i18n.t("Cancel")} handleClick={clearErrors}/><ButtonItem buttonText={"Proceed"} primary={true}/></ModalActions>
+                <ModalActions><ButtonItem buttonText={i18n.t("Cancel")} handleClick={clearErrors}/><ButtonItem buttonText={"Proceed"} primary={true} handleClick={createWithoutErrors}/></ModalActions>
             </Modal>
             }
         </ModalContent>
