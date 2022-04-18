@@ -120,13 +120,28 @@ export const fetchSupportedBoundaries = async () => {
                 authorization: getToken(),
             }
         }).json()
-
        
         return resp.boundaryList.filter((bound) => bound.featureFlags.includes("all")).filter((bound) => bound.entireCountry === true).sort((a,b) => {
             if (a.countryName > b.countryName) return 1
             if (a.countryName < b.countryName) return -1
             return 0
         })
+    } catch (err) {
+        throw err
+    }
+}
+
+export const getCatchmentGeoJSON = async (id) => {
+    const url = `${baseURL}/catchment-jobs/${id}/geojson`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken(),
+            }
+        }).json()
+
+        return resp.features
     } catch (err) {
         throw err
     }

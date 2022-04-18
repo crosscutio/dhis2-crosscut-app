@@ -1,5 +1,6 @@
 import ky from 'ky'
 import { options, getBaseURL } from "./apiConfig"
+import { getCatchmentGeoJSON } from "./crosscutRequests"
 
 const baseURL = getBaseURL()
 
@@ -97,4 +98,19 @@ export const fetchValidPoints = async (levelId, groupId) => {
         }
     })
     return features
+}
+
+export const postAttribute = async (body) => {
+
+    const features = await getCatchmentGeoJSON(body.id)
+    console.log(features)
+    // TODO: need to find the correct API to create a new attribute
+    // returns the attribute id
+
+    // const resp = await ky.post(`${baseURL}/attributes`, options).json()
+    // console.log(resp)
+    const resp = await ky(`${baseURL}/attributes`, options).json()
+    console.log(resp)
+    return resp
+
 }

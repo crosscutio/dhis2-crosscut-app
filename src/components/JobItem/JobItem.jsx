@@ -7,8 +7,9 @@ import {
 } from '@dhis2/ui'
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
-import { fetchACatchmentInUse, fetchCurrentAttributes } from '../../api/requests'
 import Delete from "../Delete/Delete"
+import { deleteCatchmentJob } from '../../api/crosscutRequests'
+import { fetchACatchmentInUse, fetchCurrentAttributes, postAttribute } from '../../api/requests'
 
 function JobItem(props) {
     const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
@@ -19,13 +20,28 @@ function JobItem(props) {
         // take the value which is the catchmentId to do something about it
         const resp = await fetchCurrentAttributes()
         const found = resp.find((attribute) => attribute.name.toLowerCase() === name.toLowerCase())
-
+        console.log(found)
         if (found !== undefined) {
             // alert the user if the name is already in use
             setWarning({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
             setTimeout(() => {
                 setWarning(null)
             }, 5000)
+            return
+        }
+
+        if (found === undefined) {
+        //    const ugh = await postAttribute()
+        //    console.log(ugh)
+            const resp = await postAttribute({
+                id,
+                payload: {  
+                    name,
+                    organisationUnitAttribute: true,
+                    shortName: name,
+                    valueType: "GEOJSON"
+                }
+            })
         }
     }
 
