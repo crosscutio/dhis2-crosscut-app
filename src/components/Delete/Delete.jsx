@@ -7,7 +7,6 @@ import { deleteCatchmentJob } from '../../api/crosscutRequests'
 function Delete(props) {
     const { setShowDelete, toggle, id } = props
 
-
     const handleDelete = async () => {
         await deleteCatchmentJob(id)
         toggle()
@@ -24,8 +23,6 @@ function Delete(props) {
             <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={i18n.t("Delete Forever")} handleClick={handleDelete} primary={true}/></ModalActions>
         </Modal>
     )
-
-
 }
 
 export default Delete

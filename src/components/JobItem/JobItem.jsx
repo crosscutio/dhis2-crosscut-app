@@ -33,7 +33,7 @@ function JobItem(props) {
         // v1
         setShowDelete(true)
 
-        // TO-DO: the following for v2
+        // TODO: the following for v2
         // check if catchment is being used in map, pass in the id to check
         // TODO: pass in the id to check if its in use
         // will need to know how to get id
