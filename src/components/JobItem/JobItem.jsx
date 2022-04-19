@@ -19,10 +19,11 @@ function JobItem(props) {
     const handleConnectionDHIS2 = async () => {
         // if catchment has attribute id then it has been published
         // if catchment does not then it will be published
-        // handlePublish()
-        handleUnpublish()
+        handlePublish()
+        // handleUnpublish()
     }   
 
+    // TODO: update attribute id 
     const handleUnpublish = async () => {
         await unPublishCatchment({
             id,
@@ -34,10 +35,10 @@ function JobItem(props) {
     const handlePublish = async () => {
         // take the value which is the catchmentId to do something about it
         const resp = await fetchCurrentAttributes()
-        const found = resp.find((attribute) => attribute.name.toLowerCase() === name.toLowerCase())
-        console.log(found)
+        const found = resp.find((attribute) => attribute.name.toLowerCase().split("crosscut ")[1] === name.toLowerCase())
+
         if (found !== undefined) {
-            // alert the user if the name is already in use
+             // alert the user if the name is already in use
             setWarning({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
             setTimeout(() => {
                 setWarning(null)
@@ -49,9 +50,9 @@ function JobItem(props) {
             await publishCatchment({
                 id,
                 payload: {  
-                    name,
+                    name: `Crosscut ${name}`,
                     organisationUnitAttribute: true,
-                    shortName: name,
+                    shortName: `Crosscut ${name}`,
                     valueType: "GEOJSON"
                 }
             })

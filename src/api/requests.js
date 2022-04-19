@@ -113,19 +113,18 @@ export const publishCatchment = async (body) => {
     // use this id to store with the catchment areas
     const attributeId = resp?.response?.uid
 
-    options["Content-Type"] = "application/json-patch+json"
-    let found = []
-    for (let i=0; i<orgUnits.organisationUnits.length; i++) {
-        const name = orgUnits.organisationUnits[i].name
-        const exists = features.find((feat) => feat.properties["cc:Name"] === name)
-        if (exists !== undefined) {
-            found.push({ id: orgUnits.organisationUnits[i].id, geojson: exists.geometry})
+    // options["Content-Type"] = "application/json-patch+json"
+    // // let found = []
+    // for (let i=0; i<orgUnits.organisationUnits.length; i++) {
+    //     const name = orgUnits.organisationUnits[i].name
+    //     const exists = features.find((feat) => feat.properties["cc:Name"] === name)
+    //     if (exists !== undefined) {
+    //         // found.push({ id: orgUnits.organisationUnits[i].id, geojson: exists.geometry})
     //         const geojson = JSON.stringify(exists.geometry)
     //         const orgId = orgUnits.organisationUnits[i].id
 
-    //         // handle adding geojson to each org unit
-    //         const res = await ky
-    //               .patch(`${baseURL}/organisationUnits/${orgId}`, {
+    // //         // handle adding geojson to each org unit
+    //         await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
     //                 headers: options,
     //                 body: JSON.stringify([{
     //                   op: "add",
@@ -139,29 +138,29 @@ export const publishCatchment = async (body) => {
     //                 }]),
     //               })
     //               .json();
-                //   console.log(res)
-        }
-    }
+    //             //   console.log(res)
+    //     }
+    // }
 
             // options["Content-Type"] = "application/json-patch+json"
 
             // handle adding geojson to each org unit
-            const res = await ky
-                  .patch(`${baseURL}/organisationUnits/${found[0].id}`, {
-                    headers: options,
-                    body: JSON.stringify([{
-                      op: "add",
-                      path: "/attributeValues/-",
-                      value: {
-                        value: JSON.stringify(found[0].geojson),
-                        attribute: {
-                          id: attributeId,
-                        },
-                      },
-                    }]),
-                  })
-                  .json();
-                  console.log(res)
+            // const res = await ky
+            //       .patch(`${baseURL}/organisationUnits/${found[0].id}`, {
+            //         headers: options,
+            //         body: JSON.stringify([{
+            //           op: "add",
+            //           path: "/attributeValues/-",
+            //           value: {
+            //             value: JSON.stringify(found[0].geojson),
+            //             attribute: {
+            //               id: attributeId,
+            //             },
+            //           },
+            //         }]),
+            //       })
+            //       .json();
+            //       console.log(res)
 
     // const ugh = await ky(`${baseURL}/organisationUnits.json?filter=level:eq:4&paging=false&fields=id,name,level,coordinates`, options).json()
     // console.log(ugh.organisationUnits)
