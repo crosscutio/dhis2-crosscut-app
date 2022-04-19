@@ -31,6 +31,8 @@ function ListCatchmentJobs(props) {
   }
 
   return (
+    <>
+    {warning ? <AlertBar critical={warning.critical} warning={warning.warning}>{warning.text}</AlertBar> : null}
     <div className={styles.container}>
       <Card>
         <DataTable>
@@ -59,6 +61,7 @@ function ListCatchmentJobs(props) {
         </DataTable>
       </Card>
     </div>
+    </>
   );
 }
 export default ListCatchmentJobs;
