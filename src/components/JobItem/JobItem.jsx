@@ -14,9 +14,12 @@ import { fetchACatchmentInUse, fetchCurrentAttributes, publishCatchment, unPubli
 function JobItem(props) {
     const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
     const [showDelete, setShowDelete] = useState(false)
+    const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     // TODO: publish and unpublish
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = async () => {
+
+        // TODO: activate unpublish when we're able to save the attribute id
         // if catchment has attribute id then it has been published
         // if catchment does not then it will be published
         handlePublish()
@@ -47,6 +50,8 @@ function JobItem(props) {
         }
 
         if (found === undefined) {
+            // TODO: add to show that it is publishing
+            setPublishStatus(i18n.t("Publishing"))
             await publishCatchment({
                 id,
                 payload: {  
@@ -54,8 +59,11 @@ function JobItem(props) {
                     organisationUnitAttribute: true,
                     shortName: `Crosscut ${name}`,
                     valueType: "GEOJSON"
-                }
+                },
+                setStatus: setPublishStatus
             })
+            // TODO: to show that it is complete
+            
         }
     }
 
@@ -90,7 +98,7 @@ function JobItem(props) {
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} handleClick={handleConnectionDHIS2} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} handleClick={handleConnectionDHIS2} buttonText={publishStatus} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );

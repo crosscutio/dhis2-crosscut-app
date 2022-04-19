@@ -1,6 +1,7 @@
 import ky from 'ky'
 import { options, getBaseURL } from "./apiConfig"
 import { getCatchmentGeoJSON } from "./crosscutRequests"
+import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
 
@@ -98,10 +99,10 @@ export const publishCatchment = async (body) => {
                       .json();
             }
         }
+        body.setStatus(i18n.t("Unpublish"))
     } catch (err) {
         throw err
     }
-  
 }
 
 export const unPublishCatchment = async (body) => {

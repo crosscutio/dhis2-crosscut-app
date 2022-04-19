@@ -19,6 +19,7 @@ export const fetchCatchmentJobs = async () => {
 
         // TODO: check for published catchments to update the status
         // the different statues to display
+        // if job has attribute id from DHIS2 then it has been published
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
             "PUBLISHED": i18n.t("Publish"),
