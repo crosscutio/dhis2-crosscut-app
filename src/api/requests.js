@@ -173,53 +173,76 @@ export const publishCatchment = async (body) => {
 }
 
 export const unPublishCatchment = async (body) => {
-
-    // remove coordinates from each org unit and attribute
-
+    // remove attributes from each org unit and attribute
     const features = await getCatchmentGeoJSON(body.id)
     console.log(features)
 
     const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-    console.log(orgUnits)
 
-
-    let found = []
+    // let found = []
     for (let i=0; i<orgUnits.organisationUnits.length; i++) {
         const name = orgUnits.organisationUnits[i].name
         const exists = features.find((feat) => feat.properties["cc:Name"] === name)
         if (exists !== undefined) {
-            found.push({ id: orgUnits.organisationUnits[i].id, geojson: exists.geometry})
-        }
+            // found.push({ id: orgUnits.organisationUnits[i].id, geojson: exists.geometry})
+            const orgId = orgUnits.organisationUnits[i].id
+
+            const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
+
+            const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.name)
+
+            const payload = {
+                attributeValues: filtered,
+                code: resp.code,
+                created: resp.created,
+                createdBy: resp.createdBy,
+                id: resp.id,
+                lastUpdated:  resp.lastUpdated,
+                lastUpdatedBy: resp.lastUpdatedBy,
+                level: resp.level,
+                name: resp.name,
+                openingDate: resp.openingDate,
+                parent: resp.parent,
+                path: resp.path,
+                shortName: resp.shortName,
+            }
+
+            // delete coordinates from each org unit
+            await ky.put(`${baseURL}/organisationUnits/${orgId}?mergeMode=REPLACE`, {
+                headers: options,
+                body: JSON.stringify(payload),
+                }).json();
+                }
     }
 
-    const resp = await ky(`${baseURL}/organisationUnits/NrxMLPbranA?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
-    console.log(resp)
+    // const resp = await ky(`${baseURL}/organisationUnits/NrxMLPbranA?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
+    // console.log(resp)
 
-    const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.name)
+    // const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.name)
 
 
-    const payload = {
-        attributeValues: filtered,
-        code: resp.code,
-        created: resp.created,
-        createdBy: resp.createdBy,
-        id: resp.id,
-        lastUpdated:  resp.lastUpdated,
-        lastUpdatedBy: resp.lastUpdatedBy,
-        level: resp.level,
-        name: resp.name,
-        openingDate: resp.openingDate,
-        parent: resp.parent,
-        path: resp.path,
-        shortName: resp.shortName,
-    }
+    // const payload = {
+    //     attributeValues: filtered,
+    //     code: resp.code,
+    //     created: resp.created,
+    //     createdBy: resp.createdBy,
+    //     id: resp.id,
+    //     lastUpdated:  resp.lastUpdated,
+    //     lastUpdatedBy: resp.lastUpdatedBy,
+    //     level: resp.level,
+    //     name: resp.name,
+    //     openingDate: resp.openingDate,
+    //     parent: resp.parent,
+    //     path: resp.path,
+    //     shortName: resp.shortName,
+    // }
 
-    // delete coordinates from each org unit
-    const res = await ky.put(`${baseURL}/organisationUnits/NrxMLPbranA?mergeMode=REPLACE`, {
-        headers: options,
-        body: JSON.stringify(payload),
-        }).json();
-        console.log(res)
+    // // delete coordinates from each org unit
+    // const res = await ky.put(`${baseURL}/organisationUnits/NrxMLPbranA?mergeMode=REPLACE`, {
+    //     headers: options,
+    //     body: JSON.stringify(payload),
+    //     }).json();
+    //     console.log(res)
 
     // delete attribute
     await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
