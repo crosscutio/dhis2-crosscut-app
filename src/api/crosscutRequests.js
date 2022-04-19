@@ -22,8 +22,7 @@ export const fetchCatchmentJobs = async () => {
         // if job has attribute id from DHIS2 then it has been published
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
-            "PUBLISHED": i18n.t("Publish"),
-            "UNPUBLISH": i18n.t("Unpublish"),
+            "PUBLISHED": i18n.t("Published"),
             "PENDING": i18n.t("Pending")
         }
         // filter out jobs that aren't site-based
