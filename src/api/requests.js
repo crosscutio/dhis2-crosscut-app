@@ -27,48 +27,6 @@ export const fetchCurrentAttributes = async () => {
     return resp.attributes
 }
 
-export const fetchGeoJSON = async (levelId, groupId) => {
-    let groupLink = []
-    if (groupId.length > 1) {   
-        groupId.forEach((id) => groupLink.push(`%3BOU_GROUP-${id}`))
-    } else {
-        groupLink = groupId
-    }
-
-    const resp = await ky(`${baseURL}/geoFeatures?ou=ou%3ALEVEL-${levelId}%3BOU_GROUP-${groupLink}&displayProperty=NAME`, options).json()
-
-    const features = resp.map((feature) => {
-        const coord = JSON.parse(feature.co)
-        let type = "Point" 
-
-        if (feature.ty === 2) {
-            type = "Polygon"
-        }
-
-        return {
-            type: "Feature",
-            id: feature.id,
-            geometry: {
-                type,
-                coordinates: coord
-            },
-            properties: {
-                id: feature.id,
-                name: feature.na,
-                level: feature.le,
-                parentName: feature.pn,
-                parentId: feature.pi
-            }
-        }
-    })
-    const geojson = {
-        type: "FeatureCollection",
-        features
-    }
-
-    return geojson
-}
-
 export const fetchValidPoints = async (levelId, groupId) => {
     let groupLink = []
     if (groupId.length > 1) {   
