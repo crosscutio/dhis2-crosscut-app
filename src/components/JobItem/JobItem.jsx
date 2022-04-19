@@ -9,7 +9,7 @@ import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
 import Delete from "../Delete/Delete"
 import { deleteCatchmentJob } from '../../api/crosscutRequests'
-import { fetchACatchmentInUse, fetchCurrentAttributes, postAttribute } from '../../api/requests'
+import { fetchACatchmentInUse, fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
     const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
@@ -17,6 +17,21 @@ function JobItem(props) {
     // TODO: publish and unpublish
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = async () => {
+        // if catchment has attribute id then it has been published
+        // if catchment does not then it will be published
+        // handlePublish()
+        handleUnpublish()
+    }   
+
+    const handleUnpublish = async () => {
+        await unPublishCatchment({
+            id,
+            attributeId: "INSPZkQ2vsw",
+            name
+        })
+    }
+
+    const handlePublish = async () => {
         // take the value which is the catchmentId to do something about it
         const resp = await fetchCurrentAttributes()
         const found = resp.find((attribute) => attribute.name.toLowerCase() === name.toLowerCase())
@@ -31,7 +46,7 @@ function JobItem(props) {
         }
 
         if (found === undefined) {
-            await postAttribute({
+            await publishCatchment({
                 id,
                 payload: {  
                     name,
