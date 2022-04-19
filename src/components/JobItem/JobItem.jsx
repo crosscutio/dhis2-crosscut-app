@@ -28,10 +28,12 @@ function JobItem(props) {
 
     // TODO: update attribute id 
     const handleUnpublish = async () => {
+        setPublishStatus(i18n.t("Unpublishing"))
         await unPublishCatchment({
             id,
             attributeId: "INSPZkQ2vsw",
-            name
+            name,
+            setStatus: setPublishStatus
         })
     }
 

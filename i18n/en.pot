@@ -171,6 +171,9 @@ msgstr "Email us at"
 msgid "Close"
 msgstr "Close"
 
+msgid "Unpublishing"
+msgstr "Unpublishing"
+
 msgid "Name is already in use. Create a new catchment with a different name."
 msgstr "Name is already in use. Create a new catchment with a different name."
 

@@ -149,6 +149,7 @@ export const unPublishCatchment = async (body) => {
         }
         // delete attribute
         await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
+        body.setStatus(i18n.t("Publish"))
     } catch (err) {
         throw err
     }
