@@ -113,62 +113,32 @@ export const publishCatchment = async (body) => {
     // use this id to store with the catchment areas
     const attributeId = resp?.response?.uid
 
-    // options["Content-Type"] = "application/json-patch+json"
-    // // let found = []
-    // for (let i=0; i<orgUnits.organisationUnits.length; i++) {
-    //     const name = orgUnits.organisationUnits[i].name
-    //     const exists = features.find((feat) => feat.properties["cc:Name"] === name)
-    //     if (exists !== undefined) {
-    //         // found.push({ id: orgUnits.organisationUnits[i].id, geojson: exists.geometry})
-    //         const geojson = JSON.stringify(exists.geometry)
-    //         const orgId = orgUnits.organisationUnits[i].id
+    options["Content-Type"] = "application/json-patch+json"
 
-    // //         // handle adding geojson to each org unit
-    //         await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
-    //                 headers: options,
-    //                 body: JSON.stringify([{
-    //                   op: "add",
-    //                   path: "/attributeValues/-",
-    //                   value: {
-    //                     value: geojson,
-    //                     attribute: {
-    //                       id: attributeId,
-    //                     },
-    //                   },
-    //                 }]),
-    //               })
-    //               .json();
-    //             //   console.log(res)
-    //     }
-    // }
-
-            // options["Content-Type"] = "application/json-patch+json"
+    for (let i=0; i<orgUnits.organisationUnits.length; i++) {
+        const name = orgUnits.organisationUnits[i].name
+        const exists = features.find((feat) => feat.properties["cc:Name"] === name)
+        if (exists !== undefined) {
+            const geojson = JSON.stringify(exists.geometry)
+            const orgId = orgUnits.organisationUnits[i].id
 
             // handle adding geojson to each org unit
-            // const res = await ky
-            //       .patch(`${baseURL}/organisationUnits/${found[0].id}`, {
-            //         headers: options,
-            //         body: JSON.stringify([{
-            //           op: "add",
-            //           path: "/attributeValues/-",
-            //           value: {
-            //             value: JSON.stringify(found[0].geojson),
-            //             attribute: {
-            //               id: attributeId,
-            //             },
-            //           },
-            //         }]),
-            //       })
-            //       .json();
-            //       console.log(res)
-
-    // const ugh = await ky(`${baseURL}/organisationUnits.json?filter=level:eq:4&paging=false&fields=id,name,level,coordinates`, options).json()
-    // console.log(ugh.organisationUnits)
-
-    // this endpoint gets all attributes
-    // const attributes = await ky(`${baseURL}/attributes`, options).json()
-    // console.log(attributes)
-
+            await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
+                    headers: options,
+                    body: JSON.stringify([{
+                      op: "add",
+                      path: "/attributeValues/-",
+                      value: {
+                        value: geojson,
+                        attribute: {
+                          id: attributeId,
+                        },
+                      },
+                    }]),
+                  })
+                  .json();
+        }
+    }
 }
 
 export const unPublishCatchment = async (body) => {
@@ -178,12 +148,11 @@ export const unPublishCatchment = async (body) => {
 
     const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
 
-    // let found = []
+
     for (let i=0; i<orgUnits.organisationUnits.length; i++) {
         const name = orgUnits.organisationUnits[i].name
         const exists = features.find((feat) => feat.properties["cc:Name"] === name)
         if (exists !== undefined) {
-            // found.push({ id: orgUnits.organisationUnits[i].id, geojson: exists.geometry})
             const orgId = orgUnits.organisationUnits[i].id
 
             const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
@@ -213,35 +182,6 @@ export const unPublishCatchment = async (body) => {
                 }).json();
                 }
     }
-
-    // const resp = await ky(`${baseURL}/organisationUnits/NrxMLPbranA?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
-    // console.log(resp)
-
-    // const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.name)
-
-
-    // const payload = {
-    //     attributeValues: filtered,
-    //     code: resp.code,
-    //     created: resp.created,
-    //     createdBy: resp.createdBy,
-    //     id: resp.id,
-    //     lastUpdated:  resp.lastUpdated,
-    //     lastUpdatedBy: resp.lastUpdatedBy,
-    //     level: resp.level,
-    //     name: resp.name,
-    //     openingDate: resp.openingDate,
-    //     parent: resp.parent,
-    //     path: resp.path,
-    //     shortName: resp.shortName,
-    // }
-
-    // // delete coordinates from each org unit
-    // const res = await ky.put(`${baseURL}/organisationUnits/NrxMLPbranA?mergeMode=REPLACE`, {
-    //     headers: options,
-    //     body: JSON.stringify(payload),
-    //     }).json();
-    //     console.log(res)
 
     // delete attribute
     await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
