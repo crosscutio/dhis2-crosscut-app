@@ -31,9 +31,7 @@ function JobItem(props) {
         }
 
         if (found === undefined) {
-        //    const ugh = await postAttribute()
-        //    console.log(ugh)
-            const resp = await postAttribute({
+            await postAttribute({
                 id,
                 payload: {  
                     name,

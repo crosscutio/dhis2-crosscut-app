@@ -101,16 +101,18 @@ export const fetchValidPoints = async (levelId, groupId) => {
 }
 
 export const postAttribute = async (body) => {
-
+    console.log(body)
     const features = await getCatchmentGeoJSON(body.id)
     console.log(features)
-    // TODO: need to find the correct API to create a new attribute
-    // returns the attribute id
+    // this endpoint posts an attribute and returns uid
+    const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
 
-    // const resp = await ky.post(`${baseURL}/attributes`, options).json()
-    // console.log(resp)
-    const resp = await ky(`${baseURL}/attributes`, options).json()
-    console.log(resp)
-    return resp
+    // use this id to store with the catchment areas
+    const id = resp?.response?.uid
+
+
+    // this endpoint gets all attributes
+    const attributes = await ky(`${baseURL}/attributes`, options).json()
+    console.log(attributes)
 
 }

@@ -18,6 +18,7 @@ export const getBaseURL = () => {
 }
 
 export const options = {
+    Authorization: `Basic ${btoa("admin:district")}`, 
     // headers: { Authorization: `Basic ${btoa("admin:district")}`}, 
     "Content-Type": "application/json",
     credentials: "include",
