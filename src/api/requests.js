@@ -101,18 +101,56 @@ export const fetchValidPoints = async (levelId, groupId) => {
 }
 
 export const postAttribute = async (body) => {
-    console.log(body)
     const features = await getCatchmentGeoJSON(body.id)
     console.log(features)
+
+    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
+    console.log(orgUnits)
+
+    const ugh = await ky(`${baseURL}/organisationUnits.json?filter=level:eq:4&paging=false&fields=id,name,level,coordinates`, options).json()
+    console.log(ugh.organisationUnits)
+
+    // const geojson = await ky(`${baseURL}/organisationUnits.geojson?level=4`, options).json()
+    // console.log(geojson)
+
     // this endpoint posts an attribute and returns uid
-    const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
+    // const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
 
     // use this id to store with the catchment areas
-    const id = resp?.response?.uid
+    // const attributeId = resp?.response?.uid
 
+
+    let found = []
+
+    for (let i=0; i<orgUnits.organisationUnits.length; i++) {
+        const name = orgUnits.organisationUnits[i].name
+        const exists = features.find((feat) => feat.properties["cc:Name"] === name)
+        if (exists !== undefined) {
+            console.log(orgUnits.organisationUnits[i])
+            console.log(exists)
+            found.push({ orgId: orgUnits.organisationUnits[i].id, geojson: exists.geometry })
+        }
+    }
+console.log(found)
+    // const res = await ky
+    //   .patch(`${baseURL}/organisationUnits/${ORG_UNIT_ID}`, {
+    //     headers: options,
+    //     body: JSON.stringify([{
+    //       op: "add",
+    //       path: "/attributeValues/-",
+    //       value: {
+    //         value: geojson,
+    //         attribute: {
+    //           id: attributeId,
+    //         },
+    //       },
+    //     }]),
+    //   })
+    //   .json();
+    //   console.log(res)
 
     // this endpoint gets all attributes
-    const attributes = await ky(`${baseURL}/attributes`, options).json()
-    console.log(attributes)
+    // const attributes = await ky(`${baseURL}/attributes`, options).json()
+    // console.log(attributes)
 
 }
