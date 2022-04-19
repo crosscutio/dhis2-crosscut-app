@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
     DataTableRow,
     DataTableCell,
@@ -7,12 +7,12 @@ import {
 } from '@dhis2/ui'
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
-import { deleteCatchmentJob } from '../../api/crosscutRequests'
 import { fetchACatchmentInUse, fetchCurrentAttributes } from '../../api/requests'
+import Delete from "../Delete/Delete"
 
-function JobDetails(props) {
+function JobItem(props) {
     const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
-   
+    const [showDelete, setShowDelete] = useState(false)
     // TODO: publish and unpublish
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = async () => {
@@ -30,18 +30,22 @@ function JobDetails(props) {
     }
 
     const handleDelete = async () => {
+        // v1
+        setShowDelete(true)
+
+        // TODO: the following for v2
         // check if catchment is being used in map, pass in the id to check
         // TODO: pass in the id to check if its in use
         // will need to know how to get id
-        const resp = await fetchACatchmentInUse("ihn1wb9eho8")
+        // const resp = await fetchACatchmentInUse("ihn1wb9eho8")
 
-        if (resp.length === 0) {
+        // if (resp.length === 0) {
             // await deleteCatchmentJob(id)
             // reload list, but might want to do that if it succeeds
-            toggle()
-        } else {
+            // toggle()
+        // } else {
             // alert user that the map is in use
-        }
+        // }
     }
 
     const handleGetDetails = (e) => {
@@ -51,6 +55,7 @@ function JobDetails(props) {
 
     return (
         <DataTableRow id={id}>
+           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
@@ -61,4 +66,4 @@ function JobDetails(props) {
       );
 }
 
-export default JobDetails
+export default JobItem
