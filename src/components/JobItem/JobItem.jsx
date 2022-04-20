@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
     DataTableRow,
     DataTableCell,
@@ -12,9 +12,16 @@ import { deleteCatchmentJob, getCatchmentJob } from '../../api/crosscutRequests'
 import { fetchACatchmentInUse, fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
-    const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
+    const { name, status, date, id, toggle, handleJobDetails, setWarning, properties } = props
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
+
+    useEffect(() => {
+        if (properties !== null) {
+            setPublishStatus(i18n.t("Unpublish"))
+        }
+       
+    }, [properties])
     // TODO: publish and unpublish
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = async () => {
