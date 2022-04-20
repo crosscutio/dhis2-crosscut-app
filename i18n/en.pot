@@ -11,14 +11,17 @@ msgstr ""
 msgid "Ready"
 msgstr "Ready"
 
-msgid "Publish"
-msgstr "Publish"
+msgid "Published"
+msgstr "Published"
+
+msgid "Pending"
+msgstr "Pending"
 
 msgid "Unpublish"
 msgstr "Unpublish"
 
-msgid "Pending"
-msgstr "Pending"
+msgid "Publish"
+msgstr "Publish"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -112,9 +115,6 @@ msgstr "Publishing"
 
 msgid "your catchment areas is in the process of being published."
 msgstr "your catchment areas is in the process of being published."
-
-msgid "Published"
-msgstr "Published"
 
 msgid "your catchment areas have been published to DHIS2."
 msgstr "your catchment areas have been published to DHIS2."

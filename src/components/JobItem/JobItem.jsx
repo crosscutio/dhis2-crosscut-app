@@ -52,7 +52,6 @@ function JobItem(props) {
         }
 
         if (found === undefined) {
-            // TODO: add to show that it is publishing
             setPublishStatus(i18n.t("Publishing"))
             await publishCatchment({
                 id,
@@ -63,9 +62,7 @@ function JobItem(props) {
                     valueType: "GEOJSON"
                 },
                 setStatus: setPublishStatus
-            })
-            // TODO: to show that it is complete
-            
+            })            
         }
     }
 

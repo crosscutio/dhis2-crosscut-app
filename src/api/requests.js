@@ -100,6 +100,8 @@ export const publishCatchment = async (body) => {
             }
         }
         body.setStatus(i18n.t("Unpublish"))
+
+        // TODO: add attribute id to catchment areas on Crosscut
     } catch (err) {
         throw err
     }
@@ -120,8 +122,11 @@ export const unPublishCatchment = async (body) => {
             if (exists !== undefined) {
                 const orgId = orgUnits.organisationUnits[i].id
 
+                // this gets all the attribute values for a given organization unit
                 const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
 
+                // TODO: name is editable on Crosscuts platform, if the name changes then this will no longer filter it 
+                // we need to store the org unit id with each catchment or remove the ability to edit names for DHIS2 catchments
                 const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.name)
 
                 const payload = {
@@ -149,7 +154,10 @@ export const unPublishCatchment = async (body) => {
         }
         // delete attribute
         await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
+
         body.setStatus(i18n.t("Publish"))
+
+        // TODO: remove the attribute id from the catchment ares on Crosscut
     } catch (err) {
         throw err
     }
