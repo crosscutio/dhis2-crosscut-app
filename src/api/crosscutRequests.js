@@ -98,3 +98,29 @@ export const deleteCatchmentJob = async (id) => {
         throw err
     }
 }
+
+export const fetchSupportedBoundaries = async () => {
+    const boundaryVerion = "v3"
+    const url = `${baseURL}/boundaries/${boundaryVerion}`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken(),
+            }
+        }).json()
+
+        resp.boundaryList.forEach((bound) => {
+            if (bound.areaName === "" && bound.entireCountry === true) {
+                bound.areaName = i18n.t("entire country")
+            }
+        })
+        return resp.boundaryList.filter((bound) => bound.featureFlags.includes("all")).sort((a,b) => {
+            if (a.countryName > b.countryName) return 1
+            if (a.countryName < b.countryName) return -1
+            return 0
+        })
+    } catch (err) {
+        throw err
+    }
+}

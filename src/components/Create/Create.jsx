@@ -8,7 +8,7 @@ import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSele
     Divider} from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
-import { createCatchmentJob } from '../../api/crosscutRequests'
+import { createCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 import papaparse from "papaparse"
 
@@ -21,6 +21,7 @@ function Create(props) {
         csv: "",
         name: "",
     })
+    const [boundaries, setBoundaries] = useState(null)
     const [levels, setLevels] = useState([])
     const [groups, setGroups] = useState([])
     const [currentNames, setCurrentNames] = useState([])
@@ -28,11 +29,11 @@ function Create(props) {
     const [countryText, setCountryText] = useState(null)
     const [levelText, setLevelText] = useState(null)
     const [errorData, setErrorData] = useState(null)
-    const [cleanData, setCleanData] = useState(null)
     const [hasErrors, setHasErrors] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        fetchBoundaries()
         fetchLevels()
         fetchGroups()
         fetchCurrentNames()
@@ -49,6 +50,11 @@ function Create(props) {
               }
         }
     }, [formInputs.csv])
+
+    const fetchBoundaries = async () => {
+        const respBoundaries = await fetchSupportedBoundaries()
+        setBoundaries(respBoundaries)
+    }
 
     const fetchLevels = async () => {
        const respLevels = await fetchOrgUnitLevels()
@@ -197,8 +203,9 @@ function Create(props) {
             <form>
                 <Field label="Select the country" required validationText={countryText} error>
                     <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
-                        <SingleSelectOption value="SLE_10_ALL" label="Sierra Leonne"/>
-                        {/* TODO: add countries supported */}
+                        {boundaries && boundaries.map((bound, index) => {
+                            return <SingleSelectOption key={`boundary-${index}`} value={bound.id} label={`${bound.countryName} (${bound.areaName})`}/>
+                        })}
                     </SingleSelect>
                 </Field>
 
