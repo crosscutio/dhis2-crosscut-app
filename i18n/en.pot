@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-15T21:06:54.902Z\n"
-"PO-Revision-Date: 2022-04-15T21:06:54.902Z\n"
+"POT-Creation-Date: 2022-04-20T20:53:05.178Z\n"
+"PO-Revision-Date: 2022-04-20T20:53:05.178Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -19,6 +19,9 @@ msgstr "Unpublish"
 
 msgid "Pending"
 msgstr "Pending"
+
+msgid "entire country"
+msgstr "entire country"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
