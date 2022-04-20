@@ -40,10 +40,12 @@ export const fetchCatchmentJobs = async () => {
             if (job.status === "PENDING") {
                 job.status = statuses[job.status]
             }
-            
+            if (job.properties !== null) {
+                job.status = statuses["PUBLISHED"]
+            }
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
-
+        console.log(siteBasedJobs)
         return siteBasedJobs
     } catch (err) {
         throw err
@@ -142,6 +144,39 @@ export const getCatchmentGeoJSON = async (id) => {
         }).json()
 
         return resp.features
+    } catch (err) {
+        throw err
+    }
+}
+
+export const updateCatchmentItem = async (id, json) => {
+    const url = `${baseURL}/catchment-jobs/${id}/item`
+    try {
+        const resp = await ky.put(url, {
+            json,
+            mode: "cors",
+            headers: {
+                authorization: getToken()
+            }
+        }).json()
+        console.log(resp)
+        return resp
+    } catch (err) {
+        throw err
+    }
+}
+
+export const getCatchmentJob = async (id) => {
+    const url = `${baseURL}/catchment-jobs/${id}`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken()
+            }
+        }).json()
+        
+        return resp.properties.find((prop) => prop.field === "attributeId")
     } catch (err) {
         throw err
     }

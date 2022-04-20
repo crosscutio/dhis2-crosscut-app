@@ -1,6 +1,6 @@
 import ky from 'ky'
 import { options, getBaseURL } from "./apiConfig"
-import { getCatchmentGeoJSON } from "./crosscutRequests"
+import { getCatchmentGeoJSON, updateCatchmentItem } from "./crosscutRequests"
 import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
@@ -102,6 +102,8 @@ export const publishCatchment = async (body) => {
         body.setStatus(i18n.t("Unpublish"))
 
         // TODO: add attribute id to catchment areas on Crosscut
+        const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId, key: "dhis2"})
+        console.log(attributeResp)
     } catch (err) {
         throw err
     }
