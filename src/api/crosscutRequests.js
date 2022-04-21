@@ -17,7 +17,7 @@ export const fetchCatchmentJobs = async () => {
           },
         }).json()
 
-         // TODO: check for published catchments to update the status
+        // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
@@ -27,8 +27,12 @@ export const fetchCatchmentJobs = async () => {
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
+        siteBasedJobs.sort((a,b) => {
+            if (a.id > b.id) return -1
+            if (a.id < b.id) return 1
+            return 0
+        })
 
-        // TODO: sort by time it was created
         siteBasedJobs.map((job) => {
             if (job.status === "SUCCESS") {
                 job.status = statuses[job.status]
