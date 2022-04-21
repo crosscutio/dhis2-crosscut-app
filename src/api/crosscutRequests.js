@@ -17,6 +17,7 @@ export const fetchCatchmentJobs = async () => {
           },
         }).json()
 
+         // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
