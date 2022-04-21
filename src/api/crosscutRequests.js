@@ -113,12 +113,8 @@ export const fetchSupportedBoundaries = async () => {
             }
         }).json()
 
-        resp.boundaryList.forEach((bound) => {
-            if (bound.areaName === "" && bound.entireCountry === true) {
-                bound.areaName = i18n.t("entire country")
-            }
-        })
-        return resp.boundaryList.filter((bound) => bound.featureFlags.includes("all")).sort((a,b) => {
+       
+        return resp.boundaryList.filter((bound) => bound.featureFlags.includes("all")).filter((bound) => bound.entireCountry === true).sort((a,b) => {
             if (a.countryName > b.countryName) return 1
             if (a.countryName < b.countryName) return -1
             return 0

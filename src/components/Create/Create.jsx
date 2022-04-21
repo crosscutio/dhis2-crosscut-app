@@ -205,7 +205,7 @@ function Create(props) {
                 <Field label="Select the country" required validationText={countryText} error>
                     <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
                         {boundaries && boundaries.map((bound, index) => {
-                            return <SingleSelectOption key={`boundary-${index}`} value={bound.id} label={`${bound.countryName} (${bound.areaName})`}/>
+                            return <SingleSelectOption key={`boundary-${index}`} value={bound.id} label={`${bound.countryName}`}/>
                         })}
                     </SingleSelect>
                 </Field>
