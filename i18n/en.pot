@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-20T20:53:05.178Z\n"
-"PO-Revision-Date: 2022-04-20T20:53:05.178Z\n"
+"POT-Creation-Date: 2022-04-21T18:23:26.157Z\n"
+"PO-Revision-Date: 2022-04-21T18:23:26.157Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -34,6 +34,9 @@ msgstr "Name required"
 
 msgid "Level required"
 msgstr "Level required"
+
+msgid "Your catchment areas are being created. It should be ready in a few minutes"
+msgstr "Your catchment areas are being created. It should be ready in a few minutes"
 
 msgid "errors were found"
 msgstr "errors were found"

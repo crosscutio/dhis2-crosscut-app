@@ -26,7 +26,7 @@ export const fetchCatchmentJobs = async () => {
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
-        
+
         // TODO: sort by time it was created
         siteBasedJobs.map((job) => {
             if (job.status === "SUCCESS") {
@@ -45,7 +45,6 @@ export const fetchCatchmentJobs = async () => {
     }
 }
 
-// TODO: alert the user that the catchment is being created, it doesn't show on the catchment list right away
 export const createCatchmentJob = async (body) => {
     const url = `${baseURL}/catchment-jobs`
     const levelId = body.level
