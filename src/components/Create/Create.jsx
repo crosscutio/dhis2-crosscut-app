@@ -271,7 +271,7 @@ function Create(props) {
             {hasErrors && <Modal>
                 <ModalTitle>{errorData.errors.length} {i18n.t("errors were found")}</ModalTitle>
                 <ModalContent>
-                    {i18n.t("Click proceed if you want to continue and the errors will automatically be removed or click cancel to go back.")}
+                    {i18n.t("Click proceed if you want to continue. The sites with errors will be removed if you proceed or click cancel to go back.")}
                     {renderTable()}
                 </ModalContent>
                 <ModalActions><ButtonItem buttonText={i18n.t("Cancel")} handleClick={clearErrors}/><ButtonItem buttonText={"Proceed"} primary={true} handleClick={createWithoutErrors}/></ModalActions>
