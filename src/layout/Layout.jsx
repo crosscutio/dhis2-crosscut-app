@@ -4,12 +4,15 @@ import Create from '../components/Create/Create'
 import Info from '../components/Info/Info'
 import Nav from '../components/Nav/Nav'
 import i18n from '../locales/index.js'
+import { AlertBar } from "@dhis2/ui"
 import JobDetails from '../components/JobDetails/JobDetails'
 import { fetchCatchmentJobs } from "../api/crosscutRequests"
 import { useToggle } from "../hooks/useToggle"
 import { setToken } from "../services/JWTManager";
 
 function Layout(props) {
+    const [alert, setAlert] = useState(null)
+
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
     const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
@@ -58,10 +61,11 @@ function Layout(props) {
     }
     return <>
         <Nav handleClick={handleCreate} jobs={jobs} handleInfo={handleInfo}/>
-        { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle}/> : null}
+        { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle} setAlert={setAlert}/> : null}
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
         { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null}
-        <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle}/>
+        {alert ? <AlertBar critical={alert.critical} alert={alert.alert}>{alert.text}</AlertBar> : null}
+        <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert}/>
     </>
 }
 

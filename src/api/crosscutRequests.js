@@ -16,11 +16,7 @@ export const fetchCatchmentJobs = async () => {
             authorization: getToken(),
           },
         }).json()
-        // check to see if catchment has been published to update the status
-        // currently has name and id from DHIS2 (will need to check a different way)
-        const catchmentsPublished = await fetchCurrentAttributes()
 
-        // TODO: check for published catchments to update the status
         // the different statues to display
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
@@ -31,6 +27,7 @@ export const fetchCatchmentJobs = async () => {
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
         
+        // TODO: sort by time it was created
         siteBasedJobs.map((job) => {
             if (job.status === "SUCCESS") {
                 job.status = statuses[job.status]
@@ -38,6 +35,7 @@ export const fetchCatchmentJobs = async () => {
             if (job.status === "PENDING") {
                 job.status = statuses[job.status]
             }
+            
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
 
@@ -47,6 +45,7 @@ export const fetchCatchmentJobs = async () => {
     }
 }
 
+// TODO: alert the user that the catchment is being created, it doesn't show on the catchment list right away
 export const createCatchmentJob = async (body) => {
     const url = `${baseURL}/catchment-jobs`
     const levelId = body.level

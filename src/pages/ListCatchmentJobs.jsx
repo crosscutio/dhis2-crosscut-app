@@ -15,8 +15,7 @@ import styles from './ListCatchmentJobs.module.css'
 
 
 function ListCatchmentJobs(props) {
-  const [warning, setWarning] = useState(null)
-  const { jobs, toggle, handleJobDetails } = props
+  const { jobs, toggle, handleJobDetails, setAlert } = props
   const [{ column, direction }, setSortInstructions] = useState({
     column: 'date',
     direction: 'desc',
@@ -36,7 +35,6 @@ function ListCatchmentJobs(props) {
 
   return (
     <div className={styles.container}>
-      {warning ? <AlertBar critical={warning.critical} warning={warning.warning}>{warning.text}</AlertBar> : null}
       <Card>
         <DataTable>
           <TableHead>
@@ -58,7 +56,7 @@ function ListCatchmentJobs(props) {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobItem setWarning={setWarning} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
+            return <JobItem setWarning={setAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
           })}
           </TableBody>
         </DataTable>
