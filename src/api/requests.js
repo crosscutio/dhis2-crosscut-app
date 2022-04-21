@@ -102,7 +102,7 @@ export const publishCatchment = async (body) => {
         body.setStatus(i18n.t("Unpublish"))
 
         // TODO: add attribute id to catchment areas on Crosscut
-        const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId, key: "dhis2"})
+        const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
         console.log(attributeResp)
     } catch (err) {
         throw err

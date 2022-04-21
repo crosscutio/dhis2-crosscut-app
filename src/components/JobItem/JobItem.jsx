@@ -18,24 +18,31 @@ function JobItem(props) {
 
     useEffect(() => {
         if (properties !== null) {
+            console.log(properties)
             setPublishStatus(i18n.t("Unpublish"))
         }
-       
     }, [properties])
     // TODO: publish and unpublish
     // get key when click on to publish/unpublish
     const handleConnectionDHIS2 = async () => {
-
+        if (publishStatus === i18n.t("Publish")) {
+            console.log("pub")
+            // handlePublish()
+        } else if (publishStatus === i18n.t("Unpublish")) {
+            console.log("unpub")
+            // const attributeId = await getCatchmentJob(id)
+            // console.log(attributeId.value)
+            // handleUnpublish(attributeId.value) 
+        }
         // TODO: activate unpublish when we're able to save the attribute id
         // if catchment has attribute id then it has been published
         // if catchment does not then it will be published
         // handlePublish()
-        const attributeId = await getCatchmentJob(id)
-        console.log(attributeId.value)
+        // const attributeId = await getCatchmentJob(id)
+        // console.log(attributeId.value)
         // handleUnpublish(attributeId.value)
     }   
 
-    // TODO: update attribute id 
     const handleUnpublish = async (attributeId) => {
         setPublishStatus(i18n.t("Unpublishing"))
         await unPublishCatchment({
