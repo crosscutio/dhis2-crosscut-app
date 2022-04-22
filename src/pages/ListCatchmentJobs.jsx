@@ -32,7 +32,6 @@ function ListCatchmentJobs(props) {
 
   return (
     <>
-    {warning ? <AlertBar critical={warning.critical} warning={warning.warning}>{warning.text}</AlertBar> : null}
     <div className={styles.container}>
       <Card>
         <DataTable>
@@ -55,7 +54,7 @@ function ListCatchmentJobs(props) {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobItem setWarning={setWarning} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} properties={job.properties}/>
+            return <JobItem setWarning={setAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} properties={job.properties}/>
           })}</TableBody>
         </DataTable>
       </Card>
