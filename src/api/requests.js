@@ -64,6 +64,7 @@ export const publishCatchment = async (body) => {
         const features = await getCatchmentGeoJSON(body.id)
         console.log(features)
     
+        // orgUnit ids do not match the orgUnit ids from creation
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
         console.log(orgUnits)
     
@@ -76,34 +77,35 @@ export const publishCatchment = async (body) => {
         options["Content-Type"] = "application/json-patch+json"
     
         for (let i=0; i<orgUnits.organisationUnits.length; i++) {
-            const name = orgUnits.organisationUnits[i].name
-            const exists = features.find((feat) => feat.properties["cc:Name"] === name)
+            const id = orgUnits.organisationUnits[i].id
+            const exists = features.find((feat) => feat.properties["cc:orgUnitId"] === id)
+            console.log(exists)
             if (exists !== undefined) {
                 const geojson = JSON.stringify(exists.geometry)
                 const orgId = orgUnits.organisationUnits[i].id
     
                 // handle adding geojson to each org unit
-                await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
-                        headers: options,
-                        body: JSON.stringify([{
-                          op: "add",
-                          path: "/attributeValues/-",
-                          value: {
-                            value: geojson,
-                            attribute: {
-                              id: attributeId,
-                            },
-                          },
-                        }]),
-                      })
-                      .json();
+                // await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
+                //         headers: options,
+                //         body: JSON.stringify([{
+                //           op: "add",
+                //           path: "/attributeValues/-",
+                //           value: {
+                //             value: geojson,
+                //             attribute: {
+                //               id: attributeId,
+                //             },
+                //           },
+                //         }]),
+                //       })
+                //       .json();
             }
         }
-        body.setStatus(i18n.t("Unpublish"))
+        // body.setStatus(i18n.t("Unpublish"))
 
         // add attribute id to catchment areas on Crosscut
-        const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
-        console.log(attributeResp)
+        // const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
+        // console.log(attributeResp)
     } catch (err) {
         body.setStatus(i18n.t("Publish"))
         throw err
@@ -112,43 +114,39 @@ export const publishCatchment = async (body) => {
 
 export const unPublishCatchment = async (body) => {
     try {
-        const ugh = await getCatchmentJob(body.id)
-        console.log(ugh)
         // remove attributes from each org unit and attribute
         const features = await getCatchmentGeoJSON(body.id)
-        console.log(features)
+
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
 
-
-        for (let i=0; i<orgUnits.organisationUnits.length; i++) {
-            const name = orgUnits.organisationUnits[i].name
-            
-            // can't go by name because it can change, the id needs to be accessible
-            const exists = features.find((feat) => feat.properties["cc:Name"] === name)
-            console.log(orgUnits.organisationUnits)
+        for (let i=0; i<features.length; i++) {
+            const orgId = features[i].properties["user:orgUnitId"]
+    
+            const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
+            console.log(exists)
             if (exists !== undefined) {
-                const orgId = orgUnits.organisationUnits[i].id
-
+                console.log("hit")
                 // this gets all the attribute values for a given organization unit
                 const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
-
+                console.log(resp)
                 const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.attributeId)
+                console.log(filtered)
 
-                const payload = {
-                    attributeValues: filtered,
-                    code: resp.code,
-                    created: resp.created,
-                    createdBy: resp.createdBy,
-                    id: resp.id,
-                    lastUpdated:  resp.lastUpdated,
-                    lastUpdatedBy: resp.lastUpdatedBy,
-                    level: resp.level,
-                    name: resp.name,
-                    openingDate: resp.openingDate,
-                    parent: resp.parent,
-                    path: resp.path,
-                    shortName: resp.shortName,
-                }
+            //     const payload = {
+            //         attributeValues: filtered,
+            //         code: resp.code,
+            //         created: resp.created,
+            //         createdBy: resp.createdBy,
+            //         id: resp.id,
+            //         lastUpdated:  resp.lastUpdated,
+            //         lastUpdatedBy: resp.lastUpdatedBy,
+            //         level: resp.level,
+            //         name: resp.name,
+            //         openingDate: resp.openingDate,
+            //         parent: resp.parent,
+            //         path: resp.path,
+            //         shortName: resp.shortName,
+            //     }
 
                 // delete coordinates from each org unit
                 // await ky.put(`${baseURL}/organisationUnits/${orgId}?mergeMode=REPLACE`, {
