@@ -5,7 +5,8 @@ import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSele
     DataTable, 
     DataTableColumnHeader,
     DataTableCell,
-    Divider} from '@dhis2/ui'
+    Divider,
+    AlertBar} from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
 import { createCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
@@ -32,6 +33,7 @@ function Create(props) {
     const [hasErrors, setHasErrors] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
+    const [alertError, setAlertError] = useState(null)
 
     useEffect(() => {
         fetchBoundaries()
@@ -162,12 +164,12 @@ function Create(props) {
         const resp = await createCatchmentJob(formInputs).catch( async (err) => {
             setIsLoading(false)
             const data = JSON.parse(await err.response.text())
-            
+
             if (data.csv) {
                 const resp = papaparse.parse(data.csv.trim(), { header: true })
                 return { error: resp }
             } else {
-                return { error: data.message }
+                return setAlertError({ text: i18n.t(data.message), critical: true })
             }
         })
         
@@ -277,6 +279,7 @@ function Create(props) {
     return <Modal>
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>
+            {alertError ? <AlertBar critical={alertError.critical} alert={alertError.alert}>{alertError.text}</AlertBar> : null}
             {renderForm()}
             <Divider/>
             {hasErrors && <Modal>
