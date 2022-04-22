@@ -193,7 +193,7 @@ function Create(props) {
             if (clean.length === 0) {
                 setErrorMessage({ message: i18n.t("There are no valid sites."), proceed: false })
             } else {
-                setErrorMessage({ message: i18n.t("Click proceed if you want to continue. The sites with errors will be removed if you proceed or click cancel to go back.") , proceed: true })
+                setErrorMessage({ message: i18n.t("Click proceed to continue. The sites with errors will be removed if you proceed, or click cancel to go back.") , proceed: true })
             }
             setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
             setHasErrors(true)
@@ -203,7 +203,7 @@ function Create(props) {
             // toggle to fetch for jobs
             toggle()
             setIsLoading(false)
-            setAlert({ text: i18n.t("Your catchment areas are being created. It should be ready in a few minutes")})
+            setAlert({ text: i18n.t("Your catchment areas are being created. It should be ready in a few minutes.")})
         }  
     }
 
@@ -267,7 +267,7 @@ function Create(props) {
                         {errorData && errorData.fields.map((field, index) => {
                              return (
                              <DataTableColumnHeader key={index} fixed top="0">
-                                 {field}
+                                 {field === "cc:ErrorMessage" ? i18n.t("Error Message") : field}
                              </DataTableColumnHeader>
                              )
                         })}
