@@ -48,10 +48,10 @@ function Create(props) {
     useEffect(() => {
         if (formInputs.csv !== "") {
             handleCreate()
-            return () => {
-                // This is the cleanup function
-              }
         }
+        return () => {
+            // This is the cleanup function
+          }
     }, [formInputs.csv])
 
     const fetchBoundaries = async () => {
