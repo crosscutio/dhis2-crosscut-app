@@ -31,6 +31,7 @@ function Create(props) {
     const [errorData, setErrorData] = useState(null)
     const [hasErrors, setHasErrors] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState(null)
 
     useEffect(() => {
         fetchBoundaries()
@@ -159,16 +160,28 @@ function Create(props) {
         
         setIsLoading(true)
         const resp = await createCatchmentJob(formInputs).catch( async (err) => {
+            setIsLoading(false)
             const data = JSON.parse(await err.response.text())
-            const resp = papaparse.parse(data.csv.trim(), { header: true })
-            return { error: resp }
+            
+            if (data.csv) {
+                const resp = papaparse.parse(data.csv.trim(), { header: true })
+                return { error: resp }
+            } else {
+                return { error: data.message }
+            }
         })
         
         // if there are errors then set the error
         if (resp?.error) {
             const errors = resp.error.data.filter((data) => data["cc:ErrorMessage"] !== "") 
+            const clean = resp.error.data.filter((data) => data["cc:ErrorMessage"] === "")
+
+            if (clean.length === 0) {
+                setErrorMessage({ message: i18n.t("There are no valid sites."), proceed: false })
+            } else {
+                setErrorMessage({ message: i18n.t("Click proceed if you want to continue. The sites with errors will be removed if you proceed or click cancel to go back.") , proceed: true })
+            }
             setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
-            setIsLoading(false)
             setHasErrors(true)
         } else {
             // close the modal
@@ -194,7 +207,6 @@ function Create(props) {
             ...prevState,
             csv: newData
         }))
-
         setHasErrors(false)
     }
 
@@ -254,7 +266,6 @@ function Create(props) {
                                 {Object.values(rowData).map((error, index) => {
                                     return <DataTableCell key={`cell-${index}`}>{error}</DataTableCell>
                                 })}
-                                
                             </DataTableRow>
                             )
                     })}
@@ -269,12 +280,12 @@ function Create(props) {
             {renderForm()}
             <Divider/>
             {hasErrors && <Modal>
-                <ModalTitle>{errorData.errors.length} {i18n.t("errors were found")}</ModalTitle>
+                <ModalTitle>{errorData.errors.length} {i18n.t("sites with errors were found")}</ModalTitle>
                 <ModalContent>
-                    {i18n.t("Click proceed if you want to continue. The sites with errors will be removed if you proceed or click cancel to go back.")}
+                    {errorMessage.message}
                     {renderTable()}
                 </ModalContent>
-                <ModalActions><ButtonItem buttonText={i18n.t("Cancel")} handleClick={clearErrors}/><ButtonItem buttonText={"Proceed"} primary={true} handleClick={createWithoutErrors}/></ModalActions>
+                <ModalActions><ButtonItem buttonText={i18n.t("Cancel")} handleClick={clearErrors}/>{errorMessage.proceed ? <ButtonItem buttonText={"Proceed"} primary={true} handleClick={createWithoutErrors}/> : null }</ModalActions>
             </Modal>
             }
         </ModalContent>
