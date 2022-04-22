@@ -176,12 +176,12 @@ function Create(props) {
         const resp = await createCatchmentJob(formInputs).catch( async (err) => {
             setIsLoading(false)
             const data = JSON.parse(await err.response.text())
-
             if (data.csv) {
                 const resp = papaparse.parse(data.csv.trim(), { header: true })
                 return { error: resp }
             } else {
-                return setAlertError({ text: i18n.t(data.message), critical: true })
+                setAlertError({ text: i18n.t(data.message), critical: true })
+                return { error: resp }
             }
         })
         
