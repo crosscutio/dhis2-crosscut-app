@@ -167,7 +167,7 @@ export const updateCatchmentItem = async (id, json) => {
     }
 }
 
-export const getCatchmentJob = async (id) => {
+export const getCatchmentJobAttributeId = async (id) => {
     const url = `${baseURL}/catchment-jobs/${id}`
     try {
         const resp = await ky(url, {
@@ -178,6 +178,22 @@ export const getCatchmentJob = async (id) => {
         }).json()
         
         return resp.properties.find((prop) => prop.field === "attributeId")
+    } catch (err) {
+        throw err
+    }
+}
+
+export const getCatchmentJob = async (id) => {
+    const url = `${baseURL}/catchment-jobs/${id}`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken()
+            }
+        }).json()
+        
+        return resp
     } catch (err) {
         throw err
     }

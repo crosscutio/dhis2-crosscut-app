@@ -101,7 +101,7 @@ export const publishCatchment = async (body) => {
         }
         body.setStatus(i18n.t("Unpublish"))
 
-        // TODO: add attribute id to catchment areas on Crosscut
+        // add attribute id to catchment areas on Crosscut
         const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
         console.log(attributeResp)
     } catch (err) {
@@ -120,6 +120,8 @@ export const unPublishCatchment = async (body) => {
 
         for (let i=0; i<orgUnits.organisationUnits.length; i++) {
             const name = orgUnits.organisationUnits[i].name
+
+            // can't go by name because it can change, the id needs to be accessible
             const exists = features.find((feat) => feat.properties["cc:Name"] === name)
             if (exists !== undefined) {
                 const orgId = orgUnits.organisationUnits[i].id
@@ -127,9 +129,7 @@ export const unPublishCatchment = async (body) => {
                 // this gets all the attribute values for a given organization unit
                 const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
 
-                // TODO: name is editable on Crosscuts platform, if the name changes then this will no longer filter it 
-                // we need to store the org unit id with each catchment or remove the ability to edit names for DHIS2 catchments
-                const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.name)
+                const filtered = resp.attributeValues.filter((value) => value.attribute.name !== body.attributeId)
 
                 const payload = {
                     attributeValues: filtered,
@@ -148,18 +148,20 @@ export const unPublishCatchment = async (body) => {
                 }
 
                 // delete coordinates from each org unit
-                await ky.put(`${baseURL}/organisationUnits/${orgId}?mergeMode=REPLACE`, {
-                    headers: options,
-                    body: JSON.stringify(payload),
-                    }).json();
-                    }
+                // await ky.put(`${baseURL}/organisationUnits/${orgId}?mergeMode=REPLACE`, {
+                //     headers: options,
+                //     body: JSON.stringify(payload),
+                //     }).json();
+            }
         }
         // delete attribute
-        await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
+        // await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
 
-        body.setStatus(i18n.t("Publish"))
+        // body.setStatus(i18n.t("Publish"))
 
-        // TODO: remove the attribute id from the catchment ares on Crosscut
+        // remove the attribute id from the catchment ares on Crosscut
+        // const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId" })
+        // console.log(attributeResp)
     } catch (err) {
         throw err
     }

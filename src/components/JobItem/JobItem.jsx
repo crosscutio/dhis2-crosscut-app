@@ -8,7 +8,7 @@ import {
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
 import Delete from "../Delete/Delete"
-import { deleteCatchmentJob, getCatchmentJob } from '../../api/crosscutRequests'
+import { deleteCatchmentJob, getCatchmentJobAttributeId } from '../../api/crosscutRequests'
 import { fetchACatchmentInUse, fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
@@ -18,7 +18,6 @@ function JobItem(props) {
 
     useEffect(() => {
         if (properties !== null) {
-            console.log(properties)
             setPublishStatus(i18n.t("Unpublish"))
         }
     }, [properties])
@@ -30,17 +29,12 @@ function JobItem(props) {
             // handlePublish()
         } else if (publishStatus === i18n.t("Unpublish")) {
             console.log("unpub")
-            // const attributeId = await getCatchmentJob(id)
-            // console.log(attributeId.value)
-            // handleUnpublish(attributeId.value) 
+            let attributeId = properties.find((prop) => prop.field === "attributeId")
+            if (attributeId === undefined) {
+                attributeId = await getCatchmentJobAttributeId(id)
+            }
+            handleUnpublish(attributeId.value) 
         }
-        // TODO: activate unpublish when we're able to save the attribute id
-        // if catchment has attribute id then it has been published
-        // if catchment does not then it will be published
-        // handlePublish()
-        // const attributeId = await getCatchmentJob(id)
-        // console.log(attributeId.value)
-        // handleUnpublish(attributeId.value)
     }   
 
     const handleUnpublish = async (attributeId) => {
