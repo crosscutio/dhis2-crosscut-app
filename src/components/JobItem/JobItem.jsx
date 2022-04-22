@@ -27,7 +27,6 @@ function JobItem(props) {
         if (publishStatus === i18n.t("Publish")) {
             console.log("pub")
             handlePublish()
-            toggle()
         } else if (publishStatus === i18n.t("Unpublish")) {
             console.log("unpub")
             let attributeId = properties.find((prop) => prop.field === "attributeId")
@@ -46,6 +45,7 @@ function JobItem(props) {
             name,
             setStatus: setPublishStatus
         })
+        toggle()
     }
 
     const handlePublish = async () => {
@@ -75,6 +75,7 @@ function JobItem(props) {
                 setStatus: setPublishStatus
             })            
         }
+        toggle()
     }
 
     const handleDelete = async () => {
