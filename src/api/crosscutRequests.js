@@ -61,16 +61,21 @@ export const createCatchmentJob = async (body) => {
     // the csv should get passed in to be used
     if (csv === "") {
         data = await fetchValidPoints(levelId, groupId)
+        data = data.map((d) => {
+            d["orgUnitId"] = d.id
+            delete d.id
+            return d
+        })
         csv = papaparse.unparse(data)
     } else {
         csv = papaparse.unparse(body.csv)
     }
-
     const json = {
         fields: {
             lat: "lat",
             lng: "long",
-            name: "name"
+            name: "name",
+            orgUnitId: "orgUnitId"
         },
         name: body.name,
         country: body.country,
