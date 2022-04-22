@@ -15,67 +15,80 @@ function JobItem(props) {
     const { name, status, date, id, toggle, handleJobDetails, setWarning, properties } = props
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (properties !== null) {
             setPublishStatus(i18n.t("Unpublish"))
         }
     }, [properties])
-    // TODO: publish and unpublish
-    // get key when click on to publish/unpublish
+
     const handleConnectionDHIS2 = async () => {
         if (publishStatus === i18n.t("Publish")) {
-            console.log("pub")
             handlePublish()
         } else if (publishStatus === i18n.t("Unpublish")) {
-            console.log("unpub")
-            let attributeId = properties.find((prop) => prop.field === "attributeId")
+            let attributeId = properties?.find((prop) => prop.field === "attributeId")
             if (attributeId === undefined) {
                 attributeId = await getCatchmentJobAttributeId(id)
             }
             handleUnpublish(attributeId.value) 
         }
+        toggle()
     }   
 
     const handleUnpublish = async (attributeId) => {
-        setPublishStatus(i18n.t("Unpublishing"))
-        await unPublishCatchment({
+        setIsLoading(true)
+        setPublishStatus(null)
+        try {
+            await unPublishCatchment({
             id,
             attributeId,
             name,
             setStatus: setPublishStatus
-        })
-        toggle()
+            })
+            toggle()
+            setIsLoading(false)
+        } catch {
+            setIsLoading(false)
+            setPublishStatus(i18n.t("Unpublish"))
+        }  
     }
 
     const handlePublish = async () => {
+        setIsLoading(true)
         // take the value which is the catchmentId to do something about it
-        const resp = await fetchCurrentAttributes()
-        const found = resp.find((attribute) => attribute.name.toLowerCase().split("crosscut ")[1] === name.toLowerCase())
+        try { 
+            const resp = await fetchCurrentAttributes()
+            const found = resp.find((attribute) => attribute.name.toLowerCase().split("crosscut ")[1] === name.toLowerCase())
 
-        if (found !== undefined) {
-             // alert the user if the name is already in use
-            setWarning({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
-            setTimeout(() => {
-                setWarning(null)
-            }, 5000)
-            return
-        }
+            if (found !== undefined) {
+                // alert the user if the name is already in use
+                setWarning({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
+                setTimeout(() => {
+                    setWarning(null)
+                }, 5000)
+                return
+            }
 
-        if (found === undefined) {
-            setPublishStatus(i18n.t("Publishing"))
-            await publishCatchment({
-                id,
-                payload: {  
-                    name: `Crosscut ${name}`,
-                    organisationUnitAttribute: true,
-                    shortName: `Crosscut ${name}`,
-                    valueType: "GEOJSON"
-                },
-                setStatus: setPublishStatus
-            })            
+            if (found === undefined) {
+                setPublishStatus(null)
+                await publishCatchment({
+                    id,
+                    payload: {  
+                        name: `Crosscut ${name}`,
+                        organisationUnitAttribute: true,
+                        shortName: `Crosscut ${name}`,
+                        valueType: "GEOJSON"
+                    },
+                    setStatus: setPublishStatus
+                })            
+            }
+            toggle()
+            setIsLoading(false)
+        } catch {
+            setPublishStatus(i18n.t("Publish"))
+            setIsLoading(false)
         }
-        toggle()
     }
 
     const handleDelete = async () => {
@@ -109,7 +122,7 @@ function JobItem(props) {
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} handleClick={handleConnectionDHIS2} buttonText={publishStatus} primary={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} disable={status === i18n.t("Pending")} handleClick={handleConnectionDHIS2} loading={isLoading} buttonText={publishStatus} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );

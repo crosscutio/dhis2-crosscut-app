@@ -81,7 +81,6 @@ export const createCatchmentJob = async (body) => {
             lat: "lat",
             lng: "long",
             name: "name",
-            orgUnitId: "orgUnitId"
         },
         name: body.name,
         country: body.country,

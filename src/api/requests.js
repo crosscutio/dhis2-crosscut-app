@@ -66,7 +66,7 @@ export const publishCatchment = async (body) => {
     
         // orgUnit ids do not match the orgUnit ids from creation
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-    
+        console.log(orgUnits)
         // this endpoint posts an attribute and returns uid
         const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
 
@@ -103,6 +103,7 @@ export const publishCatchment = async (body) => {
         // add attribute id to catchment areas on Crosscut
         const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
         console.log(attributeResp)
+        options["Content-Type"] = "application/json"
     } catch (err) {
         body.setStatus(i18n.t("Publish"))
         throw err
@@ -115,7 +116,7 @@ export const unPublishCatchment = async (body) => {
         const features = await getCatchmentGeoJSON(body.id)
 
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-        console.log(options)
+
         for (let i=0; i<features.length; i++) {
             const orgId = features[i].properties["user:orgUnitId"]
     
