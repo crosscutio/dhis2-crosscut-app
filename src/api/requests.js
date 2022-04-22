@@ -152,3 +152,14 @@ export const unPublishCatchment = async (body) => {
     }
   
 }
+
+export const getPublishedAttribute = async () => {
+    const url = `${baseURL}/attributes`
+    try {
+        const resp = await ky(url, options).json()
+        console.log(resp.attributes)
+        return resp.attributes
+    } catch (err) {
+        throw err
+    }
+}

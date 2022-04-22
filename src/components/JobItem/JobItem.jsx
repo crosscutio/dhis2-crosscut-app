@@ -25,13 +25,13 @@ function JobItem(props) {
 
     const handleConnectionDHIS2 = async () => {
         if (publishStatus === i18n.t("Publish")) {
-            handlePublish()
+            await handlePublish()
         } else if (publishStatus === i18n.t("Unpublish")) {
             // let attributeId = properties?.find((prop) => prop.field === "attributeId")
             // if (attributeId === undefined) {
             //     attributeId = await getCatchmentJobAttributeId(id)
             // }
-            handleUnpublish() 
+            await handleUnpublish() 
         }
         toggle()
     }   

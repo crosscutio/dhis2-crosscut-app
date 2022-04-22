@@ -8,7 +8,9 @@ function Delete(props) {
     const { setShowDelete, toggle, id, handleUnpublish } = props
 
     const handleDelete = async () => {
-        const resp = handleUnpublish()
+        // TODO: check if the catchment is published, if so then unpublish else just delete
+        // if catchment has attributeId/get attributeId from published and compare them
+        const resp = await handleUnpublish()
         console.log(resp)
         if (resp === true) {
             await deleteCatchmentJob(id)
