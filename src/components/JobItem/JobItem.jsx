@@ -26,7 +26,8 @@ function JobItem(props) {
     const handleConnectionDHIS2 = async () => {
         if (publishStatus === i18n.t("Publish")) {
             console.log("pub")
-            // handlePublish()
+            handlePublish()
+            toggle()
         } else if (publishStatus === i18n.t("Unpublish")) {
             console.log("unpub")
             let attributeId = properties.find((prop) => prop.field === "attributeId")

@@ -105,26 +105,27 @@ export const publishCatchment = async (body) => {
         const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
         console.log(attributeResp)
     } catch (err) {
+        body.setStatus(i18n.t("Publish"))
         throw err
     }
 }
 
 export const unPublishCatchment = async (body) => {
     try {
-        const job = await getCatchmentJob(body.id)
-        console.log(job)
+        const ugh = await getCatchmentJob(body.id)
+        console.log(ugh)
         // remove attributes from each org unit and attribute
         const features = await getCatchmentGeoJSON(body.id)
         console.log(features)
-
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
 
 
         for (let i=0; i<orgUnits.organisationUnits.length; i++) {
             const name = orgUnits.organisationUnits[i].name
-
+            
             // can't go by name because it can change, the id needs to be accessible
             const exists = features.find((feat) => feat.properties["cc:Name"] === name)
+            console.log(orgUnits.organisationUnits)
             if (exists !== undefined) {
                 const orgId = orgUnits.organisationUnits[i].id
 
@@ -165,6 +166,7 @@ export const unPublishCatchment = async (body) => {
         // const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId" })
         // console.log(attributeResp)
     } catch (err) {
+        body.setStatus(i18n.t("Unpublish"))
         throw err
     }
   
