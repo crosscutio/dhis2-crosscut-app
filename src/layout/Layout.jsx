@@ -4,7 +4,7 @@ import Create from '../components/Create/Create'
 import Info from '../components/Info/Info'
 import Nav from '../components/Nav/Nav'
 import i18n from '../locales/index.js'
-import { AlertBar } from "@dhis2/ui"
+import { AlertBar, CircularLoader  } from "@dhis2/ui"
 import JobDetails from '../components/JobDetails/JobDetails'
 import { fetchCatchmentJobs } from "../api/crosscutRequests"
 import { useToggle } from "../hooks/useToggle"
@@ -12,12 +12,11 @@ import { setToken } from "../services/JWTManager";
 
 function Layout(props) {
     const [alert, setAlert] = useState(null)
-
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
     const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
     const [modalText, setModalText] = useState({ title: "", action: ""})
-    const [jobs, setJobs] = useState()
+    const [jobs, setJobs] = useState(null)
     const [isToggled, toggle] = useToggle(false)
     const { token } = props
     setToken(token)
@@ -65,7 +64,7 @@ function Layout(props) {
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
         { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null}
         {alert ? <AlertBar critical={alert.critical} alert={alert.alert}>{alert.text}</AlertBar> : null}
-        <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert}/>
+        {jobs === null ? <CircularLoader large/> : <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert}/>}
     </>
 }
 

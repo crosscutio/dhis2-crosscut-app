@@ -6,7 +6,6 @@ import {
   DataTableRow,
   DataTable,
   DataTableColumnHeader,
-  AlertBar
 } from "@dhis2/ui";
 import JobItem from "../components/JobItem/JobItem";
 import i18n from "../locales/index"
