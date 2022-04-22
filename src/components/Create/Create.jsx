@@ -174,29 +174,34 @@ function Create(props) {
         
         setIsLoading(true)
         const resp = await createCatchmentJob(formInputs).catch( async (err) => {
-            setIsLoading(false)
             const data = JSON.parse(await err.response.text())
             if (data.csv) {
                 const resp = papaparse.parse(data.csv.trim(), { header: true })
                 return { error: resp }
             } else {
                 setAlertError({ text: i18n.t(data.message), critical: true })
-                return { error: resp }
+                return { error: data }
             }
         })
-        
+
         // if there are errors then set the error
         if (resp?.error) {
-            const errors = resp.error.data.filter((data) => data["cc:ErrorMessage"] !== "") 
-            const clean = resp.error.data.filter((data) => data["cc:ErrorMessage"] === "")
-
-            if (clean.length === 0) {
-                setErrorMessage({ message: i18n.t("There are no valid sites."), proceed: false })
-            } else {
-                setErrorMessage({ message: i18n.t("Click proceed to continue. The sites with errors will be removed if you proceed, or click cancel to go back.") , proceed: true })
+            if (resp.error.data) {
+                const errors = resp.error.data.filter((data) => data["cc:ErrorMessage"] !== "") 
+                const clean = resp.error.data.filter((data) => data["cc:ErrorMessage"] === "")
+    
+                if (clean.length === 0) {
+                    setErrorMessage({ message: i18n.t("There are no valid sites."), proceed: false })
+                } else {
+                    setErrorMessage({ message: i18n.t("Click proceed to continue. The sites with errors will be removed if you proceed, or click cancel to go back.") , proceed: true })
+                }
+                setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
+                setHasErrors(true)
+            } else if (resp.error.status === 404) {
+                setAlertError({ text: i18n.t(resp.error.message), critical: true })
             }
-            setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
-            setHasErrors(true)
+         
+            setIsLoading(false)
         } else {
             // close the modal
             close()
