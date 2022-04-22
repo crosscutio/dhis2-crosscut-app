@@ -9,9 +9,7 @@ import {
 } from "@dhis2/ui";
 import JobItem from "../components/JobItem/JobItem";
 import i18n from "../locales/index"
-
 import styles from './ListCatchmentJobs.module.css'
-
 
 function ListCatchmentJobs(props) {
   const { jobs, toggle, handleJobDetails, setAlert } = props

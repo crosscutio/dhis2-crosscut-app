@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react"
-import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, SingleSelectOption, Field, Input, MultiSelect, MultiSelectOption,   TableHead,
+import { 
+    Modal, 
+    ModalActions, 
+    ModalContent, 
+    ModalTitle, 
+    SingleSelect, 
+    SingleSelectOption, 
+    Field, 
+    Input, 
+    MultiSelect, 
+    MultiSelectOption,  
+    TableHead,
     TableBody,
     DataTableRow,
     DataTable, 
     DataTableColumnHeader,
     DataTableCell,
     Divider,
-    AlertBar} from '@dhis2/ui'
+    AlertBar
+} from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
 import { createCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
