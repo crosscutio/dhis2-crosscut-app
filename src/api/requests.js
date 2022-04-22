@@ -66,23 +66,21 @@ export const publishCatchment = async (body) => {
     
         // orgUnit ids do not match the orgUnit ids from creation
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-        console.log(orgUnits)
     
         // this endpoint posts an attribute and returns uid
         const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
-        console.log(resp)
+
         // use this id to store with the catchment areas
         const attributeId = resp?.response?.uid
     
         options["Content-Type"] = "application/json-patch+json"
 
-        for (let i=0; i<orgUnits.organisationUnits.length; i++) {
-            const id = orgUnits.organisationUnits[i].id
-            const exists = features.find((feat) => feat.properties["user:orgUnitId"] === id)
+        for (let i=0; i<features.length; i++) {
+            const orgId = features[i].properties["user:orgUnitId"]
+            const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
             console.log(exists)
             if (exists !== undefined) {
-                const geojson = JSON.stringify(exists.geometry)
-                const orgId = orgUnits.organisationUnits[i].id
+                const geojson = JSON.stringify(features[i].geometry)
                 // handle adding geojson to each org unit
                 await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
                         headers: options,
@@ -117,14 +115,13 @@ export const unPublishCatchment = async (body) => {
         const features = await getCatchmentGeoJSON(body.id)
 
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-
+        console.log(options)
         for (let i=0; i<features.length; i++) {
             const orgId = features[i].properties["user:orgUnitId"]
     
             const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
             console.log(exists)
             if (exists !== undefined) {
-                console.log("hit")
                 // this gets all the attribute values for a given organization unit
                 const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
                 console.log(resp)
