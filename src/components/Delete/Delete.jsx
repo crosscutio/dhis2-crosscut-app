@@ -5,12 +5,19 @@ import i18n from '../../locales/index.js'
 import { deleteCatchmentJob } from '../../api/crosscutRequests'
 
 function Delete(props) {
-    const { setShowDelete, toggle, id } = props
+    const { setShowDelete, toggle, id, handleUnpublish } = props
 
     const handleDelete = async () => {
-        await deleteCatchmentJob(id)
-        toggle()
-        setShowDelete(false)
+        const resp = handleUnpublish()
+        console.log(resp)
+        if (resp === true) {
+            await deleteCatchmentJob(id)
+            toggle()
+            setShowDelete(false)
+        } else {
+            console.log("error")
+        }
+      
     }
 
     const close = () => {

@@ -129,21 +129,7 @@ export const unPublishCatchment = async (body) => {
                 const filtered = resp.attributeValues.filter((value) => value.attribute.id !== body.attributeId)
                 console.log(filtered)
 
-                const payload = {
-                    attributeValues: filtered,
-                    code: resp.code,
-                    created: resp.created,
-                    createdBy: resp.createdBy,
-                    id: resp.id,
-                    lastUpdated:  resp.lastUpdated,
-                    lastUpdatedBy: resp.lastUpdatedBy,
-                    level: resp.level,
-                    name: resp.name,
-                    openingDate: resp.openingDate,
-                    parent: resp.parent,
-                    path: resp.path,
-                    shortName: resp.shortName,
-                }
+                const payload = { ...resp, ...{ attributeValues: filtered }}
 
                 // delete coordinates from each org unit
                 await ky.put(`${baseURL}/organisationUnits/${orgId}?mergeMode=REPLACE`, {

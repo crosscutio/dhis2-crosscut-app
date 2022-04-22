@@ -27,30 +27,37 @@ function JobItem(props) {
         if (publishStatus === i18n.t("Publish")) {
             handlePublish()
         } else if (publishStatus === i18n.t("Unpublish")) {
-            let attributeId = properties?.find((prop) => prop.field === "attributeId")
-            if (attributeId === undefined) {
-                attributeId = await getCatchmentJobAttributeId(id)
-            }
-            handleUnpublish(attributeId.value) 
+            // let attributeId = properties?.find((prop) => prop.field === "attributeId")
+            // if (attributeId === undefined) {
+            //     attributeId = await getCatchmentJobAttributeId(id)
+            // }
+            handleUnpublish() 
         }
         toggle()
     }   
 
-    const handleUnpublish = async (attributeId) => {
+    const handleUnpublish = async () => {
         setIsLoading(true)
         setPublishStatus(null)
         try {
+            let attributeId = properties?.find((prop) => prop.field === "attributeId")
+            if (attributeId === undefined) {
+                attributeId = await getCatchmentJobAttributeId(id)
+            }
+
             await unPublishCatchment({
             id,
-            attributeId,
+            attributeId: attributeId.value,
             name,
             setStatus: setPublishStatus
             })
             toggle()
             setIsLoading(false)
+            return true
         } catch {
             setIsLoading(false)
             setPublishStatus(i18n.t("Unpublish"))
+            return false
         }  
     }
 
@@ -85,9 +92,11 @@ function JobItem(props) {
             }
             toggle()
             setIsLoading(false)
+            return true
         } catch {
             setPublishStatus(i18n.t("Publish"))
             setIsLoading(false)
+            return false
         }
     }
 
@@ -117,12 +126,12 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} disable={status === i18n.t("Pending")} handleClick={handleConnectionDHIS2} loading={isLoading} buttonText={publishStatus} primary={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} disabled={status === i18n.t("Pending")} handleClick={handleConnectionDHIS2} loading={isLoading} buttonText={publishStatus} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );
