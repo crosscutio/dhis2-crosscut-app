@@ -16,9 +16,6 @@ export const fetchCatchmentJobs = async () => {
             authorization: getToken(),
           },
         }).json()
-        // check to see if catchment has been published to update the status
-        // currently has name and id from DHIS2 (will need to check a different way)
-        const catchmentsPublished = await fetchCurrentAttributes()
 
         // TODO: check for published catchments to update the status
         // the different statues to display
@@ -30,7 +27,12 @@ export const fetchCatchmentJobs = async () => {
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
-        
+        siteBasedJobs.sort((a,b) => {
+            if (a.id > b.id) return -1
+            if (a.id < b.id) return 1
+            return 0
+        })
+
         siteBasedJobs.map((job) => {
             if (job.status === "SUCCESS") {
                 job.status = statuses[job.status]
@@ -38,6 +40,7 @@ export const fetchCatchmentJobs = async () => {
             if (job.status === "PENDING") {
                 job.status = statuses[job.status]
             }
+            
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
 
@@ -54,23 +57,33 @@ export const createCatchmentJob = async (body) => {
 
     let data = null
     let csv = body.csv
+    // csv wouldn't be an empty string if the user had errors and cleared them
+    // the csv should get passed in to be used
     if (csv === "") {
         data = await fetchValidPoints(levelId, groupId)
+        if (data.length === 0) {
+            return { error: { message: "Not Found", status: 404 } } 
+        }
+        data = data.map((d) => {
+            d["orgUnitId"] = d.id
+            delete d.id
+            return d
+        })
         csv = papaparse.unparse(data)
     } else {
         csv = papaparse.unparse(body.csv)
     }
-
     const json = {
         fields: {
             lat: "lat",
             lng: "long",
-            name: "name"
+            name: "name",
+            orgUnitId: "orgUnitId"
         },
         name: body.name,
         country: body.country,
         csv,
-        algorithm: body.algorithm
+        algorithm: "site-based"
     }
 
     // TODO: there needs to be a way to save the fields they chose (levels and groups)
@@ -91,6 +104,28 @@ export const deleteCatchmentJob = async (id) => {
             headers: {
               authorization: getToken(),
             },
+        })
+    } catch (err) {
+        throw err
+    }
+}
+
+export const fetchSupportedBoundaries = async () => {
+    const boundaryVerion = "v3"
+    const url = `${baseURL}/boundaries/${boundaryVerion}`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken(),
+            }
+        }).json()
+
+       
+        return resp.boundaryList.filter((bound) => bound.featureFlags.includes("all")).filter((bound) => bound.entireCountry === true).sort((a,b) => {
+            if (a.countryName > b.countryName) return 1
+            if (a.countryName < b.countryName) return -1
+            return 0
         })
     } catch (err) {
         throw err

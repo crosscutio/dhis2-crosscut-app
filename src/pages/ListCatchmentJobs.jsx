@@ -6,17 +6,13 @@ import {
   DataTableRow,
   DataTable,
   DataTableColumnHeader,
-  AlertBar
 } from "@dhis2/ui";
 import JobItem from "../components/JobItem/JobItem";
 import i18n from "../locales/index"
-
 import styles from './ListCatchmentJobs.module.css'
 
-
 function ListCatchmentJobs(props) {
-  const [warning, setWarning] = useState(null)
-  const { jobs, toggle, handleJobDetails } = props
+  const { jobs, toggle, handleJobDetails, setAlert } = props
   const [{ column, direction }, setSortInstructions] = useState({
     column: 'date',
     direction: 'desc',
@@ -36,7 +32,6 @@ function ListCatchmentJobs(props) {
 
   return (
     <div className={styles.container}>
-      {warning ? <AlertBar critical={warning.critical} warning={warning.warning}>{warning.text}</AlertBar> : null}
       <Card>
         <DataTable>
           <TableHead>
@@ -49,7 +44,8 @@ function ListCatchmentJobs(props) {
               <DataTableColumnHeader fixed top="0" width="48px"></DataTableColumnHeader>
             </DataTableRow>
           </TableHead>
-          <TableBody>{jobs && jobs.sort((a, b) => {
+          <TableBody loading>
+            {jobs && jobs.sort((a, b) => {
               const strA = a[column]
               const strB = b[column]
 
@@ -57,8 +53,9 @@ function ListCatchmentJobs(props) {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobItem setWarning={setWarning} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
-          })}</TableBody>
+            return <JobItem setWarning={setAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
+          })}
+          </TableBody>
         </DataTable>
       </Card>
     </div>

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-14T14:39:33.104Z\n"
-"PO-Revision-Date: 2022-04-14T14:39:33.104Z\n"
+"POT-Creation-Date: 2022-04-22T15:38:12.768Z\n"
+"PO-Revision-Date: 2022-04-22T15:38:12.768Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -17,11 +17,52 @@ msgstr "Publish"
 msgid "Unpublish"
 msgstr "Unpublish"
 
+msgid "Pending"
+msgstr "Pending"
+
 msgid "Name is already in use"
 msgstr "Name is already in use"
 
+msgid "Country required"
+msgstr "Country required"
+
+msgid "Name required"
+msgstr "Name required"
+
+msgid "Level required"
+msgstr "Level required"
+
+msgid "There are no valid sites."
+msgstr "There are no valid sites."
+
+msgid ""
+"Click proceed to continue. The sites with errors will be removed if you "
+"proceed, or click cancel to go back."
+msgstr ""
+"Click proceed to continue. The sites with errors will be removed if you "
+"proceed, or click cancel to go back."
+
+msgid "Your catchment areas are being created. It should be ready in a few minutes."
+msgstr "Your catchment areas are being created. It should be ready in a few minutes."
+
+msgid "Error Message"
+msgstr "Error Message"
+
+msgid "sites with errors were found"
+msgstr "sites with errors were found"
+
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid ""
+"Deleting will delete the catchment area from the app and remove the "
+"catchment area from DHIS2 if published."
+msgstr ""
+"Deleting will delete the catchment area from the app and remove the "
+"catchment area from DHIS2 if published."
+
+msgid "Delete Forever"
+msgstr "Delete Forever"
 
 msgid "User Guide"
 msgstr "User Guide"
@@ -59,9 +100,6 @@ msgstr ""
 
 msgid "Understanding the statuses"
 msgstr "Understanding the statuses"
-
-msgid "Pending"
-msgstr "Pending"
 
 msgid "your catchment areas are being created."
 msgstr "your catchment areas are being created."
