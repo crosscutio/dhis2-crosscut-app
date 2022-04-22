@@ -1,6 +1,6 @@
 import ky from 'ky'
 import { options, getBaseURL } from "./apiConfig"
-import { getCatchmentGeoJSON, updateCatchmentItem } from "./crosscutRequests"
+import { getCatchmentGeoJSON, updateCatchmentItem, getCatchmentJob } from "./crosscutRequests"
 import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
@@ -111,6 +111,8 @@ export const publishCatchment = async (body) => {
 
 export const unPublishCatchment = async (body) => {
     try {
+        const job = await getCatchmentJob(body.id)
+        console.log(job)
         // remove attributes from each org unit and attribute
         const features = await getCatchmentGeoJSON(body.id)
         console.log(features)
