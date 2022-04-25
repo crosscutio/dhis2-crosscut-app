@@ -72,9 +72,10 @@ export const publishCatchment = async (body) => {
         options["Content-Type"] = "application/json-patch+json"
 
         for (let i=0; i<features.length; i++) {
+            // get the org unit and check to see that it exists in DHIS2
             const orgId = features[i].properties["user:orgUnitId"]
             const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
-            console.log(exists)
+
             if (exists !== undefined) {
                 const geojson = JSON.stringify(features[i].geometry)
                 // handle adding geojson to each org unit
@@ -119,10 +120,7 @@ export const unPublishCatchment = async (body) => {
             if (exists !== undefined) {
                 // this gets all the attribute values for a given organization unit
                 const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
-                console.log(resp)
                 const filtered = resp.attributeValues.filter((value) => value.attribute.id !== body.attributeId)
-                console.log(filtered)
-
                 const payload = { ...resp, ...{ attributeValues: filtered }}
 
                 // delete coordinates from each org unit
