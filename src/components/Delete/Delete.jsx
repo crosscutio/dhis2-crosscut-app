@@ -6,10 +6,11 @@ import { deleteCatchmentJob, getCatchmentJobAttributeId } from '../../api/crossc
 import { fetchCurrentAttributes } from '../../api/requests'
 
 function Delete(props) {
-    const { setShowDelete, toggle, id, handleUnpublish, attributeId, setAlert } = props
+    const { setShowDelete, toggle, id, handleUnpublish, attributeId, setAlert, setIsDeleting } = props
     const [isLoading, setIsLoading] = useState(false)
 
     const handleDelete = async () => {
+        setIsDeleting(true)
         setIsLoading(true)
         // check to see if the catchment has been published
         if (attributeId !== null) {
