@@ -12,7 +12,7 @@ import { deleteCatchmentJob, getCatchmentJobAttributeId } from '../../api/crossc
 import { fetchACatchmentInUse, fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
-    const { name, status, date, id, toggle, handleJobDetails, setWarning, properties } = props
+    const { name, status, date, id, toggle, handleJobDetails, setAlert, properties } = props
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     const [isLoading, setIsLoading] = useState(false)
@@ -53,6 +53,7 @@ function JobItem(props) {
             })
             toggle()
             setIsLoading(false)
+            setAlert({ text: i18n.t("Unpublished")})
             return true
         } catch (err) {
             setIsLoading(false)
@@ -70,9 +71,9 @@ function JobItem(props) {
 
             if (found !== undefined) {
                 // alert the user if the name is already in use
-                setWarning({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
+                setAlert({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
                 setTimeout(() => {
-                    setWarning(null)
+                    setAlert(null)
                 }, 5000)
                 return
             }
@@ -92,6 +93,7 @@ function JobItem(props) {
             }
             toggle()
             setIsLoading(false)
+            setAlert({ text: i18n.t("Published")})
         } catch {
             setPublishStatus(i18n.t("Publish"))
             setIsLoading(false)
@@ -124,7 +126,7 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attribute={attribute}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attribute={attribute} setAlert={setAlert}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>

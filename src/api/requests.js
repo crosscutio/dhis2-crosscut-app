@@ -95,6 +95,7 @@ export const publishCatchment = async (body) => {
                       .json();
             }
         }
+
         body.setStatus(i18n.t("Unpublish"))
 
         // add attribute id to catchment areas on Crosscut
@@ -132,7 +133,7 @@ export const unPublishCatchment = async (body) => {
         }
         // delete attribute
         await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
-
+       
         body.setStatus(i18n.t("Publish"))
 
         // remove the attribute id from the catchment ares on Crosscut
