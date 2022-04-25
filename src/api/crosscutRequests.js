@@ -63,8 +63,10 @@ export const createCatchmentJob = async (body) => {
     // the csv should get passed in to be used
     if (csv === "") {
         data = await fetchValidPoints(levelId, groupId)
+
+        // no sites were found
         if (data.length === 0) {
-            return { error: { message: "Not Found", status: 404 } } 
+            return { error: { message: "No Content", status: 204 } } 
         }
         data = data.map((d) => {
             d["orgUnitId"] = d.id

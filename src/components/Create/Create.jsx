@@ -175,6 +175,7 @@ function Create(props) {
         setIsLoading(true)
         try {
             const resp = await createCatchmentJob(formInputs).catch( async (err) => {
+                console.log(err)
                 const data = JSON.parse(await err.response.text())
                 if (data.csv) {
                     const resp = papaparse.parse(data.csv.trim(), { header: true })
@@ -197,8 +198,8 @@ function Create(props) {
                     }
                     setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
                     setHasErrors(true)
-                } else if (resp.error.status === 404) {
-                    setAlertError({ text: i18n.t(resp.error.message), critical: true })
+                } else if (resp.error.status === 204) {
+                    setAlertError({ text: i18n.t("No sites were found"), critical: true })
                 }
             
                 setIsLoading(false)
@@ -208,7 +209,7 @@ function Create(props) {
                 // toggle to fetch for jobs
                 toggle()
                 setIsLoading(false)
-                setAlert({ text: i18n.t("Your catchment areas are being created. It should be ready in a few minutes.")})
+                setAlert({ text: i18n.t("Your catchment areas are being created. It should be ready in a few minutes."), success: true})
             }  
         } catch (err) {
             setAlertError({ text: i18n.t(err.message), critical: true })

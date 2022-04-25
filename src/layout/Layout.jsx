@@ -63,7 +63,7 @@ function Layout(props) {
         { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle} setAlert={setAlert}/> : null}
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
         { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null}
-        {alert ? <AlertBar critical={alert.critical} alert={alert.alert}>{alert.text}</AlertBar> : null}
+        {alert ? <AlertBar critical={alert.critical} alert={alert.alert} success={alert.success}>{alert.text}</AlertBar> : null}
         {jobs === null ? <CircularLoader large/> : <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert}/>}
     </>
 }

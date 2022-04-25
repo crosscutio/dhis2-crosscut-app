@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-22T21:01:22.367Z\n"
-"PO-Revision-Date: 2022-04-22T21:01:22.367Z\n"
+"POT-Creation-Date: 2022-04-25T16:22:53.551Z\n"
+"PO-Revision-Date: 2022-04-25T16:22:53.551Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -45,6 +45,9 @@ msgstr ""
 "Click proceed to continue. The sites with errors will be removed if you "
 "proceed, or click cancel to go back."
 
+msgid "No sites were found"
+msgstr "No sites were found"
+
 msgid "Your catchment areas are being created. It should be ready in a few minutes."
 msgstr "Your catchment areas are being created. It should be ready in a few minutes."
 
@@ -56,6 +59,9 @@ msgstr "sites with errors were found"
 
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid "Deleted"
+msgstr "Deleted"
 
 msgid ""
 "Deleting will delete the catchment area from the app and remove the "
@@ -170,6 +176,9 @@ msgstr "Email us at"
 
 msgid "Close"
 msgstr "Close"
+
+msgid "Unpublished"
+msgstr "Unpublished"
 
 msgid "Name is already in use. Create a new catchment with a different name."
 msgstr "Name is already in use. Create a new catchment with a different name."
