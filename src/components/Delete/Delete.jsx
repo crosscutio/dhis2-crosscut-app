@@ -2,23 +2,27 @@ import React from 'react'
 import { Modal, ModalActions, ModalContent } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import i18n from '../../locales/index.js'
-import { deleteCatchmentJob } from '../../api/crosscutRequests'
+import { deleteCatchmentJob, fetchCurrentAttributes } from '../../api/crosscutRequests'
 
 function Delete(props) {
-    const { setShowDelete, toggle, id, handleUnpublish } = props
+    const { setShowDelete, toggle, id, handleUnpublish, properties } = props
 
     const handleDelete = async () => {
-        // TODO: check if the catchment is published, if so then unpublish else just delete
-        // if catchment has attributeId/get attributeId from published and compare them
-        const resp = await handleUnpublish()
-        console.log(resp)
-        if (resp === true) {
-            await deleteCatchmentJob(id)
-            toggle()
-            setShowDelete(false)
-        } else {
-            console.log("error")
+        // check to see if the catchment has been published
+        let attributeId = properties?.find((prop) => prop.field === "attributeId")
+        if (attributeId === undefined) {
+            attributeId = await getCatchmentJobAttributeId(id)
         }
+    
+        const allAttributes = await fetchCurrentAttributes()
+        const found = allAttributes.find((att) => att.id === attributeId)
+        
+        if (found !== undefined) {
+            await handleUnpublish()
+        }
+        await deleteCatchmentJob(id)
+        toggle()
+        setShowDelete(false)
       
     }
 

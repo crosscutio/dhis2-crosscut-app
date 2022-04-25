@@ -53,11 +53,9 @@ function JobItem(props) {
             })
             toggle()
             setIsLoading(false)
-            return true
         } catch {
             setIsLoading(false)
             setPublishStatus(i18n.t("Unpublish"))
-            return false
         }  
     }
 
@@ -92,11 +90,9 @@ function JobItem(props) {
             }
             toggle()
             setIsLoading(false)
-            return true
         } catch {
             setPublishStatus(i18n.t("Publish"))
             setIsLoading(false)
-            return false
         }
     }
 
@@ -126,7 +122,7 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} properties={properties}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
