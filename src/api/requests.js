@@ -62,11 +62,7 @@ export const fetchValidPoints = async (levelId, groupId) => {
 export const publishCatchment = async (body) => {
     try {
         const features = await getCatchmentGeoJSON(body.id)
-        console.log(features)
-    
-        // orgUnit ids do not match the orgUnit ids from creation
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-        console.log(orgUnits)
         // this endpoint posts an attribute and returns uid
         const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
 
@@ -101,8 +97,7 @@ export const publishCatchment = async (body) => {
         body.setStatus(i18n.t("Unpublish"))
 
         // add attribute id to catchment areas on Crosscut
-        const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
-        console.log(attributeResp)
+        await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
         options["Content-Type"] = "application/json"
     } catch (err) {
         body.setStatus(i18n.t("Publish"))
@@ -119,9 +114,8 @@ export const unPublishCatchment = async (body) => {
 
         for (let i=0; i<features.length; i++) {
             const orgId = features[i].properties["user:orgUnitId"]
-    
             const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
-            console.log(exists)
+
             if (exists !== undefined) {
                 // this gets all the attribute values for a given organization unit
                 const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
@@ -144,8 +138,7 @@ export const unPublishCatchment = async (body) => {
         body.setStatus(i18n.t("Publish"))
 
         // remove the attribute id from the catchment ares on Crosscut
-        const attributeResp = await updateCatchmentItem(body.id, { field: "attributeId" })
-        console.log(attributeResp)
+        await updateCatchmentItem(body.id, { field: "attributeId" })
     } catch (err) {
         body.setStatus(i18n.t("Unpublish"))
         throw err

@@ -21,13 +21,17 @@ function JobItem(props) {
     useEffect(() => {
         if (properties !== null) {
             setPublishStatus(i18n.t("Unpublish"))
-            let foundAttribute = properties.find((prop) => prop.field === "attributeId")
-            if (foundAttribute === undefined) {
-                foundAttribute = await getCatchmentJobAttributeId(id)
-            }
-            setAttribute(foundAttribute)
+            getAttribute()
         }
     }, [properties])
+
+    const getAttribute = async () => {
+        let foundAttribute = properties.find((prop) => prop.field === "attributeId")
+        if (foundAttribute === undefined) {
+            foundAttribute = await getCatchmentJobAttributeId(id)
+        }        
+        setAttribute(foundAttribute)
+    }
 
     const handleConnectionDHIS2 = async () => {
         if (publishStatus === i18n.t("Publish")) {
@@ -35,21 +39,15 @@ function JobItem(props) {
         } else if (publishStatus === i18n.t("Unpublish")) {
             await handleUnpublish() 
         }
-        toggle()
     }   
 
     const handleUnpublish = async () => {
         setIsLoading(true)
         setPublishStatus(null)
         try {
-            // let attributeId = properties?.find((prop) => prop.field === "attributeId")
-            // if (attributeId === undefined) {
-            //     attributeId = await getCatchmentJobAttributeId(id)
-            // }
-
             await unPublishCatchment({
             id,
-            attributeId: attributeId.value,
+            attributeId: attribute.value,
             name,
             setStatus: setPublishStatus
             })
@@ -126,7 +124,7 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} properties={properties} attribute={attribute}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attribute={attribute}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
