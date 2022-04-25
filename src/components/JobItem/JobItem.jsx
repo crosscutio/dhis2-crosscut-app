@@ -16,22 +16,12 @@ function JobItem(props) {
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     const [isLoading, setIsLoading] = useState(false)
-    // const [attribute, setAttribute] = useState(null)
 
     useEffect(() => {
         if (properties !== null) {
             setPublishStatus(i18n.t("Unpublish"))
-            // getAttribute()
         }
     }, [properties])
-
-    // const getAttribute = async () => {
-    //     let foundAttribute = properties.find((prop) => prop.field === "attributeId")
-    //     if (foundAttribute === undefined) {
-    //         foundAttribute = await getCatchmentJobAttributeId(id)
-    //     }        
-    //     setAttribute(foundAttribute)
-    // }
 
     const handleConnectionDHIS2 = async () => {
         if (publishStatus === i18n.t("Publish")) {

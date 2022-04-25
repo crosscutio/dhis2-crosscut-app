@@ -17,9 +17,6 @@ export const fetchCatchmentJobs = async () => {
           },
         }).json()
 
-        // TODO: check for published catchments to update the status
-        // the different statues to display
-        // if job has attribute id from DHIS2 then it has been published
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
             "PUBLISHED": i18n.t("Published"),
@@ -33,25 +30,38 @@ export const fetchCatchmentJobs = async () => {
             return 0
         })
 
+        const allAttributes = await fetchCurrentAttributes()
+
         siteBasedJobs.map((job) => {
+            job.date = job.date === undefined ? "" : job.date.split("T")[0]
+
             if (job.status === "SUCCESS") {
                 job.status = statuses[job.status]
+
+                if (job.properties !== null) {
+                    const attribute = job.properties.find((prop) => prop.field === "attributeId")
+                    const found = allAttributes.find((att) => att.id === attribute.value)
+
+                    // if the attribute is in DHIS2 and in Crosscut then show the published status
+                    if (attribute !== undefined && found !== undefined) {
+                        job.status = statuses["PUBLISHED"]
+                        job.attributeId = attribute.value
+                    // if the attribute is not in DHIS2 but in Crosscut then remove the attribute from Crosscut
+                    } else if (attribute !== undefined && found === undefined) {
+                        if (job.properties.length === 1) {
+                            job.properties = null
+                       } else if (job.properties.length > 1) {
+                           job.properties = job.properties.filter((prop) => prop.field !== "attributeId")
+                       }
+                        
+                        await updateCatchmentItem(job.id, { field: "attributeId" })
+                    }
+                }
             }
+
             if (job.status === "PENDING") {
                 job.status = statuses[job.status]
             }
-            console.log(job.properties)
-            if (job.properties !== null) {
-                const attribute = job.properties.find((prop) => prop.field === "attributeId")
-                if (attribute !== undefined) {
-                    job.status = statuses["PUBLISHED"]
-                    job.attributeId = attribute.value
-                }
-               
-                
-
-            }
-            job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
 
         return siteBasedJobs
