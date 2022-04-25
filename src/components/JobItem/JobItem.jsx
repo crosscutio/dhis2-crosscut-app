@@ -16,10 +16,16 @@ function JobItem(props) {
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     const [isLoading, setIsLoading] = useState(false)
+    const [attribute, setAttribute] = useState(null)
 
     useEffect(() => {
         if (properties !== null) {
             setPublishStatus(i18n.t("Unpublish"))
+            let foundAttribute = properties.find((prop) => prop.field === "attributeId")
+            if (foundAttribute === undefined) {
+                foundAttribute = await getCatchmentJobAttributeId(id)
+            }
+            setAttribute(foundAttribute)
         }
     }, [properties])
 
@@ -27,10 +33,6 @@ function JobItem(props) {
         if (publishStatus === i18n.t("Publish")) {
             await handlePublish()
         } else if (publishStatus === i18n.t("Unpublish")) {
-            // let attributeId = properties?.find((prop) => prop.field === "attributeId")
-            // if (attributeId === undefined) {
-            //     attributeId = await getCatchmentJobAttributeId(id)
-            // }
             await handleUnpublish() 
         }
         toggle()
@@ -40,10 +42,10 @@ function JobItem(props) {
         setIsLoading(true)
         setPublishStatus(null)
         try {
-            let attributeId = properties?.find((prop) => prop.field === "attributeId")
-            if (attributeId === undefined) {
-                attributeId = await getCatchmentJobAttributeId(id)
-            }
+            // let attributeId = properties?.find((prop) => prop.field === "attributeId")
+            // if (attributeId === undefined) {
+            //     attributeId = await getCatchmentJobAttributeId(id)
+            // }
 
             await unPublishCatchment({
             id,
@@ -124,7 +126,7 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} properties={properties}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} properties={properties} attribute={attribute}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
