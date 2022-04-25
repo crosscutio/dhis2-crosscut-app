@@ -12,26 +12,26 @@ import { deleteCatchmentJob, getCatchmentJobAttributeId } from '../../api/crossc
 import { fetchACatchmentInUse, fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
-    const { name, status, date, id, toggle, handleJobDetails, setAlert, properties } = props
+    const { name, status, date, id, toggle, handleJobDetails, setAlert, properties, attributeId } = props
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     const [isLoading, setIsLoading] = useState(false)
-    const [attribute, setAttribute] = useState(null)
+    // const [attribute, setAttribute] = useState(null)
 
     useEffect(() => {
         if (properties !== null) {
             setPublishStatus(i18n.t("Unpublish"))
-            getAttribute()
+            // getAttribute()
         }
     }, [properties])
 
-    const getAttribute = async () => {
-        let foundAttribute = properties.find((prop) => prop.field === "attributeId")
-        if (foundAttribute === undefined) {
-            foundAttribute = await getCatchmentJobAttributeId(id)
-        }        
-        setAttribute(foundAttribute)
-    }
+    // const getAttribute = async () => {
+    //     let foundAttribute = properties.find((prop) => prop.field === "attributeId")
+    //     if (foundAttribute === undefined) {
+    //         foundAttribute = await getCatchmentJobAttributeId(id)
+    //     }        
+    //     setAttribute(foundAttribute)
+    // }
 
     const handleConnectionDHIS2 = async () => {
         if (publishStatus === i18n.t("Publish")) {
@@ -50,7 +50,7 @@ function JobItem(props) {
         try {
             await unPublishCatchment({
             id,
-            attributeId: attribute.value,
+            attributeId,
             name,
             setStatus: setPublishStatus
             })
@@ -127,7 +127,7 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attribute={attribute} setAlert={setAlert}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attributeId={attributeId} setAlert={setAlert}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>

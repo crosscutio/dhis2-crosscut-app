@@ -40,8 +40,16 @@ export const fetchCatchmentJobs = async () => {
             if (job.status === "PENDING") {
                 job.status = statuses[job.status]
             }
+            console.log(job.properties)
             if (job.properties !== null) {
-                job.status = statuses["PUBLISHED"]
+                const attribute = job.properties.find((prop) => prop.field === "attributeId")
+                if (attribute !== undefined) {
+                    job.status = statuses["PUBLISHED"]
+                    job.attributeId = attribute.value
+                }
+               
+                
+
             }
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })

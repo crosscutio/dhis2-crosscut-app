@@ -54,7 +54,7 @@ function ListCatchmentJobs(props) {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobItem setAlert={setAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} properties={job.properties}/>
+            return <JobItem setAlert={setAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} properties={job.properties} attributeId={job.attributeId}/>
           })}</TableBody>
         </DataTable>
       </Card>
