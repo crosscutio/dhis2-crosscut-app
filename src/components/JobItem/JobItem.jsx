@@ -42,6 +42,9 @@ function JobItem(props) {
     }   
 
     const handleUnpublish = async () => {
+        // TODO: if the user removes the attribute from DHIS2, it will not be reflected on our app
+        // not sure if users will be removing it from DHIS2 or not
+        // if the user can then we need to check to see if an attribute still exists
         setIsLoading(true)
         setPublishStatus(null)
         try {
