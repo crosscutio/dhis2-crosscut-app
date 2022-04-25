@@ -57,11 +57,9 @@ function JobItem(props) {
             toggle()
             setIsLoading(false)
             setAlert({ text: i18n.t("Unpublished")})
-            return true
         } catch (err) {
             setIsLoading(false)
             setPublishStatus(i18n.t("Unpublish"))
-            return err
         }  
     }
 

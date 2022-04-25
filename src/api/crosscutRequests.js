@@ -46,7 +46,6 @@ export const fetchCatchmentJobs = async () => {
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
         })
 
-        console.log(siteBasedJobs)
         return siteBasedJobs
     } catch (err) {
         throw err
@@ -159,7 +158,6 @@ export const updateCatchmentItem = async (id, json) => {
                 authorization: getToken()
             }
         }).json()
-        console.log(resp)
         return resp
     } catch (err) {
         throw err
