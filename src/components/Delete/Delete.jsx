@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal, ModalActions, ModalContent } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import i18n from '../../locales/index.js'
@@ -7,8 +7,10 @@ import { fetchCurrentAttributes } from '../../api/requests'
 
 function Delete(props) {
     const { setShowDelete, toggle, id, handleUnpublish, attributeId, setAlert } = props
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleDelete = async () => {
+        setIsLoading(true)
         // check to see if the catchment has been published
         if (attributeId !== null) {
             const allAttributes = await fetchCurrentAttributes()
@@ -20,6 +22,7 @@ function Delete(props) {
         }      
         await deleteCatchmentJob(id)
         toggle()
+        setIsLoading(false)
         setShowDelete(false) 
         setAlert({ text: i18n.t("Deleted")})
     }
@@ -31,7 +34,7 @@ function Delete(props) {
     return ( 
         <Modal>
             <ModalContent>{i18n.t("Deleting will delete the catchment area from the app and remove the catchment area from DHIS2 if published.")}</ModalContent>
-            <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={i18n.t("Delete Forever")} handleClick={handleDelete} primary={true}/></ModalActions>
+            <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={i18n.t("Delete Forever")} loading={isLoading} handleClick={handleDelete} primary={true}/></ModalActions>
         </Modal>
     )
 }
