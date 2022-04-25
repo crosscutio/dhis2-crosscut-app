@@ -22,8 +22,7 @@ function Delete(props) {
             if (found !== undefined) {
                 await handleUnpublish()
             }
-        }
-       
+        }      
         await deleteCatchmentJob(id)
         toggle()
         setShowDelete(false) 
