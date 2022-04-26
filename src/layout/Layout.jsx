@@ -70,7 +70,7 @@ function Layout(props) {
         {alert ? <AlertBar critical={alert.critical} alert={alert.alert} success={alert.success}>{alert.text}</AlertBar> : null}
         {publishAlert ? <AlertBar alert={publishAlert.alert}>{publishAlert.text}</AlertBar> : null}
         {unpublishAlert ? <AlertBar alert={unpublishAlert.alert}>{unpublishAlert.text}</AlertBar> : null}
-        {createAlert ? <AlertBar success={createAlert.alert}>{createAlert.text}</AlertBar> : null}
+        {createAlert ? <AlertBar success={createAlert.success}>{createAlert.text}</AlertBar> : null}
         {jobs === null ? <CircularLoader large/> : <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert} setPublishAlert={setPublishAlert} setUnpublishAlert={setUnpublishAlert}/>}
     </>
 }
