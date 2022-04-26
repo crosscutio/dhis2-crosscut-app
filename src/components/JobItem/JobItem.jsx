@@ -8,11 +8,10 @@ import {
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
 import Delete from "../Delete/Delete"
-import { deleteCatchmentJob, getCatchmentJobAttributeId } from '../../api/crosscutRequests'
-import { fetchACatchmentInUse, fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
+import { fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
-    const { name, status, date, id, toggle, handleJobDetails, setAlert, properties, attributeId, setPublishAlert, setUnpublishAlert } = props
+    const { name, status, date, id, toggle, handleJobDetails, setAlert, properties, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert } = props
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     const [isLoading, setIsLoading] = useState(false)
@@ -122,7 +121,7 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attributeId={attributeId} setAlert={setAlert} setIsDeleting={setIsDeleting}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} setDeleteAlert={setDeleteAlert} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attributeId={attributeId} setIsDeleting={setIsDeleting}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>

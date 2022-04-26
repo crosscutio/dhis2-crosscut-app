@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Modal, ModalActions, ModalContent } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import i18n from '../../locales/index.js'
-import { deleteCatchmentJob, getCatchmentJobAttributeId } from '../../api/crosscutRequests'
+import { deleteCatchmentJob } from '../../api/crosscutRequests'
 import { fetchCurrentAttributes } from '../../api/requests'
 
 function Delete(props) {
-    const { setShowDelete, toggle, id, handleUnpublish, attributeId, setAlert, setIsDeleting } = props
+    const { setShowDelete, toggle, id, handleUnpublish, attributeId, setIsDeleting, setDeleteAlert } = props
     const [isLoading, setIsLoading] = useState(false)
 
     const handleDelete = async () => {
@@ -25,7 +25,7 @@ function Delete(props) {
         toggle()
         setIsLoading(false)
         setShowDelete(false) 
-        setAlert({ text: i18n.t("Deleted")})
+        setDeleteAlert({ text: i18n.t("Deleted")})
     }
 
     const close = () => {
