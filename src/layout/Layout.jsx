@@ -12,6 +12,10 @@ import { setToken } from "../services/JWTManager";
 
 function Layout(props) {
     const [alert, setAlert] = useState(null)
+    const [publishAlert, setPublishAlert] = useState(null)
+    const [unpublishAlert, setUnpublishAlert] = useState(null)
+    const [createAlert, setCreateAlert] = useState(null)
+
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
     const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
@@ -60,11 +64,14 @@ function Layout(props) {
     }
     return <>
         <Nav handleClick={handleCreate} jobs={jobs} handleInfo={handleInfo}/>
-        { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle} setAlert={setAlert}/> : null}
+        { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle} setAlert={setAlert} setCreateAlert={setCreateAlert}/> : null}
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
         { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null}
         {alert ? <AlertBar critical={alert.critical} alert={alert.alert} success={alert.success}>{alert.text}</AlertBar> : null}
-        {jobs === null ? <CircularLoader large/> : <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert}/>}
+        {publishAlert ? <AlertBar alert={publishAlert.alert}>{publishAlert.text}</AlertBar> : null}
+        {unpublishAlert ? <AlertBar alert={unpublishAlert.alert}>{unpublishAlert.text}</AlertBar> : null}
+        {createAlert ? <AlertBar success={createAlert.alert}>{createAlert.text}</AlertBar> : null}
+        {jobs === null ? <CircularLoader large/> : <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert} setPublishAlert={setPublishAlert} setUnpublishAlert={setUnpublishAlert}/>}
     </>
 }
 

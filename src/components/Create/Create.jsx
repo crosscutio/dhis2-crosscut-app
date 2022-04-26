@@ -26,7 +26,7 @@ import i18n from '../../locales/index.js'
 import papaparse from "papaparse"
 
 function Create(props) {
-    const { title, action, setShowCreateModal, jobs, toggle, setAlert } = props
+    const { title, action, setShowCreateModal, jobs, toggle, setCreateAlert } = props
     const [formInputs, setFormInputs] = useState({
         country: "",
         level: "",
@@ -208,7 +208,7 @@ function Create(props) {
                 // toggle to fetch for jobs
                 toggle()
                 setIsLoading(false)
-                setAlert({ text: i18n.t("Your catchment areas are being created. It should be ready in a few minutes."), success: true})
+                setCreateAlert({ text: i18n.t("Your catchment areas are being created. It should be ready in a few minutes."), success: true})
             }  
         } catch (err) {
             setAlertError({ text: i18n.t(err.message), critical: true })

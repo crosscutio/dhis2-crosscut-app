@@ -32,7 +32,7 @@ export const fetchCatchmentJobs = async () => {
 
         const allAttributes = await fetchCurrentAttributes()
 
-        siteBasedJobs.map((job) => {
+        siteBasedJobs.map(async (job) => {
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
 
             if (job.status === "SUCCESS") {

@@ -12,7 +12,7 @@ import i18n from "../locales/index"
 import styles from './ListCatchmentJobs.module.css'
 
 function ListCatchmentJobs(props) {
-  const { jobs, toggle, handleJobDetails, setAlert } = props
+  const { jobs, toggle, handleJobDetails, setAlert, setPublishAlert, setUnpublishAlert } = props
   const [{ column, direction }, setSortInstructions] = useState({
     column: 'date',
     direction: 'desc',
@@ -54,7 +54,7 @@ function ListCatchmentJobs(props) {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobItem setAlert={setAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} properties={job.properties} attributeId={job.attributeId}/>
+            return <JobItem setAlert={setAlert} setPublishAlert={setPublishAlert} setUnpublishAlert={setUnpublishAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} properties={job.properties} attributeId={job.attributeId}/>
           })}</TableBody>
         </DataTable>
       </Card>
