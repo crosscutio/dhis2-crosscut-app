@@ -54,7 +54,6 @@ export const fetchCatchmentJobs = async () => {
                        } else if (job.properties.length > 1) {
                            job.properties = job.properties.filter((prop) => prop.field !== "attributeId")
                        }
-                        
                         await updateCatchmentItem(job.id, { field: "attributeId" })
                     }
                 }
