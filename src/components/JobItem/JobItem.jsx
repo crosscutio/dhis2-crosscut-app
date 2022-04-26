@@ -127,7 +127,7 @@ function JobItem(props) {
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} disabled={status === i18n.t("Pending")} handleClick={handleConnectionDHIS2} loading={isLoading} buttonText={publishStatus} primary={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} disabled={status === i18n.t("Pending") || status === i18n.t("Failed")} handleClick={handleConnectionDHIS2} loading={isLoading} buttonText={publishStatus} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} loading={isDeleting} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );

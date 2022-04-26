@@ -20,7 +20,8 @@ export const fetchCatchmentJobs = async () => {
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
             "PUBLISHED": i18n.t("Published"),
-            "PENDING": i18n.t("Pending")
+            "PENDING": i18n.t("Pending"),
+            "FAILURE": i18n.t("Failed")
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
@@ -60,6 +61,10 @@ export const fetchCatchmentJobs = async () => {
             }
 
             if (job.status === "PENDING") {
+                job.status = statuses[job.status]
+            }
+            
+            if (job.status === "FAILURE") {
                 job.status = statuses[job.status]
             }
         })
