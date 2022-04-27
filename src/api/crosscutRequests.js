@@ -32,6 +32,8 @@ export const fetchCatchmentJobs = async () => {
         })
 
         const allAttributes = await fetchCurrentAttributes()
+        console.log(allAttributes)
+        // add error handling
 
         siteBasedJobs.map(async (job) => {
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
@@ -41,21 +43,25 @@ export const fetchCatchmentJobs = async () => {
 
                 if (job.properties !== null) {
                     const attribute = job.properties.find((prop) => prop.field === "attributeId")
-                    const found = allAttributes.find((att) => att.id === attribute.value)
+                    if (attribute !== undefined) {
+                        const found = allAttributes.find((att) => att.id === attribute.value)
 
-                    // if the attribute is in DHIS2 and in Crosscut then show the published status
-                    if (attribute !== undefined && found !== undefined) {
-                        job.status = statuses["PUBLISHED"]
-                        job.attributeId = attribute.value
-                    // if the attribute is not in DHIS2 but in Crosscut then remove the attribute from Crosscut
-                    } else if (attribute !== undefined && found === undefined) {
-                        if (job.properties.length === 1) {
-                            job.properties = null
-                       } else if (job.properties.length > 1) {
-                           job.properties = job.properties.filter((prop) => prop.field !== "attributeId")
-                       }
-                        await updateCatchmentItem(job.id, { field: "attributeId" })
+                        // if the attribute is in DHIS2 and in Crosscut then show the published status
+                        if (attribute !== undefined && found !== undefined) {
+                            job.status = statuses["PUBLISHED"]
+                            job.attributeId = attribute.value
+                            console.log(job.attributeId)
+                        // if the attribute is not in DHIS2 but in Crosscut then remove the attribute from Crosscut
+                        } else if (attribute !== undefined && found === undefined) {
+                            if (job.properties.length === 1) {
+                                job.properties = null
+                           } else if (job.properties.length > 1) {
+                               job.properties = job.properties.filter((prop) => prop.field !== "attributeId")
+                           }
+                            await updateCatchmentItem(job.id, { field: "attributeId" })
+                        }
                     }
+                   
                 }
             }
 

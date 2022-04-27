@@ -18,10 +18,10 @@ function JobItem(props) {
     const [isDeleting, setIsDeleting] = useState(false)
 
     useEffect(() => {
-        if (properties !== null) {
+        if (attributeId !== undefined) {
             setPublishStatus(i18n.t("Unpublish"))
         }
-    }, [properties])
+    }, [attributeId])
 
     const handleConnectionDHIS2 = async () => {
         if (publishStatus === i18n.t("Publish")) {
