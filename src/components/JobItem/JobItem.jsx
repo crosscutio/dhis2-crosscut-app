@@ -91,7 +91,6 @@ function JobItem(props) {
                 setPublishAlert(null)
             }, 5000)
         } catch (err) {
-            console.log(err)
             setPublishAlert({ text: i18n.t(err.message)})
             setPublishStatus(i18n.t("Publish"))
             setIsLoading(false)

@@ -68,7 +68,7 @@ export const publishCatchment = async (body) => {
         const validFeatures = features.filter((feature) => orgUnits.organisationUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
 
         if (validFeatures.length === 0) {
-            throw { message: "nothing to publish"}
+            throw { message: "Nothing to publish"}
         }
         // this endpoint posts an attribute and returns uid
         const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
