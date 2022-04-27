@@ -32,8 +32,7 @@ export const fetchCatchmentJobs = async () => {
         })
 
         const allAttributes = await fetchCurrentAttributes()
-        console.log(allAttributes)
-        // add error handling
+        // TODO: add error handling
 
         siteBasedJobs.map(async (job) => {
             job.date = job.date === undefined ? "" : job.date.split("T")[0]
@@ -50,7 +49,6 @@ export const fetchCatchmentJobs = async () => {
                         if (attribute !== undefined && found !== undefined) {
                             job.status = statuses["PUBLISHED"]
                             job.attributeId = attribute.value
-                            console.log(job.attributeId)
                         // if the attribute is not in DHIS2 but in Crosscut then remove the attribute from Crosscut
                         } else if (attribute !== undefined && found === undefined) {
                             if (job.properties.length === 1) {
