@@ -49,6 +49,7 @@ function JobItem(props) {
                 // 5s
             }, 5000)
         } catch (err) {
+            setPublishAlert({ text: i18n.t(err.message)})
             setIsLoading(false)
             setPublishStatus(i18n.t("Unpublish"))
         }  
@@ -89,6 +90,7 @@ function JobItem(props) {
             setPublishAlert({ text: i18n.t("Published")})
             setTimeout(() => {
                 setPublishAlert(null)
+                // 5s
             }, 5000)
         } catch (err) {
             setPublishAlert({ text: i18n.t(err.message)})
