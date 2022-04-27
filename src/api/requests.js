@@ -61,8 +61,15 @@ export const fetchValidPoints = async (levelId, groupId) => {
 
 export const publishCatchment = async (body) => {
     try {
+        // need a way to check if the country is available on DHIS2
         const features = await getCatchmentGeoJSON(body.id)
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
+
+        const validFeatures = features.filter((feature) => orgUnits.organisationUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
+
+        if (validFeatures.length === 0) {
+            throw { message: "nothing to publish"}
+        }
         // this endpoint posts an attribute and returns uid
         const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
 

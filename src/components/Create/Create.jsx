@@ -140,6 +140,7 @@ function Create(props) {
 
     const handleNameChange = async (e) => {
         const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === e.value.toLowerCase())
+        // crosscut was prepended to published catchments
         const publishedNames = currentNames.find((name) => name.name.toLowerCase().split("crosscut ")[1] === e.value.toLowerCase())
 
         if (publishedNames !== undefined || catchmentNames !== undefined) {
