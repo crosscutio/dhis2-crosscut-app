@@ -5,8 +5,9 @@ import { fetchOrgUnitLevels, fetchOrgUnitGroups } from '../../api/requests.js'
 import { getCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
 
 function JobDetails(props) {
-    const { title, action, setShowJobDetailsModal, name, details } = props
+    const { title, action, setShowJobDetailsModal, name, details, id } = props
     const [boundaries, setBoundaries] = useState(null)
+    const [country, setCountry] = useState(null)
     const [levels, setLevels] = useState(null)
     const [groups, setGroups] = useState(null)
     const [selectedGroup, setSelectedGroup] = useState()
@@ -22,10 +23,18 @@ function JobDetails(props) {
     }, [])
 
     useEffect(() => {
+        fetchJob()
+    }, [boundaries])
+
+    useEffect(() => {
         setSelectedGroup(details.groupId)
         setSelectedLevel(details.levelId)
     }, [details])
 
+    const fetchJob = async () => {
+        const resp = await getCatchmentJob(id)
+        setCountry(resp.boundaryId)  
+    }
     const fetchBoundaries = async () => {
         const respBoundaries = await fetchSupportedBoundaries()
         setBoundaries(respBoundaries)
@@ -51,24 +60,24 @@ function JobDetails(props) {
         return (
             <form>
             <Field label="Select the country" >
-                <SingleSelect>
+                <SingleSelect selected={boundaries ? country : null} disabled>
                     {boundaries && boundaries.map((bound, index) => {
                         return <SingleSelectOption key={`boundary-${index}`} value={bound.id} label={`${bound.countryName}`}/>
                     })}
                 </SingleSelect>
             </Field>
             <Field label="Name the catchment areas">
-                <Input/>
+                <Input value={name} disabled/>
             </Field>
             <Field label="Select the facility level">
-                <SingleSelect selected={levels && selectedLevel} disabled>
+                <SingleSelect selected={levels ? selectedLevel : null} disabled>
                     {levels && levels.map((level, index) => {
                         return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                     })}
                 </SingleSelect>
             </Field>
             <Field label="Select the groups">
-                <MultiSelect selected={groups && selectedGroup} disabled>
+                <MultiSelect selected={groups ? selectedGroup : []} disabled>
                     {groups && groups.map((group, index) => {
                         return <MultiSelectOption key={index} label={group.name} value={group.id}/>
                     })}

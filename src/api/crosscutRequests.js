@@ -225,7 +225,6 @@ export const getCatchmentJob = async (id) => {
                 authorization: getToken()
             }
         }).json()
-        
         return resp
     } catch (err) {
         throw err
