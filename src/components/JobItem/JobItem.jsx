@@ -21,7 +21,6 @@ function JobItem(props) {
     const [modalText, setModalText] = useState({ title: "", action: ""})
 
     useEffect(() => {
-        console.log(details)
         if (attributeId !== undefined) {
             setPublishStatus(i18n.t("Unpublish"))
         }
