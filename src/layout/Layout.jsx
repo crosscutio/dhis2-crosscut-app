@@ -19,7 +19,7 @@ function Layout(props) {
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
     // const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
-    // const [modalText, setModalText] = useState({ title: "", action: ""})
+    const [modalText, setModalText] = useState({ title: "", action: ""})
     const [jobs, setJobs] = useState(null)
     const [isToggled, toggle] = useToggle(false)
     const { token } = props
@@ -62,7 +62,6 @@ function Layout(props) {
         <Nav handleClick={handleCreate} jobs={jobs} handleInfo={handleInfo}/>
         { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle} setAlert={setAlert} setCreateAlert={setCreateAlert}/> : null}
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
-        {/* { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null} */}
         {alert ? <AlertBar critical={alert.critical} alert={alert.alert} success={alert.success}>{alert.text}</AlertBar> : null}
         {publishAlert ? <AlertBar alert={publishAlert.alert}>{publishAlert.text}</AlertBar> : null}
         {unpublishAlert ? <AlertBar alert={unpublishAlert.alert}>{unpublishAlert.text}</AlertBar> : null}

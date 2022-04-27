@@ -35,8 +35,8 @@ function Create(props) {
         name: "",
     })
     const [boundaries, setBoundaries] = useState(null)
-    const [levels, setLevels] = useState([])
-    const [groups, setGroups] = useState([])
+    const [levels, setLevels] = useState(null)
+    const [groups, setGroups] = useState(null)
     const [currentNames, setCurrentNames] = useState([])
     const [nameText, setNameText] = useState(null)
     const [countryText, setCountryText] = useState(null)
