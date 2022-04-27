@@ -17,14 +17,11 @@ function JobDetails(props) {
         fetchBoundaries()
         fetchLevels()
         fetchGroups()
+        fetchJob()
         return () => {
             // This is the cleanup function
           }
     }, [])
-
-    useEffect(() => {
-        fetchJob()
-    }, [boundaries])
 
     useEffect(() => {
         setSelectedGroup(details.groupId)
