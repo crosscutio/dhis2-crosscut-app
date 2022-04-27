@@ -90,8 +90,9 @@ function JobItem(props) {
             setTimeout(() => {
                 setPublishAlert(null)
             }, 5000)
-        } catch {
-            console.log("error")
+        } catch (err) {
+            console.log(err)
+            setPublishAlert({ text: i18n.t(err.message)})
             setPublishStatus(i18n.t("Publish"))
             setIsLoading(false)
         }
