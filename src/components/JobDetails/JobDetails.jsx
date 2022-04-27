@@ -1,9 +1,10 @@
 import React from "react"
 import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, Field, Input, MultiSelect } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
+import { getCatchmentJob } from '../../api/crosscutRequests'
 
 function JobDetails(props) {
-    const { title, action, setShowJobDetailsModal } = props
+    const { title, action, setShowJobDetailsModal, name, details } = props
     // fetch catchment details
     const close = () => {
         setShowJobDetailsModal(false)
@@ -20,11 +21,11 @@ function JobDetails(props) {
                     <Input disabled/>
                 </Field>
                 <Field label="Select the facility level">
-                    <SingleSelect disabled>  
+                    <SingleSelect disabled selected={details.levelId}>  
                     </SingleSelect>
                 </Field>
                 <Field label="Select the groups">
-                    <MultiSelect disabled> 
+                    <MultiSelect disabled selected={details.groupId}> 
                     </MultiSelect>
                 </Field>
             </form>

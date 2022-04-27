@@ -21,7 +21,7 @@ import {
 } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '../../api/requests.js'
-import { createCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
+import { createCatchmentJob, fetchSupportedBoundaries, updateCatchmentItem } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 import papaparse from "papaparse"
 
@@ -184,6 +184,7 @@ function Create(props) {
                     return { error: data }
                 }
             })
+
             // if there are errors then set the error
             if (resp?.error) {
                 if (resp.error.data) {

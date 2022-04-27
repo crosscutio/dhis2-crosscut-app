@@ -38,23 +38,32 @@ export const fetchCatchmentJobs = async () => {
 
             if (job.status === "SUCCESS") {
                 job.status = statuses[job.status]
-
                 if (job.properties !== null) {
                     const attribute = job.properties.find((prop) => prop.field === "attributeId")
-                    const found = allAttributes.find((att) => att.id === attribute.value)
+                    const detail = job.properties.find((prop) => prop.field === "dhisFormInputs")
+                    console.log(detail)
 
-                    // if the attribute is in DHIS2 and in Crosscut then show the published status
-                    if (attribute !== undefined && found !== undefined) {
-                        job.status = statuses["PUBLISHED"]
-                        job.attributeId = attribute.value
-                    // if the attribute is not in DHIS2 but in Crosscut then remove the attribute from Crosscut
-                    } else if (attribute !== undefined && found === undefined) {
-                        if (job.properties.length === 1) {
-                            job.properties = null
-                       } else if (job.properties.length > 1) {
-                           job.properties = job.properties.filter((prop) => prop.field !== "attributeId")
-                       }
-                        await updateCatchmentItem(job.id, { field: "attributeId" })
+                    if (detail !== undefined) {
+                        console.log(detail)
+                        job.jobDetails = detail.value
+                        console.log(job.jobDetails)
+                    }
+                    if (attribute !== undefined) {
+                        const found = allAttributes.find((att) => att.id === attribute.value)
+
+                        // if the attribute is in DHIS2 and in Crosscut then show the published status
+                        if (attribute !== undefined && found !== undefined) {
+                            job.status = statuses["PUBLISHED"]
+                            job.attributeId = attribute.value
+                        // if the attribute is not in DHIS2 but in Crosscut then remove the attribute from Crosscut
+                        } else if (attribute !== undefined && found === undefined) {
+                            if (job.properties.length === 1) {
+                                job.properties = null
+                        } else if (job.properties.length > 1) {
+                            job.properties = job.properties.filter((prop) => prop.field !== "attributeId")
+                        }
+                            await updateCatchmentItem(job.id, { field: "attributeId" })
+                        }
                     }
                 }
             }
@@ -67,7 +76,7 @@ export const fetchCatchmentJobs = async () => {
                 job.status = statuses[job.status]
             }
         })
-
+        console.log(siteBasedJobs)
         return siteBasedJobs
     } catch (err) {
         throw err
@@ -112,13 +121,16 @@ export const createCatchmentJob = async (body) => {
     }
 
     // TODO: there needs to be a way to save the fields they chose (levels and groups)
-    await ky.post(url, {
+    const catchment = await ky.post(url, {
         json,
         mode: "cors",
         headers: {
             authorization: getToken(),
         },
-    })    
+    }).json()  
+    console.log(catchment)
+
+    await updateCatchmentItem(catchment.id, { field: "dhisFormInputs", value: { levelId, groupId } }) 
 }
 
 export const deleteCatchmentJob = async (id) => {
