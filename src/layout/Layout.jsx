@@ -68,8 +68,8 @@ function Layout(props) {
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
         { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null}
         {alert ? <AlertBar critical={alert.critical} alert={alert.alert} success={alert.success}>{alert.text}</AlertBar> : null}
-        {publishAlert ? <AlertBar alert={publishAlert.alert}>{publishAlert.text}</AlertBar> : null}
-        {unpublishAlert ? <AlertBar alert={unpublishAlert.alert}>{unpublishAlert.text}</AlertBar> : null}
+        {publishAlert ? <AlertBar alert={publishAlert.alert} critical={publishAlert.critical}>{publishAlert.text}</AlertBar> : null}
+        {unpublishAlert ? <AlertBar alert={unpublishAlert.alert} critical={unpublishAlert.critical}>{unpublishAlert.text}</AlertBar> : null}
         {deleteAlert ? <AlertBar alert={deleteAlert.alert}>{deleteAlert.text}</AlertBar> : null}
         {createAlert ? <AlertBar success={createAlert.success}>{createAlert.text}</AlertBar> : null}
         {jobs === null ? <CircularLoader large/> : <ListCatchmentJobs handleJobDetails={handleJobDetails} jobs={jobs} toggle={toggle} setAlert={setAlert} setPublishAlert={setPublishAlert} setUnpublishAlert={setUnpublishAlert} setDeleteAlert={setDeleteAlert}/>}
