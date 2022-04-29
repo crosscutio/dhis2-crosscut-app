@@ -1,10 +1,53 @@
-import React from "react"
-import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, Field, Input, MultiSelect } from '@dhis2/ui'
+import React, { useState, useEffect } from "react"
+import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, Field, Input, MultiSelect, SingleSelectOption, MultiSelectOption } from '@dhis2/ui'
 import ButtonItem from '../ButtonItem/ButtonItem'
-import { getCatchmentJob } from '../../api/crosscutRequests'
+import { fetchOrgUnitLevels, fetchOrgUnitGroups } from '../../api/requests.js'
+import { getCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
 
 function JobDetails(props) {
-    const { title, action, setShowJobDetailsModal, name, details } = props
+    const { title, action, setShowJobDetailsModal, name, details, id } = props
+    const [boundaries, setBoundaries] = useState(null)
+    const [country, setCountry] = useState(null)
+    const [levels, setLevels] = useState(null)
+    const [groups, setGroups] = useState(null)
+    const [selectedGroup, setSelectedGroup] = useState()
+    const [selectedLevel, setSelectedLevel] = useState()
+
+    useEffect(() => {
+        fetchBoundaries()
+        fetchLevels()
+        fetchGroups()
+        fetchJob()
+        return () => {
+            // This is the cleanup function
+          }
+    }, [])
+
+    useEffect(() => {
+        setSelectedGroup(details.groupId)
+        setSelectedLevel(details.levelId)
+    }, [details])
+
+    const fetchJob = async () => {
+        const resp = await getCatchmentJob(id)
+        setCountry(resp.boundaryId)  
+    }
+    const fetchBoundaries = async () => {
+        const respBoundaries = await fetchSupportedBoundaries()
+        setBoundaries(respBoundaries)
+    }
+
+    const fetchLevels = async () => {
+       const respLevels = await fetchOrgUnitLevels()
+       setLevels(respLevels)
+    }
+
+    const fetchGroups = async () => {
+        const respGroups = await fetchOrgUnitGroups()
+        setGroups(respGroups)
+    }
+
+
     // fetch catchment details
     const close = () => {
         setShowJobDetailsModal(false)
@@ -13,22 +56,31 @@ function JobDetails(props) {
     const renderForm = () => {
         return (
             <form>
-                <Field label="Select the country">
-                    <SingleSelect disabled>
-                    </SingleSelect>
-                </Field>
-                <Field label="Name the catchment areas">
-                    <Input disabled/>
-                </Field>
-                <Field label="Select the facility level">
-                    <SingleSelect disabled selected={details.levelId}>  
-                    </SingleSelect>
-                </Field>
-                <Field label="Select the groups">
-                    <MultiSelect disabled selected={details.groupId}> 
-                    </MultiSelect>
-                </Field>
-            </form>
+            <Field label="Select the country" >
+                <SingleSelect selected={boundaries ? country : null} disabled>
+                    {boundaries && boundaries.map((bound, index) => {
+                        return <SingleSelectOption key={`boundary-${index}`} value={bound.id} label={`${bound.countryName}`}/>
+                    })}
+                </SingleSelect>
+            </Field>
+            <Field label="Name the catchment areas">
+                <Input value={name} disabled/>
+            </Field>
+            <Field label="Select the facility level">
+                <SingleSelect selected={levels ? selectedLevel : null} disabled>
+                    {levels && levels.map((level, index) => {
+                        return <SingleSelectOption key={index} label={level.name} value={level.id}/>
+                    })}
+                </SingleSelect>
+            </Field>
+            <Field label="Select the groups">
+                <MultiSelect selected={groups ? selectedGroup : []} disabled>
+                    {groups && groups.map((group, index) => {
+                        return <MultiSelectOption key={index} label={group.name} value={group.id}/>
+                    })}
+                </MultiSelect>
+            </Field>
+        </form>
         )
     }
 
