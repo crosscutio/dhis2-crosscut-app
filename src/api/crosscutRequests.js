@@ -42,6 +42,16 @@ export const fetchCatchmentJobs = async () => {
 
                 if (job.properties !== null) {
                     const attribute = job.properties.find((prop) => prop.field === "attributeId")
+
+                    const detail = job.properties.find((prop) => prop.field === "dhisFormInputs")
+                    console.log(detail)
+
+                    if (detail !== undefined) {
+                        console.log(detail)
+                        job.jobDetails = detail.value
+                        console.log(job.jobDetails)
+                    }
+
                     if (attribute !== undefined) {
                         const found = allAttributes.find((att) => att.id === attribute.value)
 
@@ -115,14 +125,16 @@ export const createCatchmentJob = async (body) => {
         algorithm: "site-based"
     }
 
-    // TODO: there needs to be a way to save the fields they chose (levels and groups)
-    await ky.post(url, {
+    const catchment = await ky.post(url, {
         json,
         mode: "cors",
         headers: {
             authorization: getToken(),
         },
-    })    
+    }).json()  
+    console.log(catchment)
+
+    await updateCatchmentItem(catchment.id, { field: "dhisFormInputs", value: { levelId, groupId } })    
 }
 
 export const deleteCatchmentJob = async (id) => {
