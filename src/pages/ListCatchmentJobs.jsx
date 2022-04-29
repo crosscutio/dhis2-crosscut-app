@@ -12,7 +12,7 @@ import i18n from "../locales/index"
 import styles from './ListCatchmentJobs.module.css'
 
 function ListCatchmentJobs(props) {
-  const { jobs, toggle, handleJobDetails, setAlert } = props
+  const { jobs, toggle, handleJobDetails, setAlert, setPublishAlert, setUnpublishAlert, setDeleteAlert } = props
   const [{ column, direction }, setSortInstructions] = useState({
     column: 'date',
     direction: 'desc',
@@ -31,6 +31,7 @@ function ListCatchmentJobs(props) {
   }
 
   return (
+    <>
     <div className={styles.container}>
       <Card>
         <DataTable>
@@ -38,7 +39,7 @@ function ListCatchmentJobs(props) {
             <DataTableRow>
               <DataTableColumnHeader fixed top="0" width="48px" ></DataTableColumnHeader>
               <DataTableColumnHeader fixed top="0" name="name" sortIconTitle="sort by name" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('name')}>{i18n.t("Name")}</DataTableColumnHeader>
-              <DataTableColumnHeader fixed top="0" name="date" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('date')}>{i18n.t("Date Created")}</DataTableColumnHeader>
+              <DataTableColumnHeader fixed top="0" name="id" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('id')}>{i18n.t("Date Created")}</DataTableColumnHeader>
               <DataTableColumnHeader fixed top="0" name="status" sortIconTitle="sort by status" onSortIconClick={onSortIconClick} sortDirection={getSortDirection('status')}>{i18n.t("Status")}</DataTableColumnHeader>
               <DataTableColumnHeader fixed top="0">{i18n.t("Publish DHIS2")}</DataTableColumnHeader>
               <DataTableColumnHeader fixed top="0" width="48px"></DataTableColumnHeader>
@@ -53,12 +54,12 @@ function ListCatchmentJobs(props) {
               if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
               return 0
           }).map((job) => {
-            return <JobItem setWarning={setAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails}/>
-          })}
-          </TableBody>
+            return <JobItem setAlert={setAlert} setPublishAlert={setPublishAlert} setUnpublishAlert={setUnpublishAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} properties={job.properties} attributeId={job.attributeId} setDeleteAlert={setDeleteAlert}/>
+          })}</TableBody>
         </DataTable>
       </Card>
     </div>
+    </>
   );
 }
 export default ListCatchmentJobs;

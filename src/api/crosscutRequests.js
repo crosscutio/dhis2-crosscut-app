@@ -17,13 +17,11 @@ export const fetchCatchmentJobs = async () => {
           },
         }).json()
 
-        // TODO: check for published catchments to update the status
-        // the different statues to display
         const statuses = {
             "SUCCESS": i18n.t("Ready"),
-            "PUBLISHED": i18n.t("Publish"),
-            "UNPUBLISH": i18n.t("Unpublish"),
-            "PENDING": i18n.t("Pending")
+            "PUBLISHED": i18n.t("Published"),
+            "PENDING": i18n.t("Pending"),
+            "FAILURE": i18n.t("Failed")
         }
         // filter out jobs that aren't site-based
         const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === "site-based")
@@ -33,15 +31,45 @@ export const fetchCatchmentJobs = async () => {
             return 0
         })
 
-        siteBasedJobs.map((job) => {
+        const allAttributes = await fetchCurrentAttributes()
+        // TODO: add error handling
+
+        siteBasedJobs.map(async (job) => {
+            job.date = job.date === undefined ? "" : job.date.split("T")[0]
+
             if (job.status === "SUCCESS") {
                 job.status = statuses[job.status]
+
+                if (job.properties !== null) {
+                    const attribute = job.properties.find((prop) => prop.field === "attributeId")
+                    if (attribute !== undefined) {
+                        const found = allAttributes.find((att) => att.id === attribute.value)
+
+                        // if the attribute is in DHIS2 and in Crosscut then show the published status
+                        if (attribute !== undefined && found !== undefined) {
+                            job.status = statuses["PUBLISHED"]
+                            job.attributeId = attribute.value
+                        // if the attribute is not in DHIS2 but in Crosscut then remove the attribute from Crosscut
+                        } else if (attribute !== undefined && found === undefined) {
+                            if (job.properties.length === 1) {
+                                job.properties = null
+                           } else if (job.properties.length > 1) {
+                               job.properties = job.properties.filter((prop) => prop.field !== "attributeId")
+                           }
+                            await updateCatchmentItem(job.id, { field: "attributeId" })
+                        }
+                    }
+                   
+                }
             }
+
             if (job.status === "PENDING") {
                 job.status = statuses[job.status]
             }
             
-            job.date = job.date === undefined ? "" : job.date.split("T")[0]
+            if (job.status === "FAILURE") {
+                job.status = statuses[job.status]
+            }
         })
 
         return siteBasedJobs
@@ -61,8 +89,10 @@ export const createCatchmentJob = async (body) => {
     // the csv should get passed in to be used
     if (csv === "") {
         data = await fetchValidPoints(levelId, groupId)
+
+        // no sites were found
         if (data.length === 0) {
-            return { error: { message: "Not Found", status: 404 } } 
+            return { error: { message: "No Content", status: 204 } } 
         }
         data = data.map((d) => {
             d["orgUnitId"] = d.id
@@ -78,7 +108,6 @@ export const createCatchmentJob = async (body) => {
             lat: "lat",
             lng: "long",
             name: "name",
-            orgUnitId: "orgUnitId"
         },
         name: body.name,
         country: body.country,
@@ -120,13 +149,76 @@ export const fetchSupportedBoundaries = async () => {
                 authorization: getToken(),
             }
         }).json()
-
        
         return resp.boundaryList.filter((bound) => bound.featureFlags.includes("all")).filter((bound) => bound.entireCountry === true).sort((a,b) => {
             if (a.countryName > b.countryName) return 1
             if (a.countryName < b.countryName) return -1
             return 0
         })
+    } catch (err) {
+        throw err
+    }
+}
+
+export const getCatchmentGeoJSON = async (id) => {
+    const url = `${baseURL}/catchment-jobs/${id}/geojson`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken(),
+            }
+        }).json()
+
+        return resp.features
+    } catch (err) {
+        throw err
+    }
+}
+
+export const updateCatchmentItem = async (id, json) => {
+    const url = `${baseURL}/catchment-jobs/${id}/item`
+    try {
+        const resp = await ky.put(url, {
+            json,
+            mode: "cors",
+            headers: {
+                authorization: getToken()
+            }
+        }).json()
+        return resp
+    } catch (err) {
+        throw err
+    }
+}
+
+export const getCatchmentJobAttributeId = async (id) => {
+    const url = `${baseURL}/catchment-jobs/${id}`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken()
+            }
+        }).json()
+        
+        return resp.properties.find((prop) => prop.field === "attributeId")
+    } catch (err) {
+        throw err
+    }
+}
+
+export const getCatchmentJob = async (id) => {
+    const url = `${baseURL}/catchment-jobs/${id}`
+    try {
+        const resp = await ky(url, {
+            mode: "cors",
+            headers: {
+                authorization: getToken()
+            }
+        }).json()
+        
+        return resp
     } catch (err) {
         throw err
     }

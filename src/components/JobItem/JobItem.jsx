@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
     DataTableRow,
     DataTableCell,
@@ -7,25 +7,105 @@ import {
 } from '@dhis2/ui'
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
-import { fetchACatchmentInUse, fetchCurrentAttributes } from '../../api/requests'
 import Delete from "../Delete/Delete"
+import { fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
-    const { name, status, date, id, toggle, handleJobDetails, setWarning } = props
+    const { name, status, date, id, toggle, handleJobDetails, setAlert, properties, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert } = props
     const [showDelete, setShowDelete] = useState(false)
-    // TODO: publish and unpublish
-    // get key when click on to publish/unpublish
-    const handleConnectionDHIS2 = async () => {
-        // take the value which is the catchmentId to do something about it
-        const resp = await fetchCurrentAttributes()
-        const found = resp.find((attribute) => attribute.name.toLowerCase() === name.toLowerCase())
+    const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
+    const [isLoading, setIsLoading] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
 
-        if (found !== undefined) {
-            // alert the user if the name is already in use
-            setWarning({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
+    useEffect(() => {
+        if (attributeId !== undefined) {
+            setPublishStatus(i18n.t("Unpublish"))
+        }
+    }, [attributeId])
+
+    const handleConnectionDHIS2 = async () => {
+        if (publishStatus === i18n.t("Publish")) {
+            await handlePublish()
+        } else if (publishStatus === i18n.t("Unpublish")) {
+            await handleUnpublish() 
+        }
+    }   
+
+    const handleUnpublish = async () => {
+        setIsLoading(true)
+        setPublishStatus(null)
+        try {
+            await unPublishCatchment({
+            id,
+            attributeId,
+            name,
+            setStatus: setPublishStatus
+            })
+            toggle()
+            setIsLoading(false)
+            setPublishAlert(null)
+            setUnpublishAlert({ text: i18n.t("Unpublished")})
             setTimeout(() => {
-                setWarning(null)
+                setUnpublishAlert(null)
+                // 5s
             }, 5000)
+        } catch (err) {
+            setPublishAlert({ text: i18n.t(err.message), critical: true })
+            setTimeout(() => {
+                setPublishAlert(null)
+                // 5s
+            }, 5000)
+            setIsLoading(false)
+            setPublishStatus(i18n.t("Unpublish"))
+        }  
+    }
+
+    const handlePublish = async () => {
+        setIsLoading(true)
+        // take the value which is the catchmentId to do something about it
+        try { 
+            const resp = await fetchCurrentAttributes()
+            const found = resp.find((attribute) => attribute.name.toLowerCase().split("crosscut ")[1] === name.toLowerCase())
+
+            if (found !== undefined) {
+                // alert the user if the name is already in use
+                setAlert({text: i18n.t("Name is already in use. Create a new catchment with a different name."), critical: true})
+                setTimeout(() => {
+                    setAlert(null)
+                }, 5000)
+                setIsLoading(false)
+                return
+            }
+
+            if (found === undefined) {
+                setPublishStatus(null)
+                await publishCatchment({
+                    id,
+                    payload: {  
+                        name: `Crosscut ${name}`,
+                        organisationUnitAttribute: true,
+                        shortName: `Crosscut ${name}`,
+                        valueType: "GEOJSON"
+                    },
+                    setStatus: setPublishStatus
+                })            
+            }
+            toggle()
+            setIsLoading(false)
+            setPublishAlert(null)
+            setPublishAlert({ text: i18n.t("Published")})
+            setTimeout(() => {
+                setPublishAlert(null)
+                // 5s
+            }, 5000)
+        } catch (err) {
+            setPublishAlert({ text: i18n.t(err.message), critical: true })
+            setTimeout(() => {
+                setPublishAlert(null)
+                // 5s
+            }, 5000)
+            setPublishStatus(i18n.t("Publish"))
+            setIsLoading(false)
         }
     }
 
@@ -55,13 +135,13 @@ function JobItem(props) {
 
     return (
         <DataTableRow id={id}>
-           {showDelete ? <Delete setShowDelete={setShowDelete} toggle={toggle} id={id}/> : null}
+           {showDelete ? <Delete setShowDelete={setShowDelete} setDeleteAlert={setDeleteAlert} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attributeId={attributeId} setIsDeleting={setIsDeleting}/> : null}
           <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
-          <DataTableCell><ButtonItem value={id} handleClick={handleConnectionDHIS2} buttonText={i18n.t("Publish")} primary={true}/></DataTableCell>
-          <DataTableCell width="48px" dense><ButtonItem value={id} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
+          <DataTableCell><ButtonItem value={id} disabled={status === i18n.t("Pending") || status === i18n.t("Failed")} handleClick={handleConnectionDHIS2} loading={isLoading} buttonText={publishStatus} primary={true}/></DataTableCell>
+          <DataTableCell width="48px" dense><ButtonItem value={id} loading={isDeleting} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
       );
 }
