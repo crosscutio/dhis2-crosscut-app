@@ -199,7 +199,12 @@ function Create(props) {
                     setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
                     setHasErrors(true)
                 } else if (resp.error.status === 204) {
+                    setAlertError(null)
                     setAlertError({ text: i18n.t("No sites were found"), critical: true })
+                    setTimeout(() => {
+                        setAlertError(null)
+                        // 5s
+                    }, 5000)
                 }
             
                 setIsLoading(false)
