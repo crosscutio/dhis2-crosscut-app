@@ -25,7 +25,12 @@ function Delete(props) {
         toggle()
         setIsLoading(false)
         setShowDelete(false) 
+        setDeleteAlert(null)
         setDeleteAlert({ text: i18n.t("Deleted")})
+        setTimeout(() => {
+            setDeleteAlert(null)
+            // 5s
+        }, 5000)
     }
 
     const close = () => {

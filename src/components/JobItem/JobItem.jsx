@@ -43,6 +43,7 @@ function JobItem(props) {
             })
             toggle()
             setIsLoading(false)
+            setPublishAlert(null)
             setUnpublishAlert({ text: i18n.t("Unpublished")})
             setTimeout(() => {
                 setUnpublishAlert(null)
@@ -91,6 +92,7 @@ function JobItem(props) {
             }
             toggle()
             setIsLoading(false)
+            setPublishAlert(null)
             setPublishAlert({ text: i18n.t("Published")})
             setTimeout(() => {
                 setPublishAlert(null)

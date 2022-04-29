@@ -209,10 +209,20 @@ function Create(props) {
                 // toggle to fetch for jobs
                 toggle()
                 setIsLoading(false)
+                setCreateAlert(null)
                 setCreateAlert({ text: i18n.t("Your catchment areas are being created. It should be ready in a few minutes."), success: true})
+                setTimeout(() => {
+                    setCreateAlert(null)
+                    // 5s
+                }, 5000)
             }  
         } catch (err) {
+            setAlertError(null)
             setAlertError({ text: i18n.t(err.message), critical: true })
+            setTimeout(() => {
+                setAlertError(null)
+                // 5s
+            }, 5000)
             return { error: err.message }
         }
     }
