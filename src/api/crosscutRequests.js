@@ -85,6 +85,8 @@ export const fetchCatchmentJobs = async () => {
 }
 
 export const createCatchmentJob = async (body) => {
+    try {
+        console.log("hit it here")
     const url = `${baseURL}/catchment-jobs`
     const levelId = body.level
     const groupId = body.group
@@ -95,10 +97,10 @@ export const createCatchmentJob = async (body) => {
     // the csv should get passed in to be used
     if (csv === "") {
         data = await fetchValidPoints(levelId, groupId)
-
+        console.log(data)
         // no sites were found
         if (data.length === 0) {
-            return { error: { message: "No Content", status: 204 } } 
+            throw { error: { message: "No Content", status: 204 } } 
         }
         data = data.map((d) => {
             d["orgUnitId"] = d.id
@@ -109,6 +111,7 @@ export const createCatchmentJob = async (body) => {
     } else {
         csv = papaparse.unparse(body.csv)
     }
+    console.log(csv)
     const json = {
         fields: {
             lat: "lat",
@@ -129,7 +132,12 @@ export const createCatchmentJob = async (body) => {
         },
     }).json()  
 
-    await updateCatchmentItem(catchment.id, { field: "dhisFormInputs", value: { levelId, groupId } })    
+    console.log(catchment)
+    await updateCatchmentItem(catchment.id, { field: "dhisFormInputs", value: { levelId, groupId } }) 
+    } catch (err) {
+        console.log(err)
+        throw err
+    }  
 }
 
 export const deleteCatchmentJob = async (id) => {

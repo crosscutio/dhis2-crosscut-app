@@ -46,6 +46,9 @@ function Create(props) {
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
     const [alertError, setAlertError] = useState(null)
+    const [characterCount, setCharacterCount] = useState(0)
+
+    const maxCharacters = 40
 
     useEffect(() => {
         fetchBoundaries()
@@ -139,12 +142,18 @@ function Create(props) {
     }
 
     const handleNameChange = async (e) => {
+        const count = e.value.split("").length
+        if (count/maxCharacters === 1) {
+            return
+        }
+        setCharacterCount(count)
+
         const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === e.value.toLowerCase())
         // crosscut was prepended to published catchments
         const publishedNames = currentNames.find((name) => name.name.toLowerCase().split("crosscut ")[1] === e.value.toLowerCase())
 
         if (publishedNames !== undefined || catchmentNames !== undefined) {
-             setNameText(i18n.t("Name is already in use"))
+            setNameText(i18n.t("Name is already in use"))
             setFormInputs(prevState => ({
                 ...prevState,
                 name: ""
@@ -174,42 +183,8 @@ function Create(props) {
         }
         
         setIsLoading(true)
-        try {
-            const resp = await createCatchmentJob(formInputs).catch( async (err) => {
-                const data = JSON.parse(await err.response.text())
-                if (data.csv) {
-                    const resp = papaparse.parse(data.csv.trim(), { header: true })
-                    return { error: resp }
-                } else {
-                    setAlertError({ text: i18n.t(data.message), critical: true })
-                    return { error: data }
-                }
-            })
-            // if there are errors then set the error
-            if (resp?.error) {
-                if (resp.error.data) {
-                    const errors = resp.error.data.filter((data) => data["cc:ErrorMessage"] !== "") 
-                    const clean = resp.error.data.filter((data) => data["cc:ErrorMessage"] === "")
-        
-                    if (clean.length === 0) {
-                        setErrorMessage({ message: i18n.t("There are no valid sites."), proceed: false })
-                    } else {
-                        setErrorMessage({ message: i18n.t("Click proceed to continue. The sites with errors will be removed if you proceed, or click cancel to go back.") , proceed: true })
-                    }
-                    setErrorData({ data: resp.error.data, fields: resp.error.meta.fields, errors: errors})
-                    setHasErrors(true)
-                } else if (resp.error.status === 204) {
-                    setAlertError(null)
-                    setAlertError({ text: i18n.t("No sites were found"), critical: true })
-                    setTimeout(() => {
-                        setAlertError(null)
-                        // 5s
-                    }, 5000)
-                }
-            
-                setIsLoading(false)
-            } else {
-                // close the modal
+        // try {
+            await createCatchmentJob(formInputs).then(() => {
                 close()
                 // toggle to fetch for jobs
                 toggle()
@@ -219,17 +194,51 @@ function Create(props) {
                 setTimeout(() => {
                     setCreateAlert(null)
                     // 5s
-                }, 5000)
-            }  
-        } catch (err) {
-            setAlertError(null)
-            setAlertError({ text: i18n.t(err.message), critical: true })
-            setTimeout(() => {
-                setAlertError(null)
-                // 5s
-            }, 5000)
-            return { error: err.message }
-        }
+                }, 5000) 
+              }).catch( async (err) => {
+                try {
+                    const response = JSON.parse(await err.response.text())
+                    if (response.code === "CSV_ROW_ERROR") {
+                        const resp = papaparse.parse(response.csv.trim(), { header: true })
+                        const errors = resp.data.filter((data) => data["cc:ErrorMessage"] !== "") 
+                        const clean = resp.data.filter((data) => data["cc:ErrorMessage"] === "")
+                        
+                        if (clean.length === 0) {
+                            setErrorMessage(null)
+                            setErrorMessage({ message: i18n.t("There are no valid sites."), proceed: false })
+                        } else {
+                            setErrorMessage(null)
+                            setErrorMessage({ message: i18n.t("Click proceed to continue. The sites with errors will be removed if you proceed, or click cancel to go back.") , proceed: true })
+                        }
+                        setErrorData({ data: resp.data, fields: resp.meta.fields, errors: errors})
+                        setHasErrors(true)
+                        setIsLoading(false)
+                        return { error: resp }
+                    } else if (response.error.status === 204) {
+                        setAlertError(null)
+                        setAlertError({ text: i18n.t("No sites were found"), critical: true })
+                        setTimeout(() => {
+                            setAlertError(null)
+                            // 5s
+                        }, 5000)
+                        setIsLoading(false)
+                        return 
+                    } else {
+                        setAlertError({ text: i18n.t(response.message), critical: true })
+                        setIsLoading(false)
+                        return { error: response }
+                    }
+                } catch (err) {
+                    setAlertError(null)
+                    setAlertError({ text: i18n.t("INTERNAL ERROR"), critical: true })
+                    setTimeout(() => {
+                        setAlertError(null)
+                        // 5s
+                    }, 5000)
+                    setIsLoading(false)
+                    throw err
+                }
+            })
     }
 
     // remove rows with errors and create
@@ -261,7 +270,7 @@ function Create(props) {
                     </SingleSelect>
                 </Field>
 
-                <Field label="Name the catchment areas" required validationText={nameText} warning>
+                <Field label="Name the catchment areas" required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
                     <Input onChange={handleNameChange}/>
                 </Field>
                 <Field label="Select the facility level" required validationText={levelText} error>
