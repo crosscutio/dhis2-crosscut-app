@@ -143,7 +143,7 @@ function Create(props) {
 
     const handleNameChange = async (e) => {
         const count = e.value.split("").length
-        if (count/maxCharacters === 1) {
+        if (count > maxCharacters) {
             return
         }
         setCharacterCount(count)
@@ -271,7 +271,7 @@ function Create(props) {
                 </Field>
 
                 <Field label="Name the catchment areas" required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
-                    <Input onChange={handleNameChange}/>
+                    <Input onChange={handleNameChange} value={formInputs.name}/>
                 </Field>
                 <Field label="Select the facility level" required validationText={levelText} error>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
