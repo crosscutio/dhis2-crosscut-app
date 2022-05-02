@@ -44,12 +44,9 @@ export const fetchCatchmentJobs = async () => {
                     const attribute = job.properties.find((prop) => prop.field === "attributeId")
 
                     const detail = job.properties.find((prop) => prop.field === "dhisFormInputs")
-                    console.log(detail)
 
                     if (detail !== undefined) {
-                        console.log(detail)
                         job.jobDetails = detail.value
-                        console.log(job.jobDetails)
                     }
 
                     if (attribute !== undefined) {
@@ -81,7 +78,6 @@ export const fetchCatchmentJobs = async () => {
                 job.status = statuses[job.status]
             }
         })
-
         return siteBasedJobs
     } catch (err) {
         throw err
@@ -132,7 +128,6 @@ export const createCatchmentJob = async (body) => {
             authorization: getToken(),
         },
     }).json()  
-    console.log(catchment)
 
     await updateCatchmentItem(catchment.id, { field: "dhisFormInputs", value: { levelId, groupId } })    
 }
