@@ -144,13 +144,7 @@ function Create(props) {
 
     const handleNameChange = async (e) => {
         const count = e.value.split("").length
-<<<<<<< HEAD
         if (count > maxCharacters) return
-=======
-        if (count/maxCharacters === 1) {
-            return
-        }
->>>>>>> bdd29f3 (characters)
         setCharacterCount(count)
 
         const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === e.value.toLowerCase())
