@@ -143,9 +143,7 @@ function Create(props) {
 
     const handleNameChange = async (e) => {
         const count = e.value.split("").length
-        if (count > maxCharacters) {
-            return
-        }
+        if (count > maxCharacters) return
         setCharacterCount(count)
 
         const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === e.value.toLowerCase())
@@ -197,7 +195,12 @@ function Create(props) {
                 }, 5000) 
               }).catch( async (err) => {
                 try {
-                    const response = JSON.parse(await err.response.text())
+                    let response 
+                    if (err.response.status === 204) {
+                        response = err.response
+                    }else {
+                        response = JSON.parse(await err.response.text())
+                    }
                     if (response.code === "CSV_ROW_ERROR") {
                         const resp = papaparse.parse(response.csv.trim(), { header: true })
                         const errors = resp.data.filter((data) => data["cc:ErrorMessage"] !== "") 
@@ -214,7 +217,7 @@ function Create(props) {
                         setHasErrors(true)
                         setIsLoading(false)
                         return { error: resp }
-                    } else if (response.error.status === 204) {
+                    } else if (response.status === 204) {
                         setAlertError(null)
                         setAlertError({ text: i18n.t("No sites were found"), critical: true })
                         setTimeout(() => {
