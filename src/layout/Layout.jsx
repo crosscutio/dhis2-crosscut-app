@@ -5,7 +5,6 @@ import Info from '../components/Info/Info'
 import Nav from '../components/Nav/Nav'
 import i18n from '../locales/index.js'
 import { AlertBar, CircularLoader  } from "@dhis2/ui"
-import JobDetails from '../components/JobDetails/JobDetails'
 import { fetchCatchmentJobs } from "../api/crosscutRequests"
 import { useToggle } from "../hooks/useToggle"
 import { setToken } from "../services/JWTManager";
@@ -18,7 +17,6 @@ function Layout(props) {
     const [deleteAlert, setDeleteAlert] = useState(null)
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showInfoModal, setShowInfoModal] = useState(false)
-    // const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
     const [modalText, setModalText] = useState({ title: "", action: ""})
     const [jobs, setJobs] = useState(null)
     const [isToggled, toggle] = useToggle(false)
@@ -58,15 +56,10 @@ function Layout(props) {
         setShowInfoModal(true)
     }
 
-    // const handleJobDetails = () => {
-    //     setShowJobDetailsModal(true)
-    //     setModalText({ title: i18n.t("Catchment details"), action: i18n.t("Close")})
-    // }
     return <>
         <Nav handleClick={handleCreate} jobs={jobs} handleInfo={handleInfo}/>
         { showCreateModal === true ? <Create title={modalText.title} setShowCreateModal={setShowCreateModal} action={modalText.action} toggle={toggle} setAlert={setAlert} setCreateAlert={setCreateAlert}/> : null}
         { showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal}/> : null}
-        {/* { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action}/> : null} */}
         {alert ? <AlertBar critical={alert.critical} alert={alert.alert} success={alert.success}>{alert.text}</AlertBar> : null}
         {publishAlert ? <AlertBar alert={publishAlert.alert} critical={publishAlert.critical}>{publishAlert.text}</AlertBar> : null}
         {unpublishAlert ? <AlertBar alert={unpublishAlert.alert} critical={unpublishAlert.critical}>{unpublishAlert.text}</AlertBar> : null}

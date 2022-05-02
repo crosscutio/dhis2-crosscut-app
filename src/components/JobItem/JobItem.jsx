@@ -12,7 +12,7 @@ import JobDetails from "../JobDetails/JobDetails";
 import { fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
-    const { name, status, date, id, toggle, setAlert, properties, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert, details } = props
+    const { name, status, date, id, toggle, setAlert, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert, details } = props
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     const [isLoading, setIsLoading] = useState(false)
