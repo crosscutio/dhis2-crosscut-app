@@ -8,14 +8,17 @@ import {
 import ButtonItem from "../ButtonItem/ButtonItem";
 import i18n from '../../locales/index.js'
 import Delete from "../Delete/Delete"
+import JobDetails from "../JobDetails/JobDetails";
 import { fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
 
 function JobItem(props) {
-    const { name, status, date, id, toggle, handleJobDetails, setAlert, properties, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert } = props
+    const { name, status, date, id, toggle, setAlert, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert, details } = props
     const [showDelete, setShowDelete] = useState(false)
     const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
     const [isLoading, setIsLoading] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
+    const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
+    const [modalText, setModalText] = useState({ title: "", action: ""})
 
     useEffect(() => {
         if (attributeId !== undefined) {
@@ -129,20 +132,24 @@ function JobItem(props) {
     }
 
     const handleGetDetails = (e) => {
-        handleJobDetails()
-        // get details of catchment
+        if (details === undefined) return 
+        setShowJobDetailsModal(true)
+        setModalText({ title: i18n.t("Catchment details"), action: i18n.t("Close")})
     }
 
     return (
+        <>
+        { showJobDetailsModal === true ? <JobDetails setShowJobDetailsModal={setShowJobDetailsModal} title={modalText.title} action={modalText.action} id={id} name={name} details={details}/> : null}
         <DataTableRow id={id}>
            {showDelete ? <Delete setShowDelete={setShowDelete} setDeleteAlert={setDeleteAlert} toggle={toggle} id={id} handleUnpublish={handleUnpublish} attributeId={attributeId} setIsDeleting={setIsDeleting}/> : null}
-          <DataTableCell width="48px"><ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/></DataTableCell>
+          <DataTableCell width="48px">{details ? <ButtonItem value={id} handleClick={handleGetDetails} buttonText={<IconFileDocument16/>} borderless={true}/> : null}</DataTableCell>
           <DataTableCell dense>{name}</DataTableCell>
           <DataTableCell>{date}</DataTableCell>
           <DataTableCell>{status}</DataTableCell>
           <DataTableCell><ButtonItem value={id} disabled={status === i18n.t("Pending") || status === i18n.t("Failed")} handleClick={handleConnectionDHIS2} loading={isLoading} buttonText={publishStatus} primary={true}/></DataTableCell>
           <DataTableCell width="48px" dense><ButtonItem value={id} loading={isDeleting} handleClick={handleDelete} buttonText={<IconDelete16/>} borderless={true}/></DataTableCell>
         </DataTableRow>
+        </>
       );
 }
 
