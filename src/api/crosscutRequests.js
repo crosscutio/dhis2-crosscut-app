@@ -96,6 +96,7 @@ export const createCatchmentJob = async (body) => {
         // the csv should get passed in to be used
         if (csv === "") {
             data = await fetchValidPoints(levelId, groupId)
+            console.log(data)
             // no sites were found
             if (data.length === 0) {
                 throw { response: { message: "No Content", status: 204 } } 

@@ -284,20 +284,33 @@ function Create(props) {
                         })}
                     </SingleSelect>
                 </Field>
-
                 <Field label="Name the catchment areas" required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
                     <Input onChange={handleNameChange} value={formInputs.name}/>
                 </Field>
-                <Field label="Select the facility level" required validationText={levelText} error>
+                {/* {formInputs.group.length > 0 ? null : <Field label="Select the facility level" required validationText={levelText} error>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                         })}
                         <ButtonItem buttonText={i18n.t("Clear")} handleClick={handleClear}/>
                     </SingleSelect>
+                </Field>} */}
+                <Field label="Select the facility level" required validationText={levelText} error>
+                    <SingleSelect onChange={handleLevelChange} selected={formInputs.level} disabled={formInputs.group.length > 0}>
+                        {levels && levels.map((level, index) => {
+                            return <SingleSelectOption key={index} label={level.name} value={level.id}/>
+                        })}
+                    </SingleSelect>
                 </Field>
-                <Field label="Select the groups" required>
+                {/* {formInputs.level ? null :  <Field label="Select the groups" required>
                     <MultiSelect onChange={handleGroupChange} selected={formInputs.group}>
+                        {groups && groups.map((group, index) => {
+                            return <MultiSelectOption key={index} label={group.name} value={group.id}/>
+                        })}
+                    </MultiSelect>
+                </Field>} */}
+                <Field label="Select the groups" required>
+                    <MultiSelect onChange={handleGroupChange} selected={formInputs.group} disabled={formInputs.level}>
                         {groups && groups.map((group, index) => {
                             return <MultiSelectOption key={index} label={group.name} value={group.id}/>
                         })}
