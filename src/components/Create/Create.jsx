@@ -24,6 +24,7 @@ import { fetchOrgUnitLevels, fetchOrgUnitGroups, fetchCurrentAttributes } from '
 import { createCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
 import i18n from '../../locales/index.js'
 import papaparse from "papaparse"
+import styles from "./Create.module.css"
 
 function Create(props) {
     const { title, action, setShowCreateModal, jobs, toggle, setCreateAlert } = props
@@ -46,7 +47,7 @@ function Create(props) {
     const [errorMessage, setErrorMessage] = useState(null)
     const [alertError, setAlertError] = useState(null)
     const [characterCount, setCharacterCount] = useState(0)
-
+    const [filterText, setFilterText] = useState(null)
     const maxCharacters = 40
 
     useEffect(() => {
@@ -182,11 +183,17 @@ function Create(props) {
             return
         }
 
+        if (formInputs.level === "" && formInputs.group.length === 0) {
+            setFilterText(i18n.t("Filter required"))
+            return
+        }
+        
         const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === formInputs.name.toLowerCase())
         // crosscut was prepended to published catchments
         const publishedNames = currentNames.find((name) => name.name.toLowerCase().split("crosscut ")[1] === formInputs.name.toLowerCase())
 
         if (publishedNames !== undefined || catchmentNames !== undefined) return setNameText(i18n.t("Name is already in use"))
+
 
         
         setIsLoading(true)
@@ -273,30 +280,33 @@ function Create(props) {
     const renderForm = () => {
         return (
             <form>
-                <Field label="Select the country" required validationText={countryText} error>
+                <Field label={i18n.t("Select the country")} required validationText={countryText} error>
                     <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
                         {boundaries && boundaries.map((bound, index) => {
                             return <SingleSelectOption key={`boundary-${index}`} value={bound.id} label={`${bound.countryName}`}/>
                         })}
                     </SingleSelect>
                 </Field>
-                <Field label="Name the catchment areas" required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
+                <Field label={i18n.t("Name the catchment areas")} required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
                     <Input onChange={handleNameChange} value={formInputs.name}/>
                 </Field>
-                <Field label="Select the facility level" error>
+                <Field label={i18n.t("Filter by facility level or by groups")} required validationText={filterText} error></Field>
+                <div className={styles.filter}>
+                <Field label={i18n.t("Select the facility level")}>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level} disabled={formInputs.group.length > 0}>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                         })}
                     </SingleSelect>
                 </Field>
-                <Field label="Select the groups">
+                <Field label={i18n.t("Select the groups")}>
                     <MultiSelect onChange={handleGroupChange} selected={formInputs.group} disabled={formInputs.level}>
                         {groups && groups.map((group, index) => {
                             return <MultiSelectOption key={index} label={group.name} value={group.id}/>
                         })}
                     </MultiSelect>
                 </Field>
+                </div>
             </form>
         )
     }
