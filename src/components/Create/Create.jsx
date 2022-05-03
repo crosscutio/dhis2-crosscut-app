@@ -40,7 +40,6 @@ function Create(props) {
     const [currentNames, setCurrentNames] = useState([])
     const [nameText, setNameText] = useState(null)
     const [countryText, setCountryText] = useState(null)
-    const [levelText, setLevelText] = useState(null)
     const [errorData, setErrorData] = useState(null)
     const [hasErrors, setHasErrors] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -182,10 +181,7 @@ function Create(props) {
             setNameText(i18n.t("Name required"))
             return
         }
-        if (formInputs.level === "") {
-            setLevelText(i18n.t("Level required"))
-            return
-        }
+
         const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === formInputs.name.toLowerCase())
         // crosscut was prepended to published catchments
         const publishedNames = currentNames.find((name) => name.name.toLowerCase().split("crosscut ")[1] === formInputs.name.toLowerCase())
@@ -287,29 +283,14 @@ function Create(props) {
                 <Field label="Name the catchment areas" required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
                     <Input onChange={handleNameChange} value={formInputs.name}/>
                 </Field>
-                {/* {formInputs.group.length > 0 ? null : <Field label="Select the facility level" required validationText={levelText} error>
-                    <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
-                        {levels && levels.map((level, index) => {
-                            return <SingleSelectOption key={index} label={level.name} value={level.id}/>
-                        })}
-                        <ButtonItem buttonText={i18n.t("Clear")} handleClick={handleClear}/>
-                    </SingleSelect>
-                </Field>} */}
-                <Field label="Select the facility level" required validationText={levelText} error>
+                <Field label="Select the facility level" error>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level} disabled={formInputs.group.length > 0}>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                         })}
                     </SingleSelect>
                 </Field>
-                {/* {formInputs.level ? null :  <Field label="Select the groups" required>
-                    <MultiSelect onChange={handleGroupChange} selected={formInputs.group}>
-                        {groups && groups.map((group, index) => {
-                            return <MultiSelectOption key={index} label={group.name} value={group.id}/>
-                        })}
-                    </MultiSelect>
-                </Field>} */}
-                <Field label="Select the groups" required>
+                <Field label="Select the groups">
                     <MultiSelect onChange={handleGroupChange} selected={formInputs.group} disabled={formInputs.level}>
                         {groups && groups.map((group, index) => {
                             return <MultiSelectOption key={index} label={group.name} value={group.id}/>

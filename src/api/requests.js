@@ -29,25 +29,20 @@ export const fetchCurrentAttributes = async () => {
 }
 
 export const fetchValidPoints = async (levelId, groupId) => {
-    console.log(groupId)
     let url 
-    if (levelId !== undefined && groupId.length === 0) {
+    if (levelId !== "" && groupId.length === 0) {
         url = `/geoFeatures?ou=ou%3ALEVEL-${levelId}&displayProperty=NAME`
-    } else if (levelId === undefined && groupId.length > 0) {
-
+    } else if (levelId === "" && groupId.length > 0) {
         let groupLink = []
         if (groupId.length > 1) {   
             groupId.forEach((id) => groupLink.push(`%3BOU_GROUP-${id}`))
         } else {
             groupLink = groupId
         }
-        url = `/geoFeatures?ou=ou%3BOU_GROUP-${groupLink}&displayProperty=NAME`
+        url = `/geoFeatures?ou=ou%3AOU_GROUP-${groupLink}&displayProperty=NAME`
     }
 
-    // let resp = await ky(`${baseURL}/geoFeatures?ou=ou%3ALEVEL-${levelId}%3BOU_GROUP-${groupLink}&displayProperty=NAME`, options).json()
-
     let resp = await ky(`${baseURL}${url}`, options).json()
-    console.log(resp)
     resp = resp.filter((feature) => feature.ty === 1)
 
     const features = resp.map((feature) => {
