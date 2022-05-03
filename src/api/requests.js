@@ -59,6 +59,7 @@ export const fetchValidPoints = async (levelId, groupId) => {
     return features
 }
 
+// TODO: improve looping through features for publish and unpublish
 export const publishCatchment = async (body) => {
     try {
         // need a way to check if the country is available on DHIS2
