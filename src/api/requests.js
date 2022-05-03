@@ -60,6 +60,8 @@ export const fetchValidPoints = async (levelId, groupId) => {
 }
 
 // TODO: improve looping through features for publish and unpublish
+// TODO: use url to get more info (/organisationUnits.json?fields=shortName,openingDate,id,displayName~rename(name)&paging=false)
+// TODO: post to update multiple catchments at api/metadata
 export const publishCatchment = async (body) => {
     try {
         // need a way to check if the country is available on DHIS2
