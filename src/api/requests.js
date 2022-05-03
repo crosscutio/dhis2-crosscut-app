@@ -81,13 +81,13 @@ export const publishCatchment = async (body) => {
     
         options["Content-Type"] = "application/json-patch+json"
 
-        for (let i=0; i<features.length; i++) {
+        for (let i=0; i<validFeatures.length; i++) {
             // get the org unit and check to see that it exists in DHIS2
-            const orgId = features[i].properties["user:orgUnitId"]
+            const orgId = validFeatures[i].properties["user:orgUnitId"]
             const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
 
             if (exists !== undefined) {
-                const geojson = JSON.stringify(features[i].geometry)
+                const geojson = JSON.stringify(validFeatures[i].geometry)
                 // handle adding geojson to each org unit
                 await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
                         headers: options,
@@ -124,8 +124,10 @@ export const unPublishCatchment = async (body) => {
 
         const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
 
-        for (let i=0; i<features.length; i++) {
-            const orgId = features[i].properties["user:orgUnitId"]
+        const validFeatures = features.filter((feature) => orgUnits.organisationUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
+
+        for (let i=0; i<validFeatures.length; i++) {
+            const orgId = validFeatures[i].properties["user:orgUnitId"]
             const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
 
             if (exists !== undefined) {
