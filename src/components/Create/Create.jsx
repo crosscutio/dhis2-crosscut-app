@@ -154,7 +154,7 @@ function Create(props) {
             setNameText(i18n.t("Name is already in use"))
             setFormInputs(prevState => ({
                 ...prevState,
-                name: ""
+                name: e.value
             }))
         } else {
              setFormInputs(prevState => ({
@@ -179,6 +179,12 @@ function Create(props) {
             setLevelText(i18n.t("Level required"))
             return
         }
+        const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === formInputs.name.toLowerCase())
+        // crosscut was prepended to published catchments
+        const publishedNames = currentNames.find((name) => name.name.toLowerCase().split("crosscut ")[1] === formInputs.name.toLowerCase())
+
+        if (publishedNames !== undefined || catchmentNames !== undefined) return setNameText(i18n.t("Name is already in use"))
+
         
         setIsLoading(true)
         await createCatchmentJob(formInputs).then(() => {
@@ -197,7 +203,7 @@ function Create(props) {
                 let response 
                 if (err.response.status === 204) {
                     response = err.response
-                }else {
+                } else {
                     response = JSON.parse(await err.response.text())
                 }
                 if (response.code === "CSV_ROW_ERROR") {
