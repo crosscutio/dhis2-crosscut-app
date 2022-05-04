@@ -5,6 +5,11 @@ import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
 
+export const fetchOrgUnits = async () => {
+    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=shortName,openingDate,id,displayName~rename(name)&paging=false`, options).json()
+    return orgUnits.organisationUnits
+}
+
 export const fetchOrgUnitLevels = async () => {
     const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
 
@@ -71,9 +76,9 @@ export const publishCatchment = async (body) => {
     try {
         // need a way to check if the country is available on DHIS2
         const features = await getCatchmentGeoJSON(body.id)
-        const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=shortName,openingDate,id,displayName~rename(name)&paging=false`, options).json()
+        const orgUnits = await fetchOrgUnits()
 
-        const validFeatures = features.filter((feature) => orgUnits.organisationUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
+        const validFeatures = features.filter((feature) => orgUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
 
         console.log(validFeatures)
         if (validFeatures.length === 0) {
@@ -89,7 +94,7 @@ export const publishCatchment = async (body) => {
 
         const json = validFeatures.reduce((acc, val) => {
             const orgId = val.properties["user:orgUnitId"]
-            const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
+            const exists = orgUnits.find((unit) => unit.id === orgId)
             const geojson = JSON.stringify(val.geometry)
 
             acc.push({
@@ -107,12 +112,10 @@ export const publishCatchment = async (body) => {
             return acc
         }, [])
 
-        console.log({ organisationUnits: json })
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ organisationUnits: json })
+            body: JSON.stringify({ organisationUnits: json, ...orgUnits })
             }).json()
-
 
         // for (let i=0; i<validFeatures.length; i++) {
         //     // get the org unit and check to see that it exists in DHIS2
@@ -120,19 +123,18 @@ export const publishCatchment = async (body) => {
         //     const geojson = JSON.stringify(validFeatures[i].geometry)
         //     // handle adding geojson to each org unit
         //     await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
-        //             headers: options,
-        //             body: JSON.stringify([{
-        //                 op: "add",
-        //                 path: "/attributeValues/-",
-        //                 value: {
+        //         headers: options,
+        //         body: JSON.stringify([{
+        //             op: "add",
+        //             path: "/attributeValues/-",
+        //             value: {
         //                 value: geojson,
         //                 attribute: {
         //                     id: attributeId,
         //                 },
-        //                 },
-        //             }]),
-        //             })
-        //             .json();
+        //             },
+        //         }]),
+        //         }).json();
         // }
 
         body.setStatus(i18n.t("Unpublish"))
@@ -141,6 +143,8 @@ export const publishCatchment = async (body) => {
         await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
         // options["Content-Type"] = "application/json"
     } catch (err) {
+        // TODO: delete attribute if publish fails
+        // await ky.delete(`${baseURL}/attributes/${attributeId}`, options).json()
         body.setStatus(i18n.t("Publish"))
         throw err
     }
@@ -151,8 +155,9 @@ export const unPublishCatchment = async (body) => {
         // remove attributes from each org unit and attribute
         const features = await getCatchmentGeoJSON(body.id)
 
-        const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-        const validFeatures = features.filter((feature) => orgUnits.organisationUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
+        const orgUnits = await fetchOrgUnits()
+
+        const validFeatures = features.filter((feature) => orgUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
 
         for (let i=0; i<validFeatures.length; i++) {
             const orgId = validFeatures[i].properties["user:orgUnitId"]
