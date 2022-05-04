@@ -135,16 +135,14 @@ export const unPublishCatchment = async (body) => {
             const orgUnit = orgUnits.find((unit) => unit.id === orgId)
             const filtered = orgUnit.attributeValues.filter((value) => value.attribute.id !== body.attributeId)
             acc.push({ ...orgUnit, ...{ attributeValues: filtered }})
-           return acc
+            return acc
         }, [])
         console.log(json)
-        console.log(orgUnits)
-        const organisationUnits = [...orgUnits, ...json]
-        console.log(organisationUnits)
+
 
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ org })
+            body: JSON.stringify({ organisationUnits: json })
         }).json()
         // delete attribute
         await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
