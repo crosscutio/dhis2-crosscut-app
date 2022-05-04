@@ -118,11 +118,20 @@ function Create(props) {
         }
     }
     const handleLevelChange = (e) => {
-        setFormInputs(prevState => ({
-            ...prevState,
-            level: e.selected,
-            csv: ""
-        }))
+        if (e.selected === i18n.t("None")) {
+            setFormInputs(prevState => ({
+                ...prevState,
+                level: "",
+                csv: ""
+            }))
+        } else {
+            setFormInputs(prevState => ({
+                ...prevState,
+                level: e.selected,
+                csv: ""
+            }))
+        }
+       
         // if the user changes level then clear out errors
         if (hasErrors === true) {
            clearErrors()
@@ -283,6 +292,7 @@ function Create(props) {
                 </Field>
                 <Field label="Select the facility level" required validationText={levelText} error>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
+                        <SingleSelectOption label={i18n.t("None")} value={i18n.t("None")}/>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                         })}
