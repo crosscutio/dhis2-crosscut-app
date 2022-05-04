@@ -118,7 +118,7 @@ function Create(props) {
         }
     }
     const handleLevelChange = (e) => {
-        if (e.selected === i18n.t("None")) {
+        if (e.selected === `< ${i18n.t("Clear")} >`) {
             setFormInputs(prevState => ({
                 ...prevState,
                 level: "",
@@ -292,7 +292,7 @@ function Create(props) {
                 </Field>
                 <Field label="Select the facility level" required validationText={levelText} error>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
-                        <SingleSelectOption label={i18n.t("None")} value={i18n.t("None")}/>
+                        <SingleSelectOption label={`< ${i18n.t("Clear")} >`} value={`< ${i18n.t("Clear")} >`}/>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                         })}
