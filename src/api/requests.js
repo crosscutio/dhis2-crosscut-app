@@ -6,7 +6,7 @@ import i18n from "../locales/index"
 const baseURL = getBaseURL()
 
 export const fetchOrgUnits = async () => {
-    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=shortName,openingDate,id,displayName~rename(name)&paging=false`, options).json()
+    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=shortName,openingDate,id,level,displayName~rename(name)&paging=false`, options).json()
     return orgUnits.organisationUnits
 }
 
