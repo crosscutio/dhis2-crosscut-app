@@ -4,7 +4,7 @@ export const getBaseURL = () => {
     let baseURL
 
     let apiUrls = {
-        // development: "https://play.dhis2.org/dev/api/38",
+        // development: "https://play.dhis2.org/2.38dev/api/38",
         development: "http://localhost:8080/api",
         production: config.baseUrl
     }   

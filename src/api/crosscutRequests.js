@@ -85,51 +85,54 @@ export const fetchCatchmentJobs = async () => {
 }
 
 export const createCatchmentJob = async (body) => {
-    const url = `${baseURL}/catchment-jobs`
-    const levelId = body.level
-    const groupId = body.group
+    try {
+        const url = `${baseURL}/catchment-jobs`
+        const levelId = body.level
+        const groupId = body.group
 
-    let data = null
-    let csv = body.csv
-    // csv wouldn't be an empty string if the user had errors and cleared them
-    // the csv should get passed in to be used
-    if (csv === "") {
-        data = await fetchValidPoints(levelId, groupId)
-
-        // no sites were found
-        if (data.length === 0) {
-            return { error: { message: "No Content", status: 204 } } 
+        let data = null
+        let csv = body.csv
+        // csv wouldn't be an empty string if the user had errors and cleared them
+        // the csv should get passed in to be used
+        if (csv === "") {
+            data = await fetchValidPoints(levelId, groupId)
+            // no sites were found
+            if (data.length === 0) {
+                throw { response: { message: "No Content", status: 204 } } 
+            }
+            data = data.map((d) => {
+                d["orgUnitId"] = d.id
+                delete d.id
+                return d
+            })
+            csv = papaparse.unparse(data)
+        } else {
+            csv = papaparse.unparse(body.csv)
         }
-        data = data.map((d) => {
-            d["orgUnitId"] = d.id
-            delete d.id
-            return d
-        })
-        csv = papaparse.unparse(data)
-    } else {
-        csv = papaparse.unparse(body.csv)
-    }
-    const json = {
-        fields: {
-            lat: "lat",
-            lng: "long",
-            name: "name",
-        },
-        name: body.name,
-        country: body.country,
-        csv,
-        algorithm: "site-based"
-    }
+        const json = {
+            fields: {
+                lat: "lat",
+                lng: "long",
+                name: "name",
+            },
+            name: body.name,
+            country: body.country,
+            csv,
+            algorithm: "site-based"
+        }
 
-    const catchment = await ky.post(url, {
-        json,
-        mode: "cors",
-        headers: {
-            authorization: getToken(),
-        },
-    }).json()  
+        const catchment = await ky.post(url, {
+            json,
+            mode: "cors",
+            headers: {
+                authorization: getToken(),
+            },
+        }).json()  
 
-    await updateCatchmentItem(catchment.id, { field: "dhisFormInputs", value: { levelId, groupId } })    
+        await updateCatchmentItem(catchment.id, { field: "dhisFormInputs", value: { levelId, groupId } }) 
+    } catch (err) {
+        throw err
+    }  
 }
 
 export const deleteCatchmentJob = async (id) => {

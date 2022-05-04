@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-29T20:25:40.565Z\n"
-"PO-Revision-Date: 2022-04-29T20:25:40.565Z\n"
+"POT-Creation-Date: 2022-05-03T13:11:16.093Z\n"
+"PO-Revision-Date: 2022-05-03T13:11:16.093Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -38,6 +38,9 @@ msgstr "Name required"
 msgid "Level required"
 msgstr "Level required"
 
+msgid "Your catchment areas are being created. It should be ready in a few minutes."
+msgstr "Your catchment areas are being created. It should be ready in a few minutes."
+
 msgid "There are no valid sites."
 msgstr "There are no valid sites."
 
@@ -51,8 +54,11 @@ msgstr ""
 msgid "No sites were found"
 msgstr "No sites were found"
 
-msgid "Your catchment areas are being created. It should be ready in a few minutes."
-msgstr "Your catchment areas are being created. It should be ready in a few minutes."
+msgid "INTERNAL ERROR"
+msgstr "INTERNAL ERROR"
+
+msgid "characters"
+msgstr "characters"
 
 msgid "Error Message"
 msgstr "Error Message"

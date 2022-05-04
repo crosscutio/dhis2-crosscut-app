@@ -66,7 +66,7 @@ function JobDetails(props) {
             <Field label="Name the catchment areas">
                 <Input value={name} disabled/>
             </Field>
-            <Field label="Select the facility level">
+            <Field label="Select the facility level" readOnly>
                 <SingleSelect selected={levels ? selectedLevel : null} disabled>
                     {levels && levels.map((level, index) => {
                         return <SingleSelectOption key={index} label={level.name} value={level.id}/>
