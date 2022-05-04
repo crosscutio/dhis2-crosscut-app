@@ -118,19 +118,11 @@ function Create(props) {
         }
     }
     const handleLevelChange = (e) => {
-        if (e.selected === `< ${i18n.t("Clear")} >`) {
-            setFormInputs(prevState => ({
-                ...prevState,
-                level: "",
-                csv: ""
-            }))
-        } else {
-            setFormInputs(prevState => ({
-                ...prevState,
-                level: e.selected,
-                csv: ""
-            }))
-        }
+        setFormInputs(prevState => ({
+            ...prevState,
+            level: e.selected,
+            csv: ""
+        }))
        
         // if the user changes level then clear out errors
         if (hasErrors === true) {
@@ -174,6 +166,12 @@ function Create(props) {
         }
     } 
 
+    const handleClear = () => {
+        setFormInputs(prevState => ({
+            ...prevState,
+            level: ""
+        }))
+    }
     // handle create catchment
     const handleCreate = async () => {
         if (formInputs.country === "") {
@@ -292,10 +290,10 @@ function Create(props) {
                 </Field>
                 <Field label="Select the facility level" required validationText={levelText} error>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level}>
-                        <SingleSelectOption label={`< ${i18n.t("Clear")} >`} value={`< ${i18n.t("Clear")} >`}/>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                         })}
+                        <ButtonItem buttonText={i18n.t("Clear")} handleClick={handleClear}/>
                     </SingleSelect>
                 </Field>
                 <Field label="Select the groups" required>
