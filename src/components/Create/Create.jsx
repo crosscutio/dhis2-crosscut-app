@@ -187,7 +187,7 @@ function Create(props) {
             setFilterText(i18n.t("Filter required"))
             return
         }
-        
+
         const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === formInputs.name.toLowerCase())
         // crosscut was prepended to published catchments
         const publishedNames = currentNames.find((name) => name.name.toLowerCase().split("crosscut ")[1] === formInputs.name.toLowerCase())
@@ -297,6 +297,7 @@ function Create(props) {
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
                         })}
+                        <ButtonItem buttonText={i18n.t("Clear")} handleClick={handleClear}/>
                     </SingleSelect>
                 </Field>
                 <Field label={i18n.t("Select the groups")}>
