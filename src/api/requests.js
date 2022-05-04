@@ -96,25 +96,22 @@ export const publishCatchment = async (body) => {
             const orgId = val.properties["user:orgUnitId"]
             const exists = orgUnits.find((unit) => unit.id === orgId)
             const geojson = JSON.stringify(val.geometry)
-
-            acc.push({
-                id: orgId,
-                name: exists.name,
-                shortName: exists.shortName,
-                openingDate: exists.openingDate,
-                attributeValues: [{
-                    attribute: {
-                        id: attributeId
-                    },
-                    value: geojson
-                }]
+            exists.attributeValues.push({
+                attribute: {
+                    id: attributeId
+                },
+                value: geojson
             })
+            acc.push(exists)
             return acc
         }, [])
-
+        console.log(json)
+        const organisationUnits = [...orgUnits, ...json ]
+        console.log(organisationUnits)
+        // metadata update only allows POST
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ organisationUnits: json, ...orgUnits })
+            body: JSON.stringify({ organisationUnits })
             }).json()
 
         // for (let i=0; i<validFeatures.length; i++) {
