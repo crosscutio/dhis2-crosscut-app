@@ -101,12 +101,10 @@ export const publishCatchment = async (body) => {
             return acc
         }, [])
 
-        const organisationUnits = [...orgUnits, ...json ]
-
         // metadata update only allows POST
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ organisationUnits })
+            body: JSON.stringify({ organisationUnits: json })
         }).json()
 
         body.setStatus(i18n.t("Unpublish"))
@@ -137,8 +135,6 @@ export const unPublishCatchment = async (body) => {
             acc.push({ ...orgUnit, ...{ attributeValues: filtered }})
             return acc
         }, [])
-        console.log(json)
-
 
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
