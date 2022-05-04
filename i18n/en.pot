@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-03T18:00:45.880Z\n"
-"PO-Revision-Date: 2022-05-03T18:00:45.880Z\n"
+"POT-Creation-Date: 2022-05-04T18:01:19.934Z\n"
+"PO-Revision-Date: 2022-05-04T18:01:19.934Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -71,6 +71,9 @@ msgstr "Filter by facility level or by groups"
 
 msgid "Select the facility level"
 msgstr "Select the facility level"
+
+msgid "Clear"
+msgstr "Clear"
 
 msgid "Select the groups"
 msgstr "Select the groups"
