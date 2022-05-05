@@ -70,6 +70,7 @@ export const fetchValidPoints = async (levelId, groupId) => {
 }
 
 export const publishCatchment = async (body) => {
+    let attributeId = null
     try {
         // need a way to check if the country is available on DHIS2
         const features = await getCatchmentGeoJSON(body.id)
@@ -77,7 +78,6 @@ export const publishCatchment = async (body) => {
 
         const validFeatures = features.filter((feature) => orgUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
 
-        console.log(validFeatures)
         if (validFeatures.length === 0) {
             throw { message: "Nothing to publish"}
         }
@@ -85,7 +85,7 @@ export const publishCatchment = async (body) => {
         const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
 
         // use this id to store with the catchment areas
-        const attributeId = resp?.response?.uid
+        attributeId = resp?.response?.uid
     
         const json = validFeatures.reduce((acc, val) => {
             const orgId = val.properties["user:orgUnitId"]
@@ -112,8 +112,10 @@ export const publishCatchment = async (body) => {
         // add attribute id to catchment areas on Crosscut
         await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
     } catch (err) {
-        // TODO: delete attribute if publish fails
-        // await ky.delete(`${baseURL}/attributes/${attributeId}`, options).json()
+        // delete attribute if publish fails
+        if (attributeId !== null) {
+            await ky.delete(`${baseURL}/attributes/${attributeId}`, options).json()
+        }
         body.setStatus(i18n.t("Publish"))
         throw err
     }
