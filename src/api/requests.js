@@ -5,9 +5,12 @@ import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
 
-export const fetchOrgUnitLevels = async () => {
-    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
+export const fetchOrgUnits = async () => {
+    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=%3Aall&paging=false`, options).json()
+    return orgUnits.organisationUnits
+}
 
+export const fetchOrgUnitLevels = async () => {
     const resp = await ky.get(`${baseURL}/organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`, options).json()
     return resp.organisationUnitLevels
 }
@@ -64,16 +67,18 @@ export const fetchValidPoints = async (levelId, groupId) => {
     return features
 }
 
-// TODO: improve looping through features for publish and unpublish
-// TODO: use url to get more info (/organisationUnits.json?fields=shortName,openingDate,id,displayName~rename(name)&paging=false)
-// TODO: post to update multiple catchments at api/metadata
+export const deleteAttribute = async (id) => {
+    await ky.delete(`${baseURL}/attributes/${id}`, options).json()
+}
+
 export const publishCatchment = async (body) => {
+    let attributeId = null
     try {
         // need a way to check if the country is available on DHIS2
         const features = await getCatchmentGeoJSON(body.id)
-        const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=shortName,openingDate,id,displayName~rename(name)&paging=false`, options).json()
+        const orgUnits = await fetchOrgUnits()
 
-        const validFeatures = features.filter((feature) => orgUnits.organisationUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
+        const validFeatures = features.filter((feature) => orgUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
 
         if (validFeatures.length === 0) {
             throw { message: "Nothing to publish"}
@@ -82,41 +87,37 @@ export const publishCatchment = async (body) => {
         const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
 
         // use this id to store with the catchment areas
-        const attributeId = resp?.response?.uid
+        attributeId = resp?.response?.uid
     
-        options["Content-Type"] = "application/json-patch+json"
+        const json = validFeatures.reduce((acc, val) => {
+            const orgId = val.properties["user:orgUnitId"]
+            const exists = orgUnits.find((unit) => unit.id === orgId)
+            const geojson = JSON.stringify(val.geometry)
+            exists.attributeValues.push({
+                attribute: {
+                    id: attributeId
+                },
+                value: geojson
+            })
+            acc.push(exists)
+            return acc
+        }, [])
 
-        for (let i=0; i<validFeatures.length; i++) {
-            // get the org unit and check to see that it exists in DHIS2
-            const orgId = validFeatures[i].properties["user:orgUnitId"]
-            const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
-
-            if (exists !== undefined) {
-                const geojson = JSON.stringify(validFeatures[i].geometry)
-                // handle adding geojson to each org unit
-                await ky.patch(`${baseURL}/organisationUnits/${orgId}`, {
-                        headers: options,
-                        body: JSON.stringify([{
-                          op: "add",
-                          path: "/attributeValues/-",
-                          value: {
-                            value: geojson,
-                            attribute: {
-                              id: attributeId,
-                            },
-                          },
-                        }]),
-                      })
-                      .json();
-            }
-        }
+        // update multiple catchments at once
+        await ky.post(`${baseURL}/metadata`, {
+            headers: options,
+            body: JSON.stringify({ organisationUnits: json })
+        }).json()
 
         body.setStatus(i18n.t("Unpublish"))
 
         // add attribute id to catchment areas on Crosscut
         await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
-        options["Content-Type"] = "application/json"
     } catch (err) {
+        // delete attribute if publish fails
+        if (attributeId !== null) {
+            await deleteAttribute(attributeId)
+        }
         body.setStatus(i18n.t("Publish"))
         throw err
     }
@@ -127,29 +128,24 @@ export const unPublishCatchment = async (body) => {
         // remove attributes from each org unit and attribute
         const features = await getCatchmentGeoJSON(body.id)
 
-        const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
+        const orgUnits = await fetchOrgUnits()
 
-        const validFeatures = features.filter((feature) => orgUnits.organisationUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
+        const validFeatures = features.filter((feature) => orgUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
 
-        for (let i=0; i<validFeatures.length; i++) {
-            const orgId = validFeatures[i].properties["user:orgUnitId"]
-            const exists = orgUnits.organisationUnits.find((unit) => unit.id === orgId)
+        const json = validFeatures.reduce((acc, val) => {
+            const orgId = val.properties["user:orgUnitId"]
+            const orgUnit = orgUnits.find((unit) => unit.id === orgId)
+            const filtered = orgUnit.attributeValues.filter((value) => value.attribute.id !== body.attributeId)
+            acc.push({ ...orgUnit, ...{ attributeValues: filtered }})
+            return acc
+        }, [])
 
-            if (exists !== undefined) {
-                // this gets all the attribute values for a given organization unit
-                const resp = await ky(`${baseURL}/organisationUnits/${orgId}?fields=%3Aall%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D`, options).json()
-                const filtered = resp.attributeValues.filter((value) => value.attribute.id !== body.attributeId)
-                const payload = { ...resp, ...{ attributeValues: filtered }}
-
-                // delete coordinates from each org unit
-                await ky.put(`${baseURL}/organisationUnits/${orgId}?mergeMode=REPLACE`, {
-                    headers: options,
-                    body: JSON.stringify(payload),
-                    }).json();
-            }
-        }
+        await ky.post(`${baseURL}/metadata`, {
+            headers: options,
+            body: JSON.stringify({ organisationUnits: json })
+        }).json()
         // delete attribute
-        await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
+        await deleteAttribute(body.attributeId)
        
         body.setStatus(i18n.t("Publish"))
 
