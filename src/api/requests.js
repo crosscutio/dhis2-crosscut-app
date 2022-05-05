@@ -11,8 +11,6 @@ export const fetchOrgUnits = async () => {
 }
 
 export const fetchOrgUnitLevels = async () => {
-    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=id,displayName~rename(name)&paging=false`, options).json()
-
     const resp = await ky.get(`${baseURL}/organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`, options).json()
     return resp.organisationUnitLevels
 }
@@ -69,6 +67,10 @@ export const fetchValidPoints = async (levelId, groupId) => {
     return features
 }
 
+export const deleteAttribute = async (id) => {
+    await ky.delete(`${baseURL}/attributes/${id}`, options).json()
+}
+
 export const publishCatchment = async (body) => {
     let attributeId = null
     try {
@@ -114,7 +116,7 @@ export const publishCatchment = async (body) => {
     } catch (err) {
         // delete attribute if publish fails
         if (attributeId !== null) {
-            await ky.delete(`${baseURL}/attributes/${attributeId}`, options).json()
+            await deleteAttribute(attributeId)
         }
         body.setStatus(i18n.t("Publish"))
         throw err
@@ -143,7 +145,7 @@ export const unPublishCatchment = async (body) => {
             body: JSON.stringify({ organisationUnits: json })
         }).json()
         // delete attribute
-        await ky.delete(`${baseURL}/attributes/${body.attributeId}`, options).json()
+        await deleteAttribute(body.attributeId)
        
         body.setStatus(i18n.t("Publish"))
 
