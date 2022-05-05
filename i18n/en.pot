@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-03T13:11:16.093Z\n"
-"PO-Revision-Date: 2022-05-03T13:11:16.093Z\n"
+"POT-Creation-Date: 2022-05-04T18:01:19.934Z\n"
+"PO-Revision-Date: 2022-05-04T18:01:19.934Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -35,8 +35,8 @@ msgstr "Country required"
 msgid "Name required"
 msgstr "Name required"
 
-msgid "Level required"
-msgstr "Level required"
+msgid "Filter required"
+msgstr "Filter required"
 
 msgid "Your catchment areas are being created. It should be ready in a few minutes."
 msgstr "Your catchment areas are being created. It should be ready in a few minutes."
@@ -57,8 +57,26 @@ msgstr "No sites were found"
 msgid "INTERNAL ERROR"
 msgstr "INTERNAL ERROR"
 
+msgid "Select the country"
+msgstr "Select the country"
+
+msgid "Name the catchment areas"
+msgstr "Name the catchment areas"
+
 msgid "characters"
 msgstr "characters"
+
+msgid "Filter by facility level or by groups"
+msgstr "Filter by facility level or by groups"
+
+msgid "Select the facility level"
+msgstr "Select the facility level"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Select the groups"
+msgstr "Select the groups"
 
 msgid "Error Message"
 msgstr "Error Message"
