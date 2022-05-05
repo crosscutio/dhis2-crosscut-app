@@ -101,7 +101,7 @@ export const publishCatchment = async (body) => {
             return acc
         }, [])
 
-        // metadata update only allows POST
+        // update multiple catchments at once
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
             body: JSON.stringify({ organisationUnits: json })
