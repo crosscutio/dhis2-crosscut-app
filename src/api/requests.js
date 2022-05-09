@@ -1,6 +1,6 @@
 import ky from 'ky'
 import { options, getBaseURL } from "./apiConfig"
-import { getCatchmentGeoJSON, updateCatchmentItem, getCatchmentJob } from "./crosscutRequests"
+import { getCatchmentGeoJSON, updateCatchmentItem } from "./crosscutRequests"
 import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
