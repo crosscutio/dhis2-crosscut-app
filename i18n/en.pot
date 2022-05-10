@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-04T18:01:19.934Z\n"
-"PO-Revision-Date: 2022-05-04T18:01:19.934Z\n"
+"POT-Creation-Date: 2022-05-10T16:59:16.139Z\n"
+"PO-Revision-Date: 2022-05-10T16:59:16.139Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -179,6 +179,9 @@ msgstr "to remove access to the catchment areas in DHIS2."
 
 msgid "Get catchment area details"
 msgstr "Get catchment area details"
+
+msgid "Details will only show for catchment areas created in the DHIS2 app."
+msgstr "Details will only show for catchment areas created in the DHIS2 app."
 
 msgid "to see details on the catchment area."
 msgstr "to see details on the catchment area."

@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./App.module.css";
 import { Amplify, I18n } from "aws-amplify";
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Layout from './layout/Layout'
 import i18n from './locales/index.js'
@@ -30,22 +30,71 @@ const buildFields = (fields) => {
   return fields.map((field) => {
     return i18n.t(field)
   })
+}
 
+const theme = {
+  name: 'dhis2-theme',
+  tokens: {
+    components: {
+      button: {
+        primary: {
+          background: {
+            color: {
+              value: '#0d47a1'
+            }
+          }
+        },
+        _hover: {
+          color: {
+            value: '#0d47a1'
+          }
+        }
+      },
+      tabs: {
+        item: {
+          _hover: {
+            color: {
+              value: '#0d47a1'
+            }
+          },
+          _active: {
+            color: {
+              value: '#0d47a1'
+            },
+            border: {
+              color: {
+                value: '#0d47a1'
+              }
+            },
+          },
+          _focus: {
+            color: {
+              value: '#0d47a1'
+            },
+          }
+        }
+      }
+    }
+  }
 }
 const MyApp = () => {
 
   return (
-    <Authenticator 
-      className={classes.amplify} 
-      signUpAttributes={buildFields(['email', 'password', 'name'])}
-      loginMechanisms={buildFields(['email'])}
+    <AmplifyProvider
+    theme={theme}
     >
-      {(user) => (
-          <div className={classes.container}>
-          <Layout token={user?.user?.signInUserSession?.idToken?.jwtToken}/>
-        </div>
-      )}
-    </Authenticator>
+      <Authenticator 
+        className={classes.amplify} 
+        signUpAttributes={buildFields(['email', 'password', 'name'])}
+        loginMechanisms={buildFields(['email'])}
+      >
+        {(user) => (
+            <div className={classes.container}>
+            <Layout token={user?.user?.signInUserSession?.idToken?.jwtToken}/>
+          </div>
+        )}
+      </Authenticator>
+    </AmplifyProvider>
   );
 };
 
