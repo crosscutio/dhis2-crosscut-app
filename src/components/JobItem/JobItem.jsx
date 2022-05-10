@@ -84,6 +84,7 @@ function JobItem(props) {
                 setPublishStatus(null)
                 await publishCatchment({
                     id,
+                    date,
                     details,
                     payload: {  
                         name: `Crosscut ${name}`,

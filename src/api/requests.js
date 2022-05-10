@@ -97,7 +97,7 @@ export const publishCatchment = async (body) => {
             des = levels.find((level) => level.id === body.details.levelId).name
         }
 
-        body.payload.description = Array.isArray(des) ? `groups: ${des.join(", ")} | ${user}` : `level: ${des} | ${user}`
+        body.payload.description = Array.isArray(des) ? `groups: ${des.join(", ")} | ${user} | ${date}` : `level: ${des} | ${user} | ${date}`
 
         // this endpoint posts an attribute and returns uid
         const resp = await ky.post(`${baseURL}/attributes`, { json: body.payload, headers: options }).json()
