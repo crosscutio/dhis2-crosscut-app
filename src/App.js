@@ -95,7 +95,7 @@ const MyApp = () => {
       >
         {(user) => (
             <div className={classes.container}>
-            <Layout token={user?.user?.signInUserSession?.idToken?.jwtToken}/>
+            <Layout token={user?.user?.signInUserSession?.idToken?.jwtToken} user={user?.user?.attributes?.email}/>
           </div>
         )}
       </Authenticator>

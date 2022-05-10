@@ -7,7 +7,7 @@ import i18n from '../locales/index.js'
 import { AlertBar, CircularLoader  } from "@dhis2/ui"
 import { fetchCatchmentJobs } from "../api/crosscutRequests"
 import { useToggle } from "../hooks/useToggle"
-import { setToken } from "../services/JWTManager";
+import { setToken, setUser } from "../services/JWTManager";
 
 function Layout(props) {
     const [alert, setAlert] = useState(null)
@@ -20,8 +20,9 @@ function Layout(props) {
     const [modalText, setModalText] = useState({ title: "", action: ""})
     const [jobs, setJobs] = useState(null)
     const [isToggled, toggle] = useToggle(false)
-    const { token } = props
+    const { token, user } = props
     setToken(token)
+    setUser(user)
 
     let poller 
     useEffect(() => {
@@ -32,19 +33,20 @@ function Layout(props) {
         return () => {
             // this is a clean up function
         }
-      }, [isToggled])
+    }, [isToggled])
     
-      const fetchJobs = async () => {
-        const resp = await fetchCatchmentJobs()
-        setJobs(resp)
-        
-        // check for loading jobs
-        const foundLoading = resp.find((job) => job.status === "Pending")
+    
+    const fetchJobs = async () => {
+    const resp = await fetchCatchmentJobs()
+    setJobs(resp)
+    
+    // check for loading jobs
+    const foundLoading = resp.find((job) => job.status === "Pending")
 
-        if (foundLoading === undefined) {
-           clearInterval(poller)
-        }
-      }
+    if (foundLoading === undefined) {
+        clearInterval(poller)
+    }
+    }
 
     // handle create modal
     const handleCreate = () => {

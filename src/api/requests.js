@@ -1,6 +1,7 @@
 import ky from 'ky'
 import { options, getBaseURL } from "./apiConfig"
 import { getCatchmentGeoJSON, updateCatchmentItem } from "./crosscutRequests"
+import { getUser } from '../services/JWTManager'
 import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
@@ -84,18 +85,19 @@ export const publishCatchment = async (body) => {
             throw { message: "Nothing to publish"}
         }
 
+        const user = getUser()
         let des 
         if (body.details.levelId === "" && body.details.groupId.length >= 1) {
             const groups = await fetchOrgUnitGroups()
             des = body.details.groupId.map((g) => {
                 return groups.find((group) => group.id === g).name
-            })            
+            })       
         } else if (body.details.groupId.length === 0 && body.details.levelId !== "") {
             const levels = await fetchOrgUnitLevels()
             des = levels.find((level) => level.id === body.details.levelId).name
         }
 
-        body.payload.description = Array.isArray(des) ? des.join(", ") : des
+        body.payload.description = Array.isArray(des) ? `groups: ${des.join(", ")} | ${user}` : `level: ${des} | ${user}`
 
         // this endpoint posts an attribute and returns uid
         const resp = await ky.post(`${baseURL}/attributes`, { json: body.payload, headers: options }).json()
