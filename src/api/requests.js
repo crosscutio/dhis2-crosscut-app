@@ -84,7 +84,7 @@ export const publishCatchment = async (body) => {
             throw { message: "Nothing to publish"}
         }
         // this endpoint posts an attribute and returns uid
-        const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
+        const resp = await ky.post(`${baseURL}/attributes`, { json: body.payload, headers: options }).json()
 
         // use this id to store with the catchment areas
         attributeId = resp?.response?.uid
@@ -106,7 +106,7 @@ export const publishCatchment = async (body) => {
         // update multiple catchments at once
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ organisationUnits: json })
+            json: { organisationUnits: json }
         }).json()
 
         body.setStatus(i18n.t("Unpublish"))
@@ -142,7 +142,7 @@ export const unPublishCatchment = async (body) => {
 
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ organisationUnits: json })
+            json: { organisationUnits: json }
         }).json()
         // delete attribute
         await deleteAttribute(body.attributeId)
