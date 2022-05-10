@@ -48,6 +48,7 @@ function Info(props) {
                 <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={i18n.t("Unpublish")} primary={true}/>{i18n.t("to remove access to the catchment areas in DHIS2.")}</p>
                 <Divider/>
                 <ModalTitle>{i18n.t("Get catchment area details")}</ModalTitle>
+                <p>{i18n.t("Details will only show for catchment areas created in the DHIS2 app.")}</p>
                 <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={<IconFileDocument16/>} borderless={true}/>{i18n.t("to see details on the catchment area.")}</p>
             </div> : 
             <div>
