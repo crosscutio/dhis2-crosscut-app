@@ -10,6 +10,7 @@ import i18n from '../../locales/index.js'
 import Delete from "../Delete/Delete"
 import JobDetails from "../JobDetails/JobDetails";
 import { fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests'
+import { getUser } from '../services/JWTManager'
 
 function JobItem(props) {
     const { name, status, date, id, toggle, setAlert, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert, details } = props
@@ -79,6 +80,7 @@ function JobItem(props) {
                 setIsLoading(false)
                 return
             }
+            const user = getUser()
 
             if (found === undefined) {
                 setPublishStatus(null)
@@ -86,6 +88,7 @@ function JobItem(props) {
                     id,
                     date,
                     details,
+                    user,
                     payload: {  
                         name: `Crosscut ${name}`,
                         organisationUnitAttribute: true,
