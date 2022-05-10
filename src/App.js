@@ -37,6 +37,11 @@ const theme = {
   tokens: {
     components: {
       button: {
+        link: {
+          color: {
+            value: '#0d47a1'
+          }
+        },
         primary: {
           background: {
             color: {
