@@ -3,6 +3,7 @@ import { Modal, ModalActions, ModalContent, ModalTitle, SingleSelect, Field, Inp
 import ButtonItem from '../ButtonItem/ButtonItem'
 import { fetchOrgUnitLevels, fetchOrgUnitGroups } from '../../api/requests.js'
 import { getCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests'
+import styles from './JobDetails.module.css'
 
 function JobDetails(props) {
     const { title, action, setShowJobDetailsModal, name, details, id } = props
@@ -66,6 +67,7 @@ function JobDetails(props) {
             <Field label="Name the catchment areas">
                 <Input value={name} disabled/>
             </Field>
+            <div className={styles.filter}>
             <Field label="Select the facility level" readOnly>
                 <SingleSelect selected={levels ? selectedLevel : null} disabled>
                     {levels && levels.map((level, index) => {
@@ -80,6 +82,7 @@ function JobDetails(props) {
                     })}
                 </MultiSelect>
             </Field>
+            </div>
         </form>
         )
     }
