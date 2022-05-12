@@ -139,7 +139,7 @@ function JobItem(props) {
     const handleGetDetails = (e) => {
         if (details === undefined) return 
         setShowJobDetailsModal(true)
-        setModalText({ title: i18n.t("Catchment details"), action: i18n.t("Close")})
+        setModalText({ title: i18n.t("Catchment areas details"), action: i18n.t("Close")})
     }
 
     return (
