@@ -1,5 +1,5 @@
 import ky from 'ky'
-import { fetchGeoJSON, fetchCurrentAttributes, fetchValidPoints } from './requests';
+import { fetchCurrentAttributes, fetchValidPoints } from './requests';
 import { getToken } from '../services/JWTManager'
 import papaparse from "papaparse"
 import { getCrossCutBaseUrl } from './apiConfig';

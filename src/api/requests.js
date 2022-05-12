@@ -1,6 +1,6 @@
 import ky from 'ky'
 import { options, getBaseURL } from "./apiConfig"
-import { getCatchmentGeoJSON, updateCatchmentItem, getCatchmentJob } from "./crosscutRequests"
+import { getCatchmentGeoJSON, updateCatchmentItem } from "./crosscutRequests"
 import i18n from "../locales/index"
 
 const baseURL = getBaseURL()
@@ -83,8 +83,23 @@ export const publishCatchment = async (body) => {
         if (validFeatures.length === 0) {
             throw { message: "Nothing to publish"}
         }
+
+        let des 
+        if (body.details.levelId === "" && body.details.groupId.length >= 1) {
+            const groups = await fetchOrgUnitGroups()
+            des = body.details.groupId.map((g) => {
+                return groups.find((group) => group.id === g).name
+            })       
+        } else if (body.details.groupId.length === 0 && body.details.levelId !== "") {
+            const levels = await fetchOrgUnitLevels()
+            des = levels.find((level) => level.id === body.details.levelId).name
+        }
+
+        // format: groups: Clinic | email@crosscut.io | 2022-05-05
+        body.payload.description = Array.isArray(des) ? `groups: ${des.join(", ")} | ${body.user} | ${body.date}` : `level: ${des} | ${body.user} | ${body.date}`
+
         // this endpoint posts an attribute and returns uid
-        const resp = await ky.post(`${baseURL}/attributes`, { body: JSON.stringify(body.payload), headers: options }).json()
+        const resp = await ky.post(`${baseURL}/attributes`, { json: body.payload, headers: options }).json()
 
         // use this id to store with the catchment areas
         attributeId = resp?.response?.uid
@@ -106,7 +121,7 @@ export const publishCatchment = async (body) => {
         // update multiple catchments at once
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ organisationUnits: json })
+            json: { organisationUnits: json }
         }).json()
 
         body.setStatus(i18n.t("Unpublish"))
@@ -142,7 +157,7 @@ export const unPublishCatchment = async (body) => {
 
         await ky.post(`${baseURL}/metadata`, {
             headers: options,
-            body: JSON.stringify({ organisationUnits: json })
+            json: { organisationUnits: json }
         }).json()
         // delete attribute
         await deleteAttribute(body.attributeId)
