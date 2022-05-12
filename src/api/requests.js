@@ -95,6 +95,7 @@ export const publishCatchment = async (body) => {
             des = levels.find((level) => level.id === body.details.levelId).name
         }
 
+        // format: groups: Clinic | email@crosscut.io | 2022-05-05
         body.payload.description = Array.isArray(des) ? `groups: ${des.join(", ")} | ${body.user} | ${body.date}` : `level: ${des} | ${body.user} | ${body.date}`
 
         // this endpoint posts an attribute and returns uid

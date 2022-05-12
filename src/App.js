@@ -32,6 +32,7 @@ const buildFields = (fields) => {
   })
 }
 
+// theme added to match the blue for text/tabs/buttons on the login page
 const theme = {
   name: 'dhis2-theme',
   tokens: {

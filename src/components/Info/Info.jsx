@@ -55,11 +55,11 @@ function Info(props) {
                 <ModalTitle>{i18n.t("Additional Features")}</ModalTitle>
                 <li>{i18n.t("Make changes to the catchment area borders.")}</li>
                 <li>{i18n.t("See heat maps for walking distance for each catchment area.")}</li>
-                <p>{i18n.t("Go to")} <a href="app.crosscut.io" target="_blank" >app.crosscut.io</a></p>
+                <p>{i18n.t("Go to")} <a style={{ color: '#0d47a1'}} href="app.crosscut.io" target="_blank" >app.crosscut.io</a></p>
                 <Divider/>
                 <ModalTitle>{i18n.t("Contact Us")}</ModalTitle>
                 <p>{i18n.t("Having trouble? Have ideas for new features?")}</p>
-                <p>{i18n.t("Email us at")} <a href=":mailto:coite@crosscut.io" target="_blank">coite@crosscut.io</a></p>
+                <p>{i18n.t("Email us at")} <a style={{ color: '#0d47a1' }} href=":mailto:coite@crosscut.io" target="_blank">coite@crosscut.io</a></p>
             </div>
             }
         </ModalContent>
