@@ -13,7 +13,7 @@ function Nav(props) {
     return <>
         <nav className={styles.navbar}>
             <div>
-                <ButtonItem buttonText={i18n.t("Create")} handleClick={props.handleClick} primary={true}/>
+                <ButtonItem buttonText={i18n.t("Create catchment areas")} handleClick={props.handleClick} primary={true}/>
             </div>
             <div className={styles.sidebar} >
                 <ButtonItem handleClick={sendEmail} buttonText={<IconMail24/>} borderless={true}/> 

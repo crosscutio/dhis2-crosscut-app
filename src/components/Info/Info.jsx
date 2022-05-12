@@ -25,7 +25,7 @@ function Info(props) {
             <ModalContent className={styles.info}>
             {activeTab === 1 ? <div>
                 <ModalTitle>{i18n.t("How to create new catchment areas")}</ModalTitle>
-                <p className={styles.align}>{i18n.t("Click")}<ButtonItem primary={true} buttonText={i18n.t("Create")}/></p>
+                <p className={styles.align}>{i18n.t("Click")}<ButtonItem primary={true} buttonText={i18n.t("Create catchment areas")}/></p>
                 <p>{i18n.t("Select the country you want to target.")}</p>
                 <p>{i18n.t("Name the catchment areas.")}</p>
                 <p>{i18n.t("Choose the admin level where your facilities are located.")}</p>
