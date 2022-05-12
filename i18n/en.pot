@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-10T16:59:16.139Z\n"
-"PO-Revision-Date: 2022-05-10T16:59:16.139Z\n"
+"POT-Creation-Date: 2022-05-12T17:49:55.360Z\n"
+"PO-Revision-Date: 2022-05-12T17:49:55.360Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -112,8 +112,8 @@ msgstr "How to create new catchment areas"
 msgid "Click"
 msgstr "Click"
 
-msgid "Create"
-msgstr "Create"
+msgid "Create catchment areas"
+msgstr "Create catchment areas"
 
 msgid "Select the country you want to target."
 msgstr "Select the country you want to target."
@@ -218,6 +218,12 @@ msgstr "Catchment details"
 
 msgid "Create new catchment areas"
 msgstr "Create new catchment areas"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Catchment Areas"
+msgstr "Catchment Areas"
 
 msgid "Name"
 msgstr "Name"
