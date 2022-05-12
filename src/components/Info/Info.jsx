@@ -40,16 +40,16 @@ function Info(props) {
                 <Divider/>
                 <ModalTitle>{i18n.t("How to delete catchment areas")}</ModalTitle>
                 <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={<IconDelete16/>} borderless={true}/>{i18n.t("to delete the catchment area.")}</p>
-                <p>{i18n.t("If you have published the catchment area to DHIS2 then it will be removed from DHIS2.")}</p>
+                <p>{i18n.t("If you have published the catchment areas to DHIS2 then it will be removed from DHIS2.")}</p>
                 <Divider/>
                 <ModalTitle>{i18n.t("Publish your catchment areas to DHIS2")}</ModalTitle>
                 <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={i18n.t("Publish")} primary={true}/>{i18n.t("to connect your catchments to DHIS2.")}</p>
                 <p>{i18n.t("Once published, you can access the catchment areas in DHIS2")}</p>
                 <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={i18n.t("Unpublish")} primary={true}/>{i18n.t("to remove access to the catchment areas in DHIS2.")}</p>
                 <Divider/>
-                <ModalTitle>{i18n.t("Get catchment area details")}</ModalTitle>
+                <ModalTitle>{i18n.t("Catchment areas details")}</ModalTitle>
                 <p>{i18n.t("Details will only show for catchment areas created in the DHIS2 app.")}</p>
-                <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={<IconFileDocument16/>} borderless={true}/>{i18n.t("to see details on the catchment area.")}</p>
+                <p className={styles.align}>{i18n.t("Click")}<ButtonItem buttonText={<IconFileDocument16/>} borderless={true}/>{i18n.t("to see details on the catchment areas.")}</p>
             </div> : 
             <div>
                 <ModalTitle>{i18n.t("Additional Features")}</ModalTitle>

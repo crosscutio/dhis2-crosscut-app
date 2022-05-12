@@ -39,7 +39,7 @@ function Delete(props) {
 
     return ( 
         <Modal>
-            <ModalContent>{i18n.t("Deleting will delete the catchment area from the app and remove the catchment area from DHIS2 if published.")}</ModalContent>
+            <ModalContent>{i18n.t("Deleting will delete the catchment areas from the app and remove the catchment areas from DHIS2 if published.")}</ModalContent>
             <ModalActions><ButtonItem handleClick={close} buttonText={i18n.t("Cancel")} secondary={true}/><ButtonItem buttonText={i18n.t("Delete Forever")} loading={isLoading} handleClick={handleDelete} primary={true}/></ModalActions>
         </Modal>
     )
