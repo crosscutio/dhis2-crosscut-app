@@ -37,15 +37,15 @@ function Layout(props) {
     
     
     const fetchJobs = async () => {
-    const resp = await fetchCatchmentJobs()
-    setJobs(resp)
-    
-    // check for loading jobs
-    const foundLoading = resp.find((job) => job.status === "Pending")
+        const resp = await fetchCatchmentJobs()
+        setJobs(resp)
+        
+        // check for loading jobs
+        const foundLoading = resp.find((job) => job.status === "Pending")
 
-    if (foundLoading === undefined) {
-        clearInterval(poller)
-    }
+        if (foundLoading === undefined) {
+            clearInterval(poller)
+        }
     }
 
     // handle create modal
