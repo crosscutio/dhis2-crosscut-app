@@ -32,6 +32,7 @@ function ListCatchmentJobs(props) {
 
   return (
     <>
+    <h2 className={styles.headerTitle}>Crosscut {i18n.t("Catchment Areas")}</h2>
     <div className={styles.container}>
       <Card>
         <DataTable>

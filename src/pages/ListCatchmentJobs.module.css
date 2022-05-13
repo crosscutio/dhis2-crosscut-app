@@ -4,3 +4,7 @@
     height: 70vh;
     box-shadow: 0px 0px 4px 2px #ccc;
 }
+
+.headerTitle {
+    margin-top: 0;
+}
