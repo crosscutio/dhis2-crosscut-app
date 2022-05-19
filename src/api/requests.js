@@ -6,38 +6,38 @@ import i18n from "../locales/index"
 const baseURL = getBaseURL()
 
 export const fetchOrgUnits = async () => {
-    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=%3Aall&paging=false`, options).json()
+    const orgUnits = await ky.get(`${baseURL}/organisationUnits.json?fields=%3Aall&paging=false`, { ...options }).json()
     return orgUnits.organisationUnits
 }
 
 export const fetchOrgUnitLevels = async () => {
-    const resp = await ky.get(`${baseURL}/organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`, options).json()
+    const resp = await ky.get(`${baseURL}/organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`, { ...options }).json()
     return resp.organisationUnitLevels
 }
 
 export const fetchOrgUnitGroups = async () => {
-    const resp = await ky.get(`${baseURL}/organisationUnitGroups.json?fields=id,displayName~rename(name)&paging=false`, options).json()
+    const resp = await ky.get(`${baseURL}/organisationUnitGroups.json?fields=id,displayName~rename(name)&paging=false`, { ...options }).json()
     return resp.organisationUnitGroups
 }
 
 export const fetchACatchmentInUse = async (id) => {
     // id is the attribute id
-    const resp = await ky.get(`${baseURL}/maps.json?filter=mapViews.orgUnitField:eq:${id}`, options).json()
+    const resp = await ky.get(`${baseURL}/maps.json?filter=mapViews.orgUnitField:eq:${id}`, { ...options }).json()
     return resp.maps
 }
 
 export const fetchCurrentAttributes = async () => {
-    const resp = await ky.get(`${baseURL}/attributes.json?fields=id,name&filter=valueType:eq:GEOJSON&filter=organisationUnitAttribute:eq:true&paging=false`, options).json()
+    const resp = await ky.get(`${baseURL}/attributes.json?fields=id,name&filter=valueType:eq:GEOJSON&filter=organisationUnitAttribute:eq:true&paging=false`, { ...options }).json()
     return resp.attributes
 }
 
 export const fetchValidPoints = async (levelId, groupId) => {
-    let url 
+    let url
     if (levelId !== "" && groupId.length === 0) {
         url = `/geoFeatures?ou=ou%3ALEVEL-${levelId}&displayProperty=NAME`
     } else if (levelId === "" && groupId.length > 0) {
         let groupLink = []
-        if (groupId.length > 1) {   
+        if (groupId.length > 1) {
             groupId.forEach((id) => groupLink.push(`%3BOU_GROUP-${id}`))
         } else {
             groupLink = groupId
@@ -45,7 +45,7 @@ export const fetchValidPoints = async (levelId, groupId) => {
         url = `/geoFeatures?ou=ou%3AOU_GROUP-${groupLink}&displayProperty=NAME`
     }
 
-    let resp = await ky(`${baseURL}${url}`, options).json()
+    let resp = await ky(`${baseURL}${url}`, { ...options }).json()
     resp = resp.filter((feature) => feature.ty === 1)
 
     const features = resp.map((feature) => {
@@ -68,7 +68,7 @@ export const fetchValidPoints = async (levelId, groupId) => {
 }
 
 export const deleteAttribute = async (id) => {
-    await ky.delete(`${baseURL}/attributes/${id}`, options).json()
+    await ky.delete(`${baseURL}/attributes/${id}`, { ...options }).json()
 }
 
 export const publishCatchment = async (body) => {
@@ -81,15 +81,15 @@ export const publishCatchment = async (body) => {
         const validFeatures = features.filter((feature) => orgUnits.find((unit) => unit.id === feature.properties["user:orgUnitId"]))
 
         if (validFeatures.length === 0) {
-            throw { message: "Nothing to publish"}
+            throw { message: "Nothing to publish" }
         }
 
-        let des 
+        let des
         if (body.details.levelId === "" && body.details.groupId.length >= 1) {
             const groups = await fetchOrgUnitGroups()
             des = body.details.groupId.map((g) => {
                 return groups.find((group) => group.id === g).name
-            })       
+            })
         } else if (body.details.groupId.length === 0 && body.details.levelId !== "") {
             const levels = await fetchOrgUnitLevels()
             des = levels.find((level) => level.id === body.details.levelId).name
@@ -99,11 +99,11 @@ export const publishCatchment = async (body) => {
         body.payload.description = Array.isArray(des) ? `groups: ${des.join(", ")} | ${body.user} | ${body.date}` : `level: ${des} | ${body.user} | ${body.date}`
 
         // this endpoint posts an attribute and returns uid
-        const resp = await ky.post(`${baseURL}/attributes`, { json: body.payload, headers: options }).json()
+        const resp = await ky.post(`${baseURL}/attributes`, { json: body.payload, ...options }).json()
 
         // use this id to store with the catchment areas
         attributeId = resp?.response?.uid
-    
+
         const json = validFeatures.reduce((acc, val) => {
             const orgId = val.properties["user:orgUnitId"]
             const exists = orgUnits.find((unit) => unit.id === orgId)
@@ -120,7 +120,7 @@ export const publishCatchment = async (body) => {
 
         // update multiple catchments at once
         await ky.post(`${baseURL}/metadata`, {
-            headers: options,
+            ...options,
             json: { organisationUnits: json }
         }).json()
 
@@ -151,17 +151,17 @@ export const unPublishCatchment = async (body) => {
             const orgId = val.properties["user:orgUnitId"]
             const orgUnit = orgUnits.find((unit) => unit.id === orgId)
             const filtered = orgUnit.attributeValues.filter((value) => value.attribute.id !== body.attributeId)
-            acc.push({ ...orgUnit, ...{ attributeValues: filtered }})
+            acc.push({ ...orgUnit, ...{ attributeValues: filtered } })
             return acc
         }, [])
 
         await ky.post(`${baseURL}/metadata`, {
-            headers: options,
+            ...options,
             json: { organisationUnits: json }
         }).json()
         // delete attribute
         await deleteAttribute(body.attributeId)
-       
+
         body.setStatus(i18n.t("Publish"))
 
         // remove the attribute id from the catchment ares on Crosscut
@@ -170,5 +170,5 @@ export const unPublishCatchment = async (body) => {
         body.setStatus(i18n.t("Unpublish"))
         throw err
     }
-  
+
 }
