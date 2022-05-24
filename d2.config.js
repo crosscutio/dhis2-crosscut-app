@@ -1,6 +1,6 @@
 const config = {
   type: "app",
-  name: "dhis2-crosscut-app",
+  name: "Microplanning",
   entryPoints: {
     app: "./src/App.js",
   },
