@@ -2,7 +2,7 @@
 
 A DHIS2 application to create catchment areas for health facilities.
 
-The DHIS3 Crosscut Microplanning app is designed for non-technical users. The app lets you:
+The DHIS2 Crosscut Microplanning app is designed for non-technical users. The app lets you:
 
 - Create catchment areas boundaries for your health facilities and publish them to DHIS2
 
