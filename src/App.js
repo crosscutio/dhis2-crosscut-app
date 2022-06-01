@@ -25,10 +25,39 @@ Amplify.configure({
 I18n.putVocabulariesForLanguage('en', {
   'Sign In': 'Crosscut Login', // Tab header
   'Create Account': 'Create Free Account', // Tab header
-  'Sign in': 'Login', // Button label
-  Password: 'Enter your password', // Password label
   'Forgot your password?': 'Reset Password',
 });
+
+const formFields = {
+  signIn: {
+    username: {
+      labelHidden: true,
+      placeholder: i18n.t("Email"),
+      isRequired: true,
+    },
+    password: {
+      labelHidden: true,
+      placeholder: i18n.t("Enter your password")
+    }
+  },
+  signUp: {
+    email: {
+      labelHidden: true,
+      placeholder: i18n.t("Email"),
+      isRequired: true
+    },
+    password: {
+      labelHidden: true,
+      placeholder: i18n.t("Enter your password"),
+      isRequired: true
+    },
+    name: {
+      labelHidden: true,
+      placeholder: i18n.t("Name"),
+      isRequired: true
+    }
+  }
+}
 
 const buildFields = (fields) => {
   return fields.map((field) => {
@@ -122,6 +151,7 @@ const MyApp = () => {
     >
       { learnMoreModal === true ? <Popup title={i18n.t("Learn More")} content={learnMoreText} setShow={setLearnMoreModal}/> : null }
       <Authenticator 
+      formFields={formFields}
         className={classes.amplify} 
         components={components}
         signUpAttributes={buildFields(['email', 'password', 'name'])}

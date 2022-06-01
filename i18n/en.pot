@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-06-01T20:32:54.392Z\n"
-"PO-Revision-Date: 2022-06-01T20:32:54.392Z\n"
+"POT-Creation-Date: 2022-06-01T21:03:17.551Z\n"
+"PO-Revision-Date: 2022-06-01T21:03:17.551Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -26,6 +26,15 @@ msgstr "Unpublish"
 msgid "Publish"
 msgstr "Publish"
 
+msgid "Email"
+msgstr "Email"
+
+msgid "Enter your password"
+msgstr "Enter your password"
+
+msgid "Name"
+msgstr "Name"
+
 msgid ""
 "Creating a Crosscut account in the DHIS2 interface creates an account on "
 "Crosscut. This allows you to create and access your catchments on Crosscut "
@@ -37,10 +46,10 @@ msgstr ""
 
 msgid ""
 "To use this application, you need to log in to your Crosscut account. Don't "
-"have an account? Create a Crosscut account in Create Account or "
+"have an account? Create a free Crosscut account in Create Account or "
 msgstr ""
 "To use this application, you need to log in to your Crosscut account. Don't "
-"have an account? Create a Crosscut account in Create Account or "
+"have an account? Create a free Crosscut account in Create Account or "
 
 msgid "Learn More"
 msgstr "Learn More"
@@ -240,9 +249,6 @@ msgstr "Create"
 
 msgid "Catchment Areas"
 msgstr "Catchment Areas"
-
-msgid "Name"
-msgstr "Name"
 
 msgid "Date Created"
 msgstr "Date Created"
