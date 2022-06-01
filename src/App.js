@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./App.module.css";
+import { Card } from '@dhis2/ui'
 import { Amplify, I18n } from "aws-amplify";
 import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -89,6 +90,11 @@ const MyApp = () => {
     <AmplifyProvider
     theme={theme}
     >
+      <Card className={classes.instructions}>
+        <p>{i18n.t("To use this application, you need to login into your Crosscut account. Don't have an account? Create a Crosscut account in Create Account or ")}
+        <a style={{ color: '#0d47a1'}} href="https://app.crosscut.io/" target="_blank" >app.crosscut.io</a>.
+        </p>
+      </Card>
       <Authenticator 
         className={classes.amplify} 
         signUpAttributes={buildFields(['email', 'password', 'name'])}
@@ -101,6 +107,7 @@ const MyApp = () => {
         )}
       </Authenticator>
     </AmplifyProvider>
+    
   );
 };
 
