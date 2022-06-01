@@ -10,11 +10,11 @@ The app lets you:
 - See travel time to the health facilities within the catchment area to support outreach and session planning
 - Requirements: An account with Crosscut (a third party application) 
 
-Account set-up options:
-1. After installing the Microplanning app, set up an account with Crosscut via the DHIS2 interface
-2. Go to [app.crosscut.io](https://app.crosscut.io/) to set up an account with Crosscut
-
 ## User Guide
+
+### App setup
+- Install the Microplanning app.
+- Set up a free account with Crosscut within the Microplanning app. It takes less than a minute and allows your Microplanning app to access the Crosscut analytics engine. It also allows you to manually edit catchment areas, visualize health site accessibility heat maps, and access other features at [app.crosscut.io](https://app.crosscut.io/).
 
 ### How to create new catchment areas
 
