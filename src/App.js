@@ -24,6 +24,7 @@ Amplify.configure({
 // TODO: figure out how to integrate DHIS2 i18n with amplify
 I18n.putVocabulariesForLanguage('en', {
   'Sign In': 'Crosscut Login', // Tab header
+  'Create Account': 'Create Free Account', // Tab header
   'Sign in': 'Login', // Button label
   Password: 'Enter your password', // Password label
   'Forgot your password?': 'Reset Password',
@@ -102,7 +103,7 @@ const MyApp = () => {
         <Card>
         <div className={classes.instructions}>
         <div className={classes.instructionText}>
-          <p>{i18n.t("To use this application, you need to log in to your Crosscut account. Don't have an account? Create a Crosscut account in Create Account or ")}
+          <p>{i18n.t("To use this application, you need to log in to your Crosscut account. Don't have an account? Create a free Crosscut account in Create Account or ")}
           <a style={{ color: '#0d47a1'}} href="https://app.crosscut.io/" target="_blank" >app.crosscut.io</a>.
           </p>
         </div>
