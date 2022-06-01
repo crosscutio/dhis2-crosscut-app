@@ -8,6 +8,11 @@ The app lets you:
 - Create visualizations and maps in DHIS2 by combining the catchment areas with DHIS2 reporting data
 - Generate target population estimates for each catchment area to quickly calculate coverage estimates
 - See travel time to the health facilities within the catchment area to support outreach and session planning
+- Requirements: An account with Crosscut (a third party application) 
+
+Account set-up options:
+1. After installing the Microplanning app, set up an account with Crosscut via the DHIS2 interface
+2. Go to [app.crosscut.io](https://app.crosscut.io/) to set up an account with Crosscut
 
 ## User Guide
 
