@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./App.module.css";
 import { Card } from '@dhis2/ui'
 import { Amplify, I18n } from "aws-amplify";
 import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Layout from './layout/Layout'
+import Popup from './components/Popup/Popup'
+import ButtonItem from "./components/ButtonItem/ButtonItem";
 import i18n from './locales/index.js'
 
 const poolDate = {
@@ -84,19 +86,43 @@ const theme = {
     }
   }
 }
+
 const MyApp = () => {
+  const [learnMoreModal, setLearnMoreModal] = useState(false)
+  
+  const handleLearnMore = () => {
+    setLearnMoreModal(prevState => !prevState)
+  }
+  
+  const learnMoreText = i18n.t("Creating a Crosscut account in the DHIS2 interface creates an account on Crosscut. This allows you to create and access your catchments on Crosscut and DHIS2.")
+
+  const components = {
+    Header() {
+      return (
+        <Card>
+        <div className={classes.instructions}>
+        <div className={classes.instructionText}>
+          <p>{i18n.t("To use this application, you need to log in to your Crosscut account. Don't have an account? Create a Crosscut account in Create Account or ")}
+          <a style={{ color: '#0d47a1'}} href="https://app.crosscut.io/" target="_blank" >app.crosscut.io</a>.
+          </p>
+        </div>
+        <div className={classes.learnBtn}>
+          <ButtonItem handleClick={handleLearnMore} buttonText={i18n.t("Learn More")} small={true}/>
+        </div>
+        </div>
+      </Card>
+      )
+    }
+  }
 
   return (
     <AmplifyProvider
     theme={theme}
     >
-      <Card className={classes.instructions}>
-        <p>{i18n.t("To use this application, you need to login into your Crosscut account. Don't have an account? Create a Crosscut account in Create Account or ")}
-        <a style={{ color: '#0d47a1'}} href="https://app.crosscut.io/" target="_blank" >app.crosscut.io</a>.
-        </p>
-      </Card>
+      { learnMoreModal === true ? <Popup title={i18n.t("Learn More")} content={learnMoreText} setShow={setLearnMoreModal}/> : null }
       <Authenticator 
         className={classes.amplify} 
+        components={components}
         signUpAttributes={buildFields(['email', 'password', 'name'])}
         loginMechanisms={buildFields(['email'])}
       >

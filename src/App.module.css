@@ -15,5 +15,38 @@
 }
 
 .instructions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding-left: 20px;
+  padding-right: 10px;
+  width: 100%;
+}
+
+.instructionText {
+  width: 70%;
+  font-size: 14px;
+}
+
+.learnBtn {
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .instructions {
+    flex-direction: column;
+  }
+
+  .instructionText {
+    width: 100%;
+  }
+
+  .learnBtn {
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+  }
 }
