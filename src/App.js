@@ -97,7 +97,7 @@ const MyApp = () => {
   const learnMoreText = i18n.t("Creating a Crosscut account in the DHIS2 interface creates an account on Crosscut. This allows you to create and access your catchments on Crosscut and DHIS2.")
 
   const components = {
-    Header() {
+    Footer() {
       return (
         <Card>
         <div className={classes.instructions}>
