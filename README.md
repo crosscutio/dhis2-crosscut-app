@@ -12,7 +12,7 @@ The app lets you:
 
 Account set-up options:
 1. After installing the Microplanning app, set up an account with Crosscut via the DHIS2 interface
-2. Go to app.crosscut.io to set up an account with Crosscut
+2. Go to [app.crosscut.io](https://app.crosscut.io/) to set up an account with Crosscut
 
 ## User Guide
 
