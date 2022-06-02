@@ -13,3 +13,30 @@
 .amplify > div {
   margin: 30px auto;
 }
+
+.instructions {
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+}
+
+.instructionText {
+  font-size: 14px;
+}
+
+
+@media screen and (max-width: 600px) {
+  .instructions {
+    flex-direction: column;
+  }
+
+  .instructionText {
+    width: 100%;
+  }
+
+  .learnBtn {
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}

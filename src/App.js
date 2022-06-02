@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./App.module.css";
+import { Card } from '@dhis2/ui'
 import { Amplify, I18n } from "aws-amplify";
 import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -21,10 +22,40 @@ Amplify.configure({
 // TODO: figure out how to integrate DHIS2 i18n with amplify
 I18n.putVocabulariesForLanguage('en', {
   'Sign In': 'Crosscut Login', // Tab header
-  'Sign in': 'Login', // Button label
-  Password: 'Enter your password', // Password label
+  'Create Account': 'Create Account', // Tab header
   'Forgot your password?': 'Reset Password',
 });
+
+const formFields = {
+  signIn: {
+    username: {
+      labelHidden: true,
+      placeholder: i18n.t("Email"),
+      isRequired: true,
+    },
+    password: {
+      labelHidden: true,
+      placeholder: i18n.t("Enter your password")
+    }
+  },
+  signUp: {
+    email: {
+      labelHidden: true,
+      placeholder: i18n.t("Email"),
+      isRequired: true
+    },
+    password: {
+      labelHidden: true,
+      placeholder: i18n.t("Enter your password"),
+      isRequired: true
+    },
+    name: {
+      labelHidden: true,
+      placeholder: i18n.t("Name"),
+      isRequired: true
+    }
+  }
+}
 
 const buildFields = (fields) => {
   return fields.map((field) => {
@@ -83,14 +114,30 @@ const theme = {
     }
   }
 }
+
 const MyApp = () => {
+  const components = {
+    Footer() {
+      return (
+        <Card>
+        <div className={classes.instructions}>
+          <p className={classes.instructionText}>{i18n.t("To use the Microplanning app, you need to log in to your Crosscut account. Don't have an account? You can create one for free by clcking the 'Create Account' tab above or visit ")}
+          <a style={{ color: '#0d47a1'}} href="https://app.crosscut.io/" target="_blank" >app.crosscut.io</a>.
+          </p>
+          </div>
+      </Card>
+      )
+    }
+  }
 
   return (
     <AmplifyProvider
     theme={theme}
     >
       <Authenticator 
+      formFields={formFields}
         className={classes.amplify} 
+        components={components}
         signUpAttributes={buildFields(['email', 'password', 'name'])}
         loginMechanisms={buildFields(['email'])}
       >
@@ -101,6 +148,7 @@ const MyApp = () => {
         )}
       </Authenticator>
     </AmplifyProvider>
+    
   );
 };
 
