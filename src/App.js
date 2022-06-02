@@ -5,8 +5,6 @@ import { Amplify, I18n } from "aws-amplify";
 import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Layout from './layout/Layout'
-import Popup from './components/Popup/Popup'
-import ButtonItem from "./components/ButtonItem/ButtonItem";
 import i18n from './locales/index.js'
 
 const poolDate = {
@@ -24,7 +22,7 @@ Amplify.configure({
 // TODO: figure out how to integrate DHIS2 i18n with amplify
 I18n.putVocabulariesForLanguage('en', {
   'Sign In': 'Crosscut Login', // Tab header
-  'Create Account': 'Create Free Account', // Tab header
+  'Create Account': 'Create Account', // Tab header
   'Forgot your password?': 'Reset Password',
 });
 
@@ -118,28 +116,15 @@ const theme = {
 }
 
 const MyApp = () => {
-  const [learnMoreModal, setLearnMoreModal] = useState(false)
-  
-  const handleLearnMore = () => {
-    setLearnMoreModal(prevState => !prevState)
-  }
-  
-  const learnMoreText = i18n.t("Creating a Crosscut account in the DHIS2 interface creates an account on Crosscut. This allows you to create and access your catchments on Crosscut and DHIS2.")
-
   const components = {
     Footer() {
       return (
         <Card>
         <div className={classes.instructions}>
-        <div className={classes.instructionText}>
-          <p>{i18n.t("To use this application, you need to log in to your Crosscut account. Don't have an account? Create a free Crosscut account in Create Account or ")}
+          <p className={classes.instructionText}>{i18n.t("To use the Microplanning app, you need to log in to your Crosscut account. Don't have an account? You can create one for free by clcking the 'Create Account' tab above or visit ")}
           <a style={{ color: '#0d47a1'}} href="https://app.crosscut.io/" target="_blank" >app.crosscut.io</a>.
           </p>
-        </div>
-        <div className={classes.learnBtn}>
-          <ButtonItem handleClick={handleLearnMore} buttonText={i18n.t("Learn More")} small={true}/>
-        </div>
-        </div>
+          </div>
       </Card>
       )
     }
@@ -149,7 +134,6 @@ const MyApp = () => {
     <AmplifyProvider
     theme={theme}
     >
-      { learnMoreModal === true ? <Popup title={i18n.t("Learn More")} content={learnMoreText} setShow={setLearnMoreModal}/> : null }
       <Authenticator 
       formFields={formFields}
         className={classes.amplify} 
