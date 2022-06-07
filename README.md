@@ -8,7 +8,7 @@ The app lets you:
 - Create visualizations and maps in DHIS2 by combining the catchment areas with DHIS2 reporting data
 - Generate target population estimates for each catchment area to quickly calculate coverage estimates
 - See travel time to the health facilities within the catchment area to support outreach and session planning
-- Requirements: An account with Crosscut (a third party application) 
+- Requirements: An account with Crosscut (a third party application) and internet access
 
 ## User Guide
 
