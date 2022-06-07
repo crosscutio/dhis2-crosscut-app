@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import classes from "./App.module.css";
 import { Card } from '@dhis2/ui'
 import { Amplify, I18n } from "aws-amplify";

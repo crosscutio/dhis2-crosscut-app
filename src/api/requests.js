@@ -56,7 +56,6 @@ export const fetchValidPoints = async (levelId, groupId) => {
             id: feature.id,
             lat,
             long,
-            id: feature.id,
             name: feature.na,
             level: feature.le,
             parentName: feature.pn,
