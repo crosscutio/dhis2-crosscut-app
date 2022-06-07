@@ -8,27 +8,35 @@ import {
   DataTableColumnHeader,
 } from "@dhis2/ui";
 import JobItem from "../components/JobItem/JobItem";
-import i18n from "../locales/index"
-import styles from './ListCatchmentJobs.module.css'
+import i18n from "../locales/index";
+import styles from "./ListCatchmentJobs.module.css";
 
 function ListCatchmentJobs(props) {
-  const { jobs, toggle, handleJobDetails, setAlert, setPublishAlert, setUnpublishAlert, setDeleteAlert } = props
+  const {
+    jobs,
+    toggle,
+    handleJobDetails,
+    setAlert,
+    setPublishAlert,
+    setUnpublishAlert,
+    setDeleteAlert,
+  } = props;
   const [{ column, direction }, setSortInstructions] = useState({
-    column: 'date',
-    direction: 'desc',
-  })
+    column: "date",
+    direction: "desc",
+  });
 
   // handle sorting of columns
   const getSortDirection = (columnName) => {
-    return columnName === column ? direction : 'default'
-  }
+    return columnName === column ? direction : "default";
+  };
 
   const onSortIconClick = ({ name, direction }) => {
-      setSortInstructions({
-          column: name,
-          direction,
-      })
-  }
+    setSortInstructions({
+      column: name,
+      direction,
+    });
+  };
 
   return (
     <>
@@ -51,15 +59,41 @@ function ListCatchmentJobs(props) {
               const strA = a[column]
               const strB = b[column]
 
-              if ((direction === 'asc' && strA < strB) ||(direction === 'desc' && strA > strB)) return -1
-              if ((direction === 'desc' && strA < strB) ||(direction === 'asc' && strA > strB)) return 1
-              return 0
-          }).map((job) => {
-            return <JobItem setAlert={setAlert} setPublishAlert={setPublishAlert} setUnpublishAlert={setUnpublishAlert} toggle={toggle} key={job.id} name={job.name} status={job.status} id={job.id} date={job.date} handleJobDetails={handleJobDetails} attributeId={job.attributeId} setDeleteAlert={setDeleteAlert} details={job.jobDetails}/>
-          })}</TableBody>
-        </DataTable>
-      </Card>
-    </div>
+                    if (
+                      (direction === "asc" && strA < strB) ||
+                      (direction === "desc" && strA > strB)
+                    )
+                      return -1;
+                    if (
+                      (direction === "desc" && strA < strB) ||
+                      (direction === "asc" && strA > strB)
+                    )
+                      return 1;
+                    return 0;
+                  })
+                  .map((job) => {
+                    return (
+                      <JobItem
+                        setAlert={setAlert}
+                        setPublishAlert={setPublishAlert}
+                        setUnpublishAlert={setUnpublishAlert}
+                        toggle={toggle}
+                        key={job.id}
+                        name={job.name}
+                        status={job.status}
+                        id={job.id}
+                        date={job.date}
+                        handleJobDetails={handleJobDetails}
+                        attributeId={job.attributeId}
+                        setDeleteAlert={setDeleteAlert}
+                        details={job.jobDetails}
+                      />
+                    );
+                  })}
+            </TableBody>
+          </DataTable>
+        </Card>
+      </div>
     </>
   );
 }
