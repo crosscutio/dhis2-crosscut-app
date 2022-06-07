@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-06-02T13:27:19.165Z\n"
-"PO-Revision-Date: 2022-06-02T13:27:19.165Z\n"
+"POT-Creation-Date: 2022-06-07T15:15:31.910Z\n"
+"PO-Revision-Date: 2022-06-07T15:15:31.910Z\n"
 
 msgid "Ready"
 msgstr "Ready"
@@ -84,17 +84,17 @@ msgstr "Name the catchment areas"
 msgid "characters"
 msgstr "characters"
 
-msgid "Filter by facility level or by groups"
-msgstr "Filter by facility level or by groups"
+msgid "Filter by organisational unit level or by organisational unit groups"
+msgstr "Filter by organisational unit level or by organisational unit groups"
 
-msgid "Select the facility level"
-msgstr "Select the facility level"
+msgid "Select the organisational unit level"
+msgstr "Select the organisational unit level"
 
 msgid "Clear"
 msgstr "Clear"
 
-msgid "Select the groups"
-msgstr "Select the groups"
+msgid "Select the organisational unit groups"
+msgstr "Select the organisational unit groups"
 
 msgid "Error Message"
 msgstr "Error Message"
@@ -224,6 +224,12 @@ msgstr "Email us at"
 
 msgid "Close"
 msgstr "Close"
+
+msgid "Unpublish from DHIS2"
+msgstr "Unpublish from DHIS2"
+
+msgid "Publish to DHIS2"
+msgstr "Publish to DHIS2"
 
 msgid "Unpublished"
 msgstr "Unpublished"

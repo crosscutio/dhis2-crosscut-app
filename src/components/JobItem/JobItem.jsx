@@ -15,7 +15,7 @@ import { getUser } from '../../services/JWTManager'
 function JobItem(props) {
     const { name, status, date, id, toggle, setAlert, attributeId, setPublishAlert, setUnpublishAlert, setDeleteAlert, details } = props
     const [showDelete, setShowDelete] = useState(false)
-    const [publishStatus, setPublishStatus] = useState(i18n.t("Publish"))
+    const [publishStatus, setPublishStatus] = useState(i18n.t("Publish to DHIS2"))
     const [isLoading, setIsLoading] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
@@ -23,14 +23,14 @@ function JobItem(props) {
 
     useEffect(() => {
         if (attributeId !== undefined) {
-            setPublishStatus(i18n.t("Unpublish"))
+            setPublishStatus(i18n.t("Unpublish from DHIS2"))
         }
     }, [attributeId])
 
     const handleConnectionDHIS2 = async () => {
-        if (publishStatus === i18n.t("Publish")) {
+        if (publishStatus === i18n.t("Publish to DHIS2")) {
             await handlePublish()
-        } else if (publishStatus === i18n.t("Unpublish")) {
+        } else if (publishStatus === i18n.t("Unpublish from DHIS2")) {
             await handleUnpublish() 
         }
     }   
@@ -60,7 +60,7 @@ function JobItem(props) {
                 // 5s
             }, 5000)
             setIsLoading(false)
-            setPublishStatus(i18n.t("Unpublish"))
+            setPublishStatus(i18n.t("Unpublish from DHIS2"))
         }  
     }
 
@@ -112,7 +112,7 @@ function JobItem(props) {
                 setPublishAlert(null)
                 // 5s
             }, 5000)
-            setPublishStatus(i18n.t("Publish"))
+            setPublishStatus(i18n.t("Publish to DHIS2"))
             setIsLoading(false)
         }
     }

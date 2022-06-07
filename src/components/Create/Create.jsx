@@ -290,9 +290,9 @@ function Create(props) {
                 <Field label={i18n.t("Name the catchment areas")} required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
                     <Input onChange={handleNameChange} value={formInputs.name}/>
                 </Field>
-                <Field label={i18n.t("Filter by facility level or by groups")} required validationText={filterText} error></Field>
+                <Field label={i18n.t("Filter by organisational unit level or by organisational unit groups")} required validationText={filterText} error></Field>
                 <div className={styles.filter}>
-                <Field label={i18n.t("Select the facility level")}>
+                <Field label={i18n.t("Select the organisational unit level")}>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level} disabled={formInputs.group.length > 0}>
                         {levels && levels.map((level, index) => {
                             return <SingleSelectOption key={index} label={level.name} value={level.id}/>
@@ -300,7 +300,7 @@ function Create(props) {
                         <ButtonItem buttonText={i18n.t("Clear")} handleClick={handleClear}/>
                     </SingleSelect>
                 </Field>
-                <Field label={i18n.t("Select the groups")}>
+                <Field label={i18n.t("Select the organisational unit groups")}>
                     <MultiSelect onChange={handleGroupChange} selected={formInputs.group} disabled={formInputs.level}>
                         {groups && groups.map((group, index) => {
                             return <MultiSelectOption key={index} label={group.name} value={group.id}/>
