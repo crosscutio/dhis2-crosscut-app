@@ -5,26 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-06-02T13:27:19.165Z\n"
-"PO-Revision-Date: 2022-06-02T13:27:19.165Z\n"
-
-msgid "Ready"
-msgstr "Ready"
-
-msgid "Published"
-msgstr "Published"
-
-msgid "Pending"
-msgstr "Pending"
-
-msgid "Failed"
-msgstr "Failed"
-
-msgid "Unpublish"
-msgstr "Unpublish"
-
-msgid "Publish"
-msgstr "Publish"
+"POT-Creation-Date: 2022-06-07T16:53:51.495Z\n"
+"PO-Revision-Date: 2022-06-07T16:53:51.495Z\n"
 
 msgid "Email"
 msgstr "Email"
@@ -43,6 +25,24 @@ msgstr ""
 "To use the Microplanning app, you need to log in to your Crosscut account. "
 "Don't have an account? You can create one for free by clcking the 'Create "
 "Account' tab above or visit "
+
+msgid "Ready"
+msgstr "Ready"
+
+msgid "Published"
+msgstr "Published"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Unpublish from DHIS2"
+msgstr "Unpublish from DHIS2"
+
+msgid "Publish to DHIS2"
+msgstr "Publish to DHIS2"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -84,17 +84,17 @@ msgstr "Name the catchment areas"
 msgid "characters"
 msgstr "characters"
 
-msgid "Filter by facility level or by groups"
-msgstr "Filter by facility level or by groups"
+msgid "Filter by organisational unit level or by organisational unit groups"
+msgstr "Filter by organisational unit level or by organisational unit groups"
 
-msgid "Select the facility level"
-msgstr "Select the facility level"
+msgid "Select the organisational unit level"
+msgstr "Select the organisational unit level"
 
 msgid "Clear"
 msgstr "Clear"
 
-msgid "Select the groups"
-msgstr "Select the groups"
+msgid "Select the organisational unit groups"
+msgstr "Select the organisational unit groups"
 
 msgid "Error Message"
 msgstr "Error Message"
@@ -186,11 +186,17 @@ msgstr ""
 msgid "Publish your catchment areas to DHIS2"
 msgstr "Publish your catchment areas to DHIS2"
 
+msgid "Publish"
+msgstr "Publish"
+
 msgid "to connect your catchments to DHIS2."
 msgstr "to connect your catchments to DHIS2."
 
 msgid "Once published, you can access the catchment areas in DHIS2"
 msgstr "Once published, you can access the catchment areas in DHIS2"
+
+msgid "Unpublish"
+msgstr "Unpublish"
 
 msgid "to remove access to the catchment areas in DHIS2."
 msgstr "to remove access to the catchment areas in DHIS2."

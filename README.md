@@ -8,13 +8,16 @@ The app lets you:
 - Create visualizations and maps in DHIS2 by combining the catchment areas with DHIS2 reporting data
 - Generate target population estimates for each catchment area to quickly calculate coverage estimates
 - See travel time to the health facilities within the catchment area to support outreach and session planning
-- Requirements: An account with Crosscut (a third party application) 
+- Requirements: An account with Crosscut (a third party application) and internet access
+
+Submit requests and issues here: [GitHub Issues](https://github.com/crosscutio/dhis2-crosscut-app/issues/new)
 
 ## User Guide
 
 ### App setup
 - Install the Microplanning app.
 - Set up a free account with Crosscut within the Microplanning app. It takes less than a minute and allows your Microplanning app to access the Crosscut analytics engine. It also allows you to manually edit catchment areas, visualize health site accessibility heat maps, and access other features at [app.crosscut.io](https://app.crosscut.io/).
+- Internet access (specifically to [api-production.app.crosscut.io](https://api-production.app.crosscut.io)) is required to use the Microplanning app.
 
 ### How to create new catchment areas
 

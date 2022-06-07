@@ -56,7 +56,6 @@ export const fetchValidPoints = async (levelId, groupId) => {
             id: feature.id,
             lat,
             long,
-            id: feature.id,
             name: feature.na,
             level: feature.le,
             parentName: feature.pn,
@@ -124,7 +123,7 @@ export const publishCatchment = async (body) => {
             json: { organisationUnits: json }
         }).json()
 
-        body.setStatus(i18n.t("Unpublish"))
+        body.setStatus(i18n.t("Unpublish from DHIS2"))
 
         // add attribute id to catchment areas on Crosscut
         await updateCatchmentItem(body.id, { field: "attributeId", value: attributeId })
@@ -133,7 +132,7 @@ export const publishCatchment = async (body) => {
         if (attributeId !== null) {
             await deleteAttribute(attributeId)
         }
-        body.setStatus(i18n.t("Publish"))
+        body.setStatus(i18n.t("Publish to DHIS2"))
         throw err
     }
 }
@@ -162,12 +161,12 @@ export const unPublishCatchment = async (body) => {
         // delete attribute
         await deleteAttribute(body.attributeId)
 
-        body.setStatus(i18n.t("Publish"))
+        body.setStatus(i18n.t("Publish to DHIS2"))
 
         // remove the attribute id from the catchment ares on Crosscut
         await updateCatchmentItem(body.id, { field: "attributeId" })
     } catch (err) {
-        body.setStatus(i18n.t("Unpublish"))
+        body.setStatus(i18n.t("Unpublish from DHIS2"))
         throw err
     }
 
