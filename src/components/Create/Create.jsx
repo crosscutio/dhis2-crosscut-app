@@ -290,7 +290,7 @@ function Create(props) {
                 <Field label={i18n.t("Name the catchment areas")} required validationText={nameText} helpText={`${characterCount}/${maxCharacters} ${i18n.t("characters")}`} warning>
                     <Input onChange={handleNameChange} value={formInputs.name}/>
                 </Field>
-                <Field label={i18n.t("Filter by organisational unit level or by organisational unit groups")} required validationText={filterText} error></Field>
+                <Field label={i18n.t("Filter by level or groups where facilities are located")} required validationText={filterText} error></Field>
                 <div className={styles.filter}>
                 <Field label={i18n.t("Select the organisational unit level")}>
                     <SingleSelect onChange={handleLevelChange} selected={formInputs.level} disabled={formInputs.group.length > 0}>
