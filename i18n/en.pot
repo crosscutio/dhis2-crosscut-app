@@ -5,6 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+<<<<<<< Updated upstream
 "POT-Creation-Date: 2022-06-07T15:15:31.910Z\n"
 "PO-Revision-Date: 2022-06-07T15:15:31.910Z\n"
 
@@ -25,6 +26,10 @@ msgstr "Unpublish"
 
 msgid "Publish"
 msgstr "Publish"
+=======
+"POT-Creation-Date: 2022-06-07T15:26:48.046Z\n"
+"PO-Revision-Date: 2022-06-07T15:26:48.046Z\n"
+>>>>>>> Stashed changes
 
 msgid "Email"
 msgstr "Email"
@@ -43,6 +48,24 @@ msgstr ""
 "To use the Microplanning app, you need to log in to your Crosscut account. "
 "Don't have an account? You can create one for free by clcking the 'Create "
 "Account' tab above or visit "
+
+msgid "Ready"
+msgstr "Ready"
+
+msgid "Published"
+msgstr "Published"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Unpublish"
+msgstr "Unpublish"
+
+msgid "Publish"
+msgstr "Publish"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"

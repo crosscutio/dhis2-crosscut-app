@@ -10,6 +10,8 @@ The app lets you:
 - See travel time to the health facilities within the catchment area to support outreach and session planning
 - Requirements: An account with Crosscut (a third party application) and internet access
 
+Submit requests and issues here: [GitHub Issues](https://github.com/crosscutio/dhis2-crosscut-app/issues)
+
 ## User Guide
 
 ### App setup
