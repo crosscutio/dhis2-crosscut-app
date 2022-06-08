@@ -210,12 +210,7 @@ function Create(props) {
             }, 5000) 
             }).catch( async (err) => {
             try {
-                let response 
-                if (err.response.status === 204) {
-                    response = err.response
-                } else {
-                    response = JSON.parse(await err.response.text())
-                }
+                const response = err;
                 if (response.code === "CSV_ROW_ERROR") {
                     const resp = papaparse.parse(response.csv.trim(), { header: true })
                     const errors = resp.data.filter((data) => data["cc:ErrorMessage"] !== "") 

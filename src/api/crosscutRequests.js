@@ -86,7 +86,6 @@ export const fetchCatchmentJobs = async () => {
 
 export const createCatchmentJob = async (body) => {
     try {
-        const url = `${baseURL}/catchment-jobs`
         const levelId = body.level
         const groupId = body.group
 
@@ -121,7 +120,116 @@ export const createCatchmentJob = async (body) => {
             algorithm: "site-based"
         }
 
-        const catchment = await ky.post(url, {
+        const verify_url = `${baseURL}/catchment-jobs/verify`;
+
+        // define how big each "chunk" of sites should be
+        let CHUNK_SIZE = 1000;
+  
+        // break CSV into smaller rows, broken by CRLF or LF
+        const rows = json.csv.replace(/\r\n/g, "\n").split("\n");
+  
+        // define one header row
+        const header_row = rows[0];
+  
+        // create an array of promises
+        const chunk_waits = [];
+  
+        // break the CSV into chunks of CHUNK_SIZE sites at a time
+        for (let i = 1; i < rows.length; i += CHUNK_SIZE) {
+          const chunk = rows.slice(i, i + CHUNK_SIZE);
+          const joined_chunk = chunk.join("\n");
+  
+          // add header row
+          json.csv = `${header_row}\n${joined_chunk}`;
+          json.id_start = i - 1; // start at 0 for first chunk for the ID (ignore header row)
+  
+          // add the verify promise to the array of promises
+          chunk_waits.push(
+            ky
+              .post(verify_url, {
+                timeout: 31 * 1000, // have ky kill the request after 30 seconds
+                json,
+                mode: "cors",
+                headers: {
+                    authorization: getToken(),
+                },
+              })
+              .json()
+          );
+        }
+  
+        // perform a site validation for all chunks in parallel
+        // and wait for all of them to finish (Promise.all fast fails)
+        const chunk_responses = await Promise.allSettled(chunk_waits);
+  
+        // use these variables to keep track of results while iterating
+        // through the chunk responses
+        let valid_csv = [];
+        let valid_csv_to_add = null;
+        let invalid_csv_to_add = null;
+        let error_encountered = false;
+        let exception_caught = null;
+        let error_header_row_added = false;
+        let error_csv = "";
+  
+        // process each of the responses
+        for (const chunk_response of chunk_responses) {
+          // check to see if validation failed or not
+          if (chunk_response.status === "fulfilled") {
+            // get the valid csv and the csv with empty error message column from response
+            valid_csv_to_add = chunk_response.value.valid_csv;
+            invalid_csv_to_add = chunk_response.value.csv_details;
+          } else {
+            error_encountered = true;
+            exception_caught = JSON.parse(
+              await chunk_response.reason.response.text()
+            ); // overwrite with the most recent error
+            invalid_csv_to_add = exception_caught.csv_details;
+          }
+  
+          // keep building the invalid csv to return even if no errors have been found
+          // otherwise valid sites might not be included in the full error csv
+          // displayed to the user
+          if (invalid_csv_to_add !== null) {
+            // turn into an array separated by new lines
+            const error_rows = invalid_csv_to_add
+              .replace(/\r\n/g, "\n")
+              .split("\n");
+  
+            let slice_start = 1; // default to skip the header
+  
+            // add the error header row (with the error message header) for the very first row
+            if (!error_header_row_added) {
+              slice_start = 0; // don't skip the header this time
+              error_header_row_added = true;
+            }
+  
+            // turn the rows back into a string joined by a newline
+            const chunk_csv_error = error_rows
+              .slice(slice_start, error_rows.length)
+              .join("\n");
+  
+            // append the additional errors
+            error_csv = `${error_csv}${chunk_csv_error}`;
+          } // end processing invalid_csv_to_add
+  
+          // continue to build the valid_csv until an error is encountered
+          if (valid_csv_to_add !== null && error_encountered === false) {
+            valid_csv.push(...valid_csv_to_add);
+          }
+        } // end for each chunk response
+  
+        // if there's an error, return it back to the caller with the latest csv
+        if (error_encountered) {
+          exception_caught.csv = error_csv; // overwrite the response with the combined errors
+          throw exception_caught; // make CreateSiteBasedCatchment show errors to user
+        } else {
+          // save the full valid CSV to use in creating the catchment job and proceed
+          json.csv = valid_csv;
+        } // end if error encountered
+
+        const create_url = `${baseURL}/catchment-jobs`
+        const catchment = await ky.post(create_url, {
             json,
             mode: "cors",
             headers: {
