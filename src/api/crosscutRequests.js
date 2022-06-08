@@ -146,15 +146,13 @@ export const createCatchmentJob = async (body) => {
 
             // add the verify promise to the array of promises
             chunkWaits.push(
-            ky
-                .post(verify_url, {
+            ky.post(verify_url, {
                 timeout: 31 * 1000, // have ky kill the request after 30 seconds
                 json,
                 headers: {
-                    authorization: state.user.idToken,
+                    authorization: getToken(),
                 },
-                })
-                .json()
+                }).json()
             );
         }
 
@@ -176,44 +174,44 @@ export const createCatchmentJob = async (body) => {
         for (const chunkResponse of chunkResponses) {
             // check to see if validation failed or not
             if (chunkResponse.status === "fulfilled") {
-            // get the valid csv and the csv with empty error message column from response
-            validCsvToAdd = chunkResponse.value.validCsv;
-            invalidCsvToAdd = chunkResponse.value.csvDetails;
+                // get the valid csv and the csv with empty error message column from response
+                validCsvToAdd = chunkResponse.value.validCsv;
+                invalidCsvToAdd = chunkResponse.value.csvDetails;
             } else {
-            errorEncountered = true;
-            exceptionCaught = JSON.parse(
-                await chunkResponse.reason.response.text()
-            ); // overwrite with the most recent error
-            invalidCsvToAdd = exceptionCaught.csvDetails;
+                errorEncountered = true;
+                exceptionCaught = JSON.parse(
+                    await chunkResponse.reason.response.text()
+                ); // overwrite with the most recent error
+                invalidCsvToAdd = exceptionCaught.csvDetails;
             }
 
             // keep building the invalid csv to return even if no errors have been found
             // otherwise valid sites might not be included in the full error csv
             // displayed to the user
             if (invalidCsvToAdd !== null) {
-            // turn into an array separated by new lines
-            const errorRows = invalidCsvToAdd.replace(/\r\n/g, "\n").split("\n");
+                // turn into an array separated by new lines
+                const errorRows = invalidCsvToAdd.replace(/\r\n/g, "\n").split("\n");
 
-            let sliceStart = 1; // default to skip the header
+                let sliceStart = 1; // default to skip the header
 
-            // add the error header row (with the error message header) for the very first row
-            if (!errorHeaderRowAdded) {
-                sliceStart = 0; // don't skip the header this time
-                errorHeaderRowAdded = true;
-            }
+                // add the error header row (with the error message header) for the very first row
+                if (!errorHeaderRowAdded) {
+                    sliceStart = 0; // don't skip the header this time
+                    errorHeaderRowAdded = true;
+                }
 
-            // turn the rows back into a string joined by a newline
-            const chunkCsvError = errorRows
-                .slice(sliceStart, errorRows.length)
-                .join("\n");
+                // turn the rows back into a string joined by a newline
+                const chunkCsvError = errorRows
+                    .slice(sliceStart, errorRows.length)
+                    .join("\n");
 
-            // append the additional errors
-            errorCsv = `${errorCsv}${chunkCsvError}`;
+                // append the additional errors
+                errorCsv = `${errorCsv}${chunkCsvError}`;
             } // end processing invalidCsvToAdd
 
             // continue to build the validCsv until an error is encountered
             if (validCsvToAdd !== null && errorEncountered === false) {
-            validCsv.push(...validCsvToAdd);
+                validCsv.push(...validCsvToAdd);
             }
         } // end for each chunk response
 
