@@ -5,6 +5,7 @@ export const options = {
         Accept: 'application/json',
     },
     credentials: "include",
+    timeout: '60000'
 }
 
 export const getCrossCutBaseUrl = () => {
