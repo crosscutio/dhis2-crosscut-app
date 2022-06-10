@@ -6,7 +6,8 @@ import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Layout from './layout/Layout'
 import i18n from './locales/index.js'
-
+import { useConfig } from '@dhis2/app-runtime'
+import { setupDHIS2Api } from "./api/requests";
 const poolDate = {
   userPoolId: "us-east-1_qSuVlXKCf",
   userPoolWebClientId: "1kqueg45v60hm4aggobci2jf93",
@@ -116,6 +117,9 @@ const theme = {
 }
 
 const MyApp = () => {
+  const config = useConfig()
+  setupDHIS2Api(config)
+
   const components = {
     Footer() {
       return (
