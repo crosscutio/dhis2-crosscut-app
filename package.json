@@ -1,7 +1,7 @@
 {
   "name": "dhis2-crosscut-app",
   "author": "crosscut.io",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "license": "BSD-3-Clause",
   "private": true,
@@ -14,6 +14,7 @@
     "cluster:clean": "d2 cluster down 2.38 --clean",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
+    "pack": "d2-app-scripts pack",
     "format": "prettier . -w"
   },
   "devDependencies": {
