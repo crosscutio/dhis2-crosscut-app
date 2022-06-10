@@ -16,7 +16,7 @@ export const getCrossCutBaseUrl = () => {
         production: "https://api-production.app.crosscut.io"
     }   
     
-    if(window.location.hostname === "localhost") {
+    if (window.location.hostname === "localhost") {
         baseURL = apiUrls.development
     } else {
         baseURL = apiUrls.production
