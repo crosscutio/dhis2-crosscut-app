@@ -15,34 +15,35 @@ let dhis2Api = {
 
 export const setupDHIS2Api = ({ baseUrl, apiVersion }) => {
     dhis2Api = ky.create({
+        ...options,
         prefixUrl: `${baseUrl}/api/${apiVersion}`,
     });
 };
 
 
 export const fetchOrgUnits = async () => {
-    const orgUnits = await dhis2Api.get(`organisationUnits.json?fields=%3Aall&paging=false`, { ...options }).json()
+    const orgUnits = await dhis2Api.get(`organisationUnits.json?fields=%3Aall&paging=false`).json()
     return orgUnits.organisationUnits
 }
 
 export const fetchOrgUnitLevels = async () => {
-    const resp = await dhis2Api.get(`organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`, { ...options }).json()
+    const resp = await dhis2Api.get(`organisationUnitLevels.json?fields=id,displayName~rename(name),level&paging=false&order=level:asc`).json()
     return resp.organisationUnitLevels
 }
 
 export const fetchOrgUnitGroups = async () => {
-    const resp = await dhis2Api.get(`organisationUnitGroups.json?fields=id,displayName~rename(name)&paging=false`, { ...options }).json()
+    const resp = await dhis2Api.get(`organisationUnitGroups.json?fields=id,displayName~rename(name)&paging=false`).json()
     return resp.organisationUnitGroups
 }
 
 export const fetchACatchmentInUse = async (id) => {
     // id is the attribute id
-    const resp = await dhis2Api.get(`maps.json?filter=mapViews.orgUnitField:eq:${id}`, { ...options }).json()
+    const resp = await dhis2Api.get(`maps.json?filter=mapViews.orgUnitField:eq:${id}`).json()
     return resp.maps
 }
 
 export const fetchCurrentAttributes = async () => {
-    const resp = await dhis2Api.get(`attributes.json?fields=id,name&filter=valueType:eq:GEOJSON&filter=organisationUnitAttribute:eq:true&paging=false`, { ...options }).json()
+    const resp = await dhis2Api.get(`attributes.json?fields=id,name&filter=valueType:eq:GEOJSON&filter=organisationUnitAttribute:eq:true&paging=false`).json()
     return resp.attributes
 }
 
@@ -60,7 +61,7 @@ export const fetchValidPoints = async (levelId, groupId) => {
         url = `geoFeatures?ou=ou%3AOU_GROUP-${groupLink}&displayProperty=NAME`
     }
 
-    let resp = await dhis2Api(`${url}`, { ...options }).json()
+    let resp = await dhis2Api(`${url}`).json()
     resp = resp.filter((feature) => feature.ty === 1)
 
     const features = resp.map((feature) => {
@@ -82,7 +83,7 @@ export const fetchValidPoints = async (levelId, groupId) => {
 }
 
 export const deleteAttribute = async (id) => {
-    await dhis2Api.delete(`attributes/${id}`, { ...options }).json()
+    await dhis2Api.delete(`attributes/${id}`).json()
 }
 
 export const publishCatchment = async (body) => {
@@ -113,7 +114,7 @@ export const publishCatchment = async (body) => {
         body.payload.description = Array.isArray(des) ? `groups: ${des.join(", ")} | ${body.user} | ${body.date}` : `level: ${des} | ${body.user} | ${body.date}`
 
         // this endpoint posts an attribute and returns uid
-        const resp = await dhis2Api.post(`attributes`, { json: body.payload, ...options }).json()
+        const resp = await dhis2Api.post(`attributes`, { json: body.payload }).json()
 
         // use this id to store with the catchment areas
         attributeId = resp?.response?.uid
@@ -134,7 +135,6 @@ export const publishCatchment = async (body) => {
 
         // update multiple catchments at once
         await dhis2Api.post(`metadata`, {
-            ...options,
             json: { organisationUnits: json }
         }).json()
 
@@ -170,7 +170,6 @@ export const unPublishCatchment = async (body) => {
         }, [])
 
         await dhis2Api.post(`metadata`, {
-            ...options,
             json: { organisationUnits: json }
         }).json()
         // delete attribute
