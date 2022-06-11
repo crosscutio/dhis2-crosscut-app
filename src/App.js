@@ -125,7 +125,7 @@ const MyApp = () => {
       return (
         <Card>
         <div className={classes.instructions}>
-          <p className={classes.instructionText}>{i18n.t("To use the Microplanning app, you need to log in to your Crosscut account. Don't have an account? You can create one for free by clcking the 'Create Account' tab above or visit ")}
+          <p className={classes.instructionText}>{i18n.t("To use the Microplanning app, you need to log in to your Crosscut account. Don't have an account? You can create one for free by clicking the 'Create Account' tab above or visit ")}
           <a style={{ color: '#0d47a1'}} href="https://app.crosscut.io/" target="_blank" >app.crosscut.io</a>.
           </p>
           </div>
