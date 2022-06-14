@@ -14,10 +14,17 @@
     "cluster:clean": "d2 cluster down 2.38 --clean",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
-    "format": "prettier . -w"
+    "format": "prettier --write ./src",
+    "lint": "eslint --fix ./src --ignore-pattern",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@dhis2/cli-app-scripts": "^8.3.2",
+    "eslint": "^7.32.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.1",
     "prettier": "^2.5.1"
   },
   "dependencies": {
@@ -28,5 +35,11 @@
     "aws-amplify-react": "^5.1.9",
     "ky": "^0.28.7",
     "papaparse": "^5.3.2"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "npm run lint",
+      "prettier --write"
+    ]
   }
 }
