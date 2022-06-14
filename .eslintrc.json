@@ -22,7 +22,7 @@
         "semi": 0,
         "prettier/prettier": "error",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "jsx-quotes": ["error", "prefer-single"],
+        "quotes": [0, "single"],
         "no-useless-catch": "off",
         "no-console": "error"
     }
