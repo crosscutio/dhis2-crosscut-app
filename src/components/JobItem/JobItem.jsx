@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   DataTableRow,
   DataTableCell,
   IconFileDocument16,
   IconDelete16,
-} from "@dhis2/ui";
-import ButtonItem from "../ButtonItem/ButtonItem";
-import i18n from "../../locales/index.js";
-import Delete from "../Delete/Delete";
-import JobDetails from "../JobDetails/JobDetails";
+} from '@dhis2/ui'
+import ButtonItem from '../ButtonItem/ButtonItem'
+import i18n from '../../locales/index.js'
+import Delete from '../Delete/Delete'
+import JobDetails from '../JobDetails/JobDetails'
 import {
   fetchCurrentAttributes,
   publishCatchment,
   unPublishCatchment,
-} from "../../api/requests";
-import { getUser } from "../../services/JWTManager";
+} from '../../api/requests'
+import { getUser } from '../../services/JWTManager'
 
 function JobItem(props) {
   const {
@@ -29,88 +29,86 @@ function JobItem(props) {
     setUnpublishAlert,
     setDeleteAlert,
     details,
-  } = props;
-  const [showDelete, setShowDelete] = useState(false);
-  const [publishStatus, setPublishStatus] = useState(
-    i18n.t("Publish to DHIS2")
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [showJobDetailsModal, setShowJobDetailsModal] = useState(false);
-  const [modalText, setModalText] = useState({ title: "", action: "" });
+  } = props
+  const [showDelete, setShowDelete] = useState(false)
+  const [publishStatus, setPublishStatus] = useState(i18n.t('Publish to DHIS2'))
+  const [isLoading, setIsLoading] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [showJobDetailsModal, setShowJobDetailsModal] = useState(false)
+  const [modalText, setModalText] = useState({ title: '', action: '' })
 
   useEffect(() => {
     if (attributeId !== undefined) {
-      setPublishStatus(i18n.t("Unpublish from DHIS2"));
+      setPublishStatus(i18n.t('Unpublish from DHIS2'))
     }
-  }, [attributeId]);
+  }, [attributeId])
 
   const handleConnectionDHIS2 = async () => {
-    if (publishStatus === i18n.t("Publish to DHIS2")) {
-      await handlePublish();
-    } else if (publishStatus === i18n.t("Unpublish from DHIS2")) {
-      await handleUnpublish();
+    if (publishStatus === i18n.t('Publish to DHIS2')) {
+      await handlePublish()
+    } else if (publishStatus === i18n.t('Unpublish from DHIS2')) {
+      await handleUnpublish()
     }
-  };
+  }
 
   const handleUnpublish = async () => {
-    setIsLoading(true);
-    setPublishStatus(null);
+    setIsLoading(true)
+    setPublishStatus(null)
     try {
       await unPublishCatchment({
         id,
         attributeId,
         name,
         setStatus: setPublishStatus,
-      });
-      toggle();
-      setIsLoading(false);
-      setPublishAlert(null);
-      setUnpublishAlert({ text: i18n.t("Unpublished") });
+      })
+      toggle()
+      setIsLoading(false)
+      setPublishAlert(null)
+      setUnpublishAlert({ text: i18n.t('Unpublished') })
       setTimeout(() => {
-        setUnpublishAlert(null);
+        setUnpublishAlert(null)
         // 5s
-      }, 5000);
+      }, 5000)
     } catch (err) {
-      setPublishAlert({ text: i18n.t(err.message), critical: true });
+      setPublishAlert({ text: i18n.t(err.message), critical: true })
       setTimeout(() => {
-        setPublishAlert(null);
+        setPublishAlert(null)
         // 5s
-      }, 5000);
-      setIsLoading(false);
-      setPublishStatus(i18n.t("Unpublish from DHIS2"));
+      }, 5000)
+      setIsLoading(false)
+      setPublishStatus(i18n.t('Unpublish from DHIS2'))
     }
-  };
+  }
 
   const handlePublish = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     // take the value which is the catchmentId to do something about it
     try {
-      const resp = await fetchCurrentAttributes();
+      const resp = await fetchCurrentAttributes()
       const found = resp.find(
         (attribute) =>
-          attribute.name.toLowerCase().split("crosscut ")[1] ===
+          attribute.name.toLowerCase().split('crosscut ')[1] ===
           name.toLowerCase()
-      );
+      )
 
       if (found !== undefined) {
         // alert the user if the name is already in use
         setAlert({
           text: i18n.t(
-            "Name is already in use. Create a new catchment with a different name."
+            'Name is already in use. Create a new catchment with a different name.'
           ),
           critical: true,
-        });
+        })
         setTimeout(() => {
-          setAlert(null);
-        }, 5000);
-        setIsLoading(false);
-        return;
+          setAlert(null)
+        }, 5000)
+        setIsLoading(false)
+        return
       }
-      const user = getUser();
+      const user = getUser()
 
       if (found === undefined) {
-        setPublishStatus(null);
+        setPublishStatus(null)
         await publishCatchment({
           id,
           date,
@@ -120,33 +118,33 @@ function JobItem(props) {
             name: `Crosscut ${name}`,
             organisationUnitAttribute: true,
             shortName: `Crosscut ${name}`,
-            valueType: "GEOJSON",
+            valueType: 'GEOJSON',
           },
           setStatus: setPublishStatus,
-        });
+        })
       }
-      toggle();
-      setIsLoading(false);
-      setPublishAlert(null);
-      setPublishAlert({ text: i18n.t("Published") });
+      toggle()
+      setIsLoading(false)
+      setPublishAlert(null)
+      setPublishAlert({ text: i18n.t('Published') })
       setTimeout(() => {
-        setPublishAlert(null);
+        setPublishAlert(null)
         // 5s
-      }, 5000);
+      }, 5000)
     } catch (err) {
-      setPublishAlert({ text: i18n.t(err.message), critical: true });
+      setPublishAlert({ text: i18n.t(err.message), critical: true })
       setTimeout(() => {
-        setPublishAlert(null);
+        setPublishAlert(null)
         // 5s
-      }, 5000);
-      setPublishStatus(i18n.t("Publish to DHIS2"));
-      setIsLoading(false);
+      }, 5000)
+      setPublishStatus(i18n.t('Publish to DHIS2'))
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleDelete = async () => {
     // v1
-    setShowDelete(true);
+    setShowDelete(true)
 
     // TODO: the following for v2
     // check if catchment is being used in map, pass in the id to check
@@ -161,16 +159,16 @@ function JobItem(props) {
     // } else {
     // alert user that the map is in use
     // }
-  };
+  }
 
   const handleGetDetails = () => {
-    if (details === undefined) return;
-    setShowJobDetailsModal(true);
+    if (details === undefined) return
+    setShowJobDetailsModal(true)
     setModalText({
-      title: i18n.t("Catchment areas details"),
-      action: i18n.t("Close"),
-    });
-  };
+      title: i18n.t('Catchment areas details'),
+      action: i18n.t('Close'),
+    })
+  }
 
   return (
     <>
@@ -213,7 +211,7 @@ function JobItem(props) {
           <ButtonItem
             value={id}
             disabled={
-              status === i18n.t("Pending") || status === i18n.t("Failed")
+              status === i18n.t('Pending') || status === i18n.t('Failed')
             }
             handleClick={handleConnectionDHIS2}
             loading={isLoading}
@@ -232,7 +230,7 @@ function JobItem(props) {
         </DataTableCell>
       </DataTableRow>
     </>
-  );
+  )
 }
 
-export default JobItem;
+export default JobItem

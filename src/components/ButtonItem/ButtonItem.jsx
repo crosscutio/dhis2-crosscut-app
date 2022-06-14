@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "@dhis2/ui";
-import styles from "./ButtonItem.module.css";
+import React from 'react'
+import { Button } from '@dhis2/ui'
+import styles from './ButtonItem.module.css'
 
 function ButtonItem(props) {
   const {
@@ -13,7 +13,7 @@ function ButtonItem(props) {
     disabled,
     loading,
     small,
-  } = props;
+  } = props
   return (
     <div className={styles.button}>
       <Button
@@ -29,7 +29,7 @@ function ButtonItem(props) {
         {buttonText}
       </Button>
     </div>
-  );
+  )
 }
 
-export default ButtonItem;
+export default ButtonItem

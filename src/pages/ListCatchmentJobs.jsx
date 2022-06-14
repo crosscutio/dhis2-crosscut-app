@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Card,
   TableHead,
@@ -6,10 +6,10 @@ import {
   DataTableRow,
   DataTable,
   DataTableColumnHeader,
-} from "@dhis2/ui";
-import JobItem from "../components/JobItem/JobItem";
-import i18n from "../locales/index";
-import styles from "./ListCatchmentJobs.module.css";
+} from '@dhis2/ui'
+import JobItem from '../components/JobItem/JobItem'
+import i18n from '../locales/index'
+import styles from './ListCatchmentJobs.module.css'
 
 function ListCatchmentJobs(props) {
   const {
@@ -20,28 +20,28 @@ function ListCatchmentJobs(props) {
     setPublishAlert,
     setUnpublishAlert,
     setDeleteAlert,
-  } = props;
+  } = props
   const [{ column, direction }, setSortInstructions] = useState({
-    column: "date",
-    direction: "desc",
-  });
+    column: 'date',
+    direction: 'desc',
+  })
 
   // handle sorting of columns
   const getSortDirection = (columnName) => {
-    return columnName === column ? direction : "default";
-  };
+    return columnName === column ? direction : 'default'
+  }
 
   const onSortIconClick = ({ name, direction }) => {
     setSortInstructions({
       column: name,
       direction,
-    });
-  };
+    })
+  }
 
   return (
     <>
       <h2 className={styles.headerTitle}>
-        Crosscut {i18n.t("Catchment Areas")}
+        Crosscut {i18n.t('Catchment Areas')}
       </h2>
       <div className={styles.container}>
         <Card>
@@ -59,18 +59,18 @@ function ListCatchmentJobs(props) {
                   name="name"
                   sortIconTitle="sort by name"
                   onSortIconClick={onSortIconClick}
-                  sortDirection={getSortDirection("name")}
+                  sortDirection={getSortDirection('name')}
                 >
-                  {i18n.t("Name")}
+                  {i18n.t('Name')}
                 </DataTableColumnHeader>
                 <DataTableColumnHeader
                   fixed
                   top="0"
                   name="id"
                   onSortIconClick={onSortIconClick}
-                  sortDirection={getSortDirection("id")}
+                  sortDirection={getSortDirection('id')}
                 >
-                  {i18n.t("Date Created")}
+                  {i18n.t('Date Created')}
                 </DataTableColumnHeader>
                 <DataTableColumnHeader
                   fixed
@@ -78,12 +78,12 @@ function ListCatchmentJobs(props) {
                   name="status"
                   sortIconTitle="sort by status"
                   onSortIconClick={onSortIconClick}
-                  sortDirection={getSortDirection("status")}
+                  sortDirection={getSortDirection('status')}
                 >
-                  {i18n.t("Status")}
+                  {i18n.t('Status')}
                 </DataTableColumnHeader>
                 <DataTableColumnHeader fixed top="0">
-                  {i18n.t("Publish/Unpublish")}
+                  {i18n.t('Publish/Unpublish')}
                 </DataTableColumnHeader>
                 <DataTableColumnHeader
                   fixed
@@ -96,20 +96,20 @@ function ListCatchmentJobs(props) {
               {jobs &&
                 jobs
                   .sort((a, b) => {
-                    const strA = a[column];
-                    const strB = b[column];
+                    const strA = a[column]
+                    const strB = b[column]
 
                     if (
-                      (direction === "asc" && strA < strB) ||
-                      (direction === "desc" && strA > strB)
+                      (direction === 'asc' && strA < strB) ||
+                      (direction === 'desc' && strA > strB)
                     )
-                      return -1;
+                      return -1
                     if (
-                      (direction === "desc" && strA < strB) ||
-                      (direction === "asc" && strA > strB)
+                      (direction === 'desc' && strA < strB) ||
+                      (direction === 'asc' && strA > strB)
                     )
-                      return 1;
-                    return 0;
+                      return 1
+                    return 0
                   })
                   .map((job) => {
                     return (
@@ -128,13 +128,13 @@ function ListCatchmentJobs(props) {
                         setDeleteAlert={setDeleteAlert}
                         details={job.jobDetails}
                       />
-                    );
+                    )
                   })}
             </TableBody>
           </DataTable>
         </Card>
       </div>
     </>
-  );
+  )
 }
-export default ListCatchmentJobs;
+export default ListCatchmentJobs
