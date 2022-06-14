@@ -19,6 +19,8 @@
     ],
     "rules": {
         "comma-dangle": 0,
+        "semi": 0,
+        "prettier/prettier": "error",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "no-useless-catch": "off"
     }
