@@ -20,9 +20,14 @@
     "rules": {
         "comma-dangle": 0,
         "semi": 0,
-        "prettier/prettier": "error",
+        "prettier/prettier": [
+                1,
+                {
+                  "singleQuote": true,
+                  "semi": true
+                }
+        ],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "quotes": [0, "single"],
         "no-useless-catch": "off",
         "no-console": "error"
     }
