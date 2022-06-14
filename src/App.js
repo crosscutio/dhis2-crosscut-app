@@ -8,15 +8,14 @@ import Layout from './layout/Layout'
 import i18n from './locales/index.js'
 import { useConfig } from '@dhis2/app-runtime'
 import { setupDHIS2Api } from "./api/requests";
-const poolDate = {
-  userPoolId: "us-east-1_qSuVlXKCf",
-  userPoolWebClientId: "1kqueg45v60hm4aggobci2jf93",
-};
+import { getAmplifyPoolData } from "./env"
+
+const poolData = getAmplifyPoolData()
 
 Amplify.configure({
   Auth: { 
     region: "us-east-1", 
-  ...poolDate
+  ...poolData
   }
 });
 
