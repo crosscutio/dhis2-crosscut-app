@@ -1,41 +1,41 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
 }
 
 .amplify {
-    display: flex;
+  display: flex;
 }
 
 .amplify > div {
-    margin: 30px auto;
+  margin: 30px auto;
 }
 
 .instructions {
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
 }
 
 .instructionText {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 600px) {
-    .instructions {
-        flex-direction: column;
-    }
+  .instructions {
+    flex-direction: column;
+  }
 
-    .instructionText {
-        width: 100%;
-    }
+  .instructionText {
+    width: 100%;
+  }
 
-    .learnBtn {
-        width: 100%;
-        align-items: flex-start;
-        justify-content: center;
-    }
+  .learnBtn {
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+  }
 }

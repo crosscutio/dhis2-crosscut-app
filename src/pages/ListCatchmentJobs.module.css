@@ -1,12 +1,12 @@
 .container {
-    width: 90%;
-    overflow: scroll;
-    height: 70vh;
-    box-shadow: 0px 0px 4px 2px #ccc;
+  width: 90%;
+  overflow: scroll;
+  height: 70vh;
+  box-shadow: 0px 0px 4px 2px #ccc;
 }
 
 .headerTitle {
-    margin-top: 0;
-    color: #424242;
-    font-weight: 800;
+  margin-top: 0;
+  color: #424242;
+  font-weight: 800;
 }

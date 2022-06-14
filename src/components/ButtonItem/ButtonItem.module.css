@@ -1,8 +1,8 @@
 .button {
-    margin: 10px;
+  margin: 10px;
 }
 
 .borderless {
-    border: none !important;
-    background-color: transparent !important;
+  border: none !important;
+  background-color: transparent !important;
 }
