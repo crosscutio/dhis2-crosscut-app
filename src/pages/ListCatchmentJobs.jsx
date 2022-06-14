@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   Card,
   TableHead,
@@ -6,10 +6,10 @@ import {
   DataTableRow,
   DataTable,
   DataTableColumnHeader,
-} from '@dhis2/ui'
-import JobItem from '../components/JobItem/JobItem'
-import i18n from '../locales/index'
-import styles from './ListCatchmentJobs.module.css'
+} from '@dhis2/ui';
+import JobItem from '../components/JobItem/JobItem';
+import i18n from '../locales/index';
+import styles from './ListCatchmentJobs.module.css';
 
 function ListCatchmentJobs(props) {
   const {
@@ -20,23 +20,23 @@ function ListCatchmentJobs(props) {
     setPublishAlert,
     setUnpublishAlert,
     setDeleteAlert,
-  } = props
+  } = props;
   const [{ column, direction }, setSortInstructions] = useState({
     column: 'date',
     direction: 'desc',
-  })
+  });
 
   // handle sorting of columns
   const getSortDirection = (columnName) => {
-    return columnName === column ? direction : 'default'
-  }
+    return columnName === column ? direction : 'default';
+  };
 
   const onSortIconClick = ({ name, direction }) => {
     setSortInstructions({
       column: name,
       direction,
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -96,20 +96,20 @@ function ListCatchmentJobs(props) {
               {jobs &&
                 jobs
                   .sort((a, b) => {
-                    const strA = a[column]
-                    const strB = b[column]
+                    const strA = a[column];
+                    const strB = b[column];
 
                     if (
                       (direction === 'asc' && strA < strB) ||
                       (direction === 'desc' && strA > strB)
                     )
-                      return -1
+                      return -1;
                     if (
                       (direction === 'desc' && strA < strB) ||
                       (direction === 'asc' && strA > strB)
                     )
-                      return 1
-                    return 0
+                      return 1;
+                    return 0;
                   })
                   .map((job) => {
                     return (
@@ -128,13 +128,13 @@ function ListCatchmentJobs(props) {
                         setDeleteAlert={setDeleteAlert}
                         details={job.jobDetails}
                       />
-                    )
+                    );
                   })}
             </TableBody>
           </DataTable>
         </Card>
       </div>
     </>
-  )
+  );
 }
-export default ListCatchmentJobs
+export default ListCatchmentJobs;

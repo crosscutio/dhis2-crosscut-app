@@ -6,20 +6,20 @@ export const options = {
   },
   credentials: 'include',
   timeout: '60000',
-}
+};
 
 export const getCrossCutBaseUrl = () => {
-  let baseURL
+  let baseURL;
 
   let apiUrls = {
     development: 'https://api-staging.app.crosscut.io',
     production: 'https://api-production.app.crosscut.io',
-  }
+  };
 
   if (window.location.hostname === 'localhost') {
-    baseURL = apiUrls.development
+    baseURL = apiUrls.development;
   } else {
-    baseURL = apiUrls.production
+    baseURL = apiUrls.production;
   }
-  return baseURL
-}
+  return baseURL;
+};

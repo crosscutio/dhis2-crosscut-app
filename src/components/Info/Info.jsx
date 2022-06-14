@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   TabBar,
   Tab,
@@ -9,22 +9,22 @@ import {
   IconDelete16,
   IconFileDocument16,
   Divider,
-} from '@dhis2/ui'
-import ButtonItem from '../ButtonItem/ButtonItem'
-import i18n from '../../locales/index.js'
-import styles from './Info.module.css'
+} from '@dhis2/ui';
+import ButtonItem from '../ButtonItem/ButtonItem';
+import i18n from '../../locales/index.js';
+import styles from './Info.module.css';
 
 function Info(props) {
-  const { setShowInfoModal } = props
-  const [activeTab, setActiveTab] = useState(1)
+  const { setShowInfoModal } = props;
+  const [activeTab, setActiveTab] = useState(1);
 
   // handle switch between the tabs
   const handleTabSwitch1 = () => {
-    setActiveTab(1)
-  }
+    setActiveTab(1);
+  };
   const handleTabSwitch2 = () => {
-    setActiveTab(2)
-  }
+    setActiveTab(2);
+  };
 
   // TO-DO: refactor this code to improve how we're handling text
   return (
@@ -185,7 +185,7 @@ function Info(props) {
         />
       </ModalActions>
     </Modal>
-  )
+  );
 }
 
-export default Info
+export default Info;

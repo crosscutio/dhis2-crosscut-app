@@ -1,30 +1,30 @@
-import React from 'react'
-import classes from './App.module.css'
-import { Card } from '@dhis2/ui'
-import { Amplify, I18n } from 'aws-amplify'
-import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react'
-import '@aws-amplify/ui-react/styles.css'
-import Layout from './layout/Layout'
-import i18n from './locales/index.js'
-import { useConfig } from '@dhis2/app-runtime'
-import { setupDHIS2Api } from './api/requests'
-import { getAmplifyPoolData } from './env'
+import React from 'react';
+import classes from './App.module.css';
+import { Card } from '@dhis2/ui';
+import { Amplify, I18n } from 'aws-amplify';
+import { Authenticator, AmplifyProvider } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import Layout from './layout/Layout';
+import i18n from './locales/index.js';
+import { useConfig } from '@dhis2/app-runtime';
+import { setupDHIS2Api } from './api/requests';
+import { getAmplifyPoolData } from './env';
 
-const poolData = getAmplifyPoolData()
+const poolData = getAmplifyPoolData();
 
 Amplify.configure({
   Auth: {
     region: 'us-east-1',
     ...poolData,
   },
-})
+});
 
 // TODO: figure out how to integrate DHIS2 i18n with amplify
 I18n.putVocabulariesForLanguage('en', {
   'Sign In': 'Crosscut Login', // Tab header
   'Create Account': 'Create Account', // Tab header
   'Forgot your password?': 'Reset Password',
-})
+});
 
 const formFields = {
   signIn: {
@@ -55,13 +55,13 @@ const formFields = {
       isRequired: true,
     },
   },
-}
+};
 
 const buildFields = (fields) => {
   return fields.map((field) => {
-    return i18n.t(field)
-  })
-}
+    return i18n.t(field);
+  });
+};
 
 // theme added to match the blue for text/tabs/buttons on the login page
 const theme = {
@@ -113,11 +113,11 @@ const theme = {
       },
     },
   },
-}
+};
 
 const MyApp = () => {
-  const config = useConfig()
-  setupDHIS2Api(config)
+  const config = useConfig();
+  setupDHIS2Api(config);
 
   const components = {
     Footer() {
@@ -140,9 +140,9 @@ const MyApp = () => {
             </p>
           </div>
         </Card>
-      )
+      );
     },
-  }
+  };
 
   return (
     <AmplifyProvider theme={theme}>
@@ -163,7 +163,7 @@ const MyApp = () => {
         )}
       </Authenticator>
     </AmplifyProvider>
-  )
-}
+  );
+};
 
-export default MyApp
+export default MyApp;
