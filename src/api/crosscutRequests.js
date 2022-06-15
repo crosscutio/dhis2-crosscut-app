@@ -134,7 +134,7 @@ export const createCatchmentJob = async (body) => {
     const verify_url = `${baseURL}/catchment-jobs/verify`;
 
     // define how big each "chunk" of sites should be
-    let CHUNK_SIZE = 1000;
+    const CHUNK_SIZE = 1000;
 
     // break CSV into smaller rows, broken by CRLF or LF
     const rows = json.csv.replace(/\r\n/g, '\n').split('\n');
@@ -175,7 +175,7 @@ export const createCatchmentJob = async (body) => {
 
     // use these variables to keep track of results while iterating
     // through the chunk responses
-    let validCsv = [];
+    const validCsv = [];
     let validCsvToAdd = null;
     let invalidCsvToAdd = null;
     let errorEncountered = false;
