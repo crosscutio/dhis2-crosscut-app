@@ -23,6 +23,7 @@
         "no-useless-catch": "off",
         "react/prop-types": "off",
         "prefer-const": 2,
-        "no-console": "error"
+        "no-console": "error",
+        "max-len": "error"
     }
 }
