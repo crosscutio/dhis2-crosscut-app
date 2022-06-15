@@ -19,7 +19,6 @@ Amplify.configure({
   },
 });
 
-// TODO: figure out how to integrate DHIS2 i18n with amplify
 I18n.putVocabulariesForLanguage('en', {
   'Sign In': 'Crosscut Login', // Tab header
   'Create Account': 'Create Account', // Tab header

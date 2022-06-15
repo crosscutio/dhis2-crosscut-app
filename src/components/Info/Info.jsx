@@ -26,7 +26,7 @@ function Info(props) {
     setActiveTab(2);
   };
 
-  // TO-DO: refactor this code to improve how we're handling text
+  // TODO: refactor this code to improve how we're handling text
   return (
     <Modal>
       <TabBar fixed>
