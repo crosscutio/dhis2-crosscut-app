@@ -47,7 +47,7 @@ function Layout(props) {
 
   // force logout if token is expired
   const checkTokenExpire = () => {
-    const expiration = JSON.parse(atob(token.split('.')[1])).exp * 1000;
+    let expiration = JSON.parse(atob(token.split('.')[1])).exp * 1000;
     const date = new Date().getTime();
     const expirationDate = new Date(expiration).getTime();
 
