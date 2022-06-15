@@ -20,7 +20,9 @@ export const setupDHIS2Api = ({ baseUrl, apiVersion }) => {
 };
 
 export const fetchOrgUnits = async () => {
-  const orgUnits = await dhis2Api.get(`organisationUnits.json?fields=%3Aall&paging=false`).json();
+  const orgUnits = await dhis2Api
+    .get(`organisationUnits.json?fields=%3Aall&paging=false`)
+    .json();
   return orgUnits.organisationUnits;
 };
 
@@ -35,14 +37,18 @@ export const fetchOrgUnitLevels = async () => {
 
 export const fetchOrgUnitGroups = async () => {
   const resp = await dhis2Api
-    .get(`organisationUnitGroups.json?fields=id,displayName~rename(name)&paging=false`)
+    .get(
+      `organisationUnitGroups.json?fields=id,displayName~rename(name)&paging=false`
+    )
     .json();
   return resp.organisationUnitGroups;
 };
 
 export const fetchACatchmentInUse = async (id) => {
   // id is the attribute id
-  const resp = await dhis2Api.get(`maps.json?filter=mapViews.orgUnitField:eq:${id}`).json();
+  const resp = await dhis2Api
+    .get(`maps.json?filter=mapViews.orgUnitField:eq:${id}`)
+    .json();
   return resp.maps;
 };
 
@@ -115,7 +121,10 @@ export const publishCatchment = async (body) => {
       des = body.details.groupId.map((g) => {
         return groups.find((group) => group.id === g).name;
       });
-    } else if (body.details.groupId.length === 0 && body.details.levelId !== '') {
+    } else if (
+      body.details.groupId.length === 0 &&
+      body.details.levelId !== ''
+    ) {
       const levels = await fetchOrgUnitLevels();
       des = levels.find((level) => level.id === body.details.levelId).name;
     }
@@ -126,7 +135,9 @@ export const publishCatchment = async (body) => {
       : `level: ${des} | ${body.user} | ${body.date}`;
 
     // this endpoint posts an attribute and returns uid
-    const resp = await dhis2Api.post(`attributes`, { json: body.payload }).json();
+    const resp = await dhis2Api
+      .post(`attributes`, { json: body.payload })
+      .json();
 
     // use this id to store with the catchment areas
     attributeId = resp?.response?.uid;

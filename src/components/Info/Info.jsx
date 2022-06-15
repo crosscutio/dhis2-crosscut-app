@@ -30,24 +30,41 @@ function Info(props) {
   return (
     <Modal>
       <TabBar fixed>
-        <Tab onClick={handleTabSwitch1} selected={activeTab === 1} dataTest="dhis2-uicore-tab">
+        <Tab
+          onClick={handleTabSwitch1}
+          selected={activeTab === 1}
+          dataTest="dhis2-uicore-tab"
+        >
           {i18n.t('User Guide')}
         </Tab>
-        <Tab onClick={handleTabSwitch2} selected={activeTab === 2} dataTest="dhis2-uicore-tab">
+        <Tab
+          onClick={handleTabSwitch2}
+          selected={activeTab === 2}
+          dataTest="dhis2-uicore-tab"
+        >
           {i18n.t('Additional Features')}
         </Tab>
       </TabBar>
       <ModalContent className={styles.info}>
         {activeTab === 1 ? (
           <div>
-            <ModalTitle>{i18n.t('How to create new catchment areas')}</ModalTitle>
+            <ModalTitle>
+              {i18n.t('How to create new catchment areas')}
+            </ModalTitle>
             <p className={styles.align}>
               {i18n.t('Click')}
-              <ButtonItem primary={true} buttonText={i18n.t('Create catchment areas')} />
+              <ButtonItem
+                primary={true}
+                buttonText={i18n.t('Create catchment areas')}
+              />
             </p>
             <p>{i18n.t('Select the country you want to target.')}</p>
             <p>{i18n.t('Name the catchment areas.')}</p>
-            <p>{i18n.t('Choose the admin level where your facilities are located.')}</p>
+            <p>
+              {i18n.t(
+                'Choose the admin level where your facilities are located.'
+              )}
+            </p>
             <p>{i18n.t('Choose which groups of facilities to include.')}</p>
             <p>
               {i18n.t(
@@ -57,15 +74,20 @@ function Info(props) {
             <Divider />
             <ModalTitle>{i18n.t('Understanding the statuses')}</ModalTitle>
             <p>
-              <b>{i18n.t('Pending')}</b>: {i18n.t('your catchment areas are being created.')}
+              <b>{i18n.t('Pending')}</b>:{' '}
+              {i18n.t('your catchment areas are being created.')}
             </p>
             <p>
               <b>{i18n.t('Ready')}</b>:{' '}
-              {i18n.t('your catchment areas have been created and ready to be published to DHIS2.')}
+              {i18n.t(
+                'your catchment areas have been created and ready to be published to DHIS2.'
+              )}
             </p>
             <p>
               <b>{i18n.t('Publishing')}</b>:{' '}
-              {i18n.t('your catchment areas is in the process of being published.')}
+              {i18n.t(
+                'your catchment areas is in the process of being published.'
+              )}
             </p>
             <p>
               <b>{i18n.t('Published')}</b>:{' '}
@@ -84,13 +106,19 @@ function Info(props) {
               )}
             </p>
             <Divider />
-            <ModalTitle>{i18n.t('Publish your catchment areas to DHIS2')}</ModalTitle>
+            <ModalTitle>
+              {i18n.t('Publish your catchment areas to DHIS2')}
+            </ModalTitle>
             <p className={styles.align}>
               {i18n.t('Click')}
               <ButtonItem buttonText={i18n.t('Publish')} primary={true} />
               {i18n.t('to connect your catchments to DHIS2.')}
             </p>
-            <p>{i18n.t('Once published, you can access the catchment areas in DHIS2')}</p>
+            <p>
+              {i18n.t(
+                'Once published, you can access the catchment areas in DHIS2'
+              )}
+            </p>
             <p className={styles.align}>
               {i18n.t('Click')}
               <ButtonItem buttonText={i18n.t('Unpublish')} primary={true} />
@@ -98,10 +126,17 @@ function Info(props) {
             </p>
             <Divider />
             <ModalTitle>{i18n.t('Catchment areas details')}</ModalTitle>
-            <p>{i18n.t('Details will only show for catchment areas created in the DHIS2 app.')}</p>
+            <p>
+              {i18n.t(
+                'Details will only show for catchment areas created in the DHIS2 app.'
+              )}
+            </p>
             <p className={styles.align}>
               {i18n.t('Click')}
-              <ButtonItem buttonText={<IconFileDocument16 />} borderless={true} />
+              <ButtonItem
+                buttonText={<IconFileDocument16 />}
+                borderless={true}
+              />
               {i18n.t('to see details on the catchment areas.')}
             </p>
           </div>
@@ -109,7 +144,11 @@ function Info(props) {
           <div>
             <ModalTitle>{i18n.t('Additional Features')}</ModalTitle>
             <li>{i18n.t('Make changes to the catchment area borders.')}</li>
-            <li>{i18n.t('See heat maps for walking distance for each catchment area.')}</li>
+            <li>
+              {i18n.t(
+                'See heat maps for walking distance for each catchment area.'
+              )}
+            </li>
             <p>
               {i18n.t('Go to')}{' '}
               <a
@@ -139,7 +178,11 @@ function Info(props) {
         )}
       </ModalContent>
       <ModalActions>
-        <ButtonItem handleClick={setShowInfoModal} buttonText={i18n.t('Close')} primary={true} />
+        <ButtonItem
+          handleClick={setShowInfoModal}
+          buttonText={i18n.t('Close')}
+          primary={true}
+        />
       </ModalActions>
     </Modal>
   );

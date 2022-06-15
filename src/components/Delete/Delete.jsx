@@ -6,8 +6,15 @@ import { deleteCatchmentJob } from '../../api/crosscutRequests';
 import { fetchCurrentAttributes } from '../../api/requests';
 
 function Delete(props) {
-  const { setShowDelete, toggle, id, handleUnpublish, attributeId, setIsDeleting, setDeleteAlert } =
-    props;
+  const {
+    setShowDelete,
+    toggle,
+    id,
+    handleUnpublish,
+    attributeId,
+    setIsDeleting,
+    setDeleteAlert,
+  } = props;
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -46,7 +53,11 @@ function Delete(props) {
         )}
       </ModalContent>
       <ModalActions>
-        <ButtonItem handleClick={close} buttonText={i18n.t('Cancel')} secondary={true} />
+        <ButtonItem
+          handleClick={close}
+          buttonText={i18n.t('Cancel')}
+          secondary={true}
+        />
         <ButtonItem
           buttonText={i18n.t('Delete Forever')}
           loading={isLoading}
