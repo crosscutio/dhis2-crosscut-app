@@ -95,15 +95,9 @@ function Layout(props) {
           setCreateAlert={setCreateAlert}
         />
       ) : null}
-      {showInfoModal === true ? (
-        <Info setShowInfoModal={setShowInfoModal} />
-      ) : null}
+      {showInfoModal === true ? <Info setShowInfoModal={setShowInfoModal} /> : null}
       {alert ? (
-        <AlertBar
-          critical={alert.critical}
-          alert={alert.alert}
-          success={alert.success}
-        >
+        <AlertBar critical={alert.critical} alert={alert.alert} success={alert.success}>
           {alert.text}
         </AlertBar>
       ) : null}
@@ -113,19 +107,12 @@ function Layout(props) {
         </AlertBar>
       ) : null}
       {unpublishAlert ? (
-        <AlertBar
-          alert={unpublishAlert.alert}
-          critical={unpublishAlert.critical}
-        >
+        <AlertBar alert={unpublishAlert.alert} critical={unpublishAlert.critical}>
           {unpublishAlert.text}
         </AlertBar>
       ) : null}
-      {deleteAlert ? (
-        <AlertBar alert={deleteAlert.alert}>{deleteAlert.text}</AlertBar>
-      ) : null}
-      {createAlert ? (
-        <AlertBar success={createAlert.success}>{createAlert.text}</AlertBar>
-      ) : null}
+      {deleteAlert ? <AlertBar alert={deleteAlert.alert}>{deleteAlert.text}</AlertBar> : null}
+      {createAlert ? <AlertBar success={createAlert.success}>{createAlert.text}</AlertBar> : null}
       {jobs === null ? (
         <CircularLoader large />
       ) : (

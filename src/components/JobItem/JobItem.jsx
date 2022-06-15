@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  DataTableRow,
-  DataTableCell,
-  IconFileDocument16,
-  IconDelete16,
-} from '@dhis2/ui';
+import { DataTableRow, DataTableCell, IconFileDocument16, IconDelete16 } from '@dhis2/ui';
 import ButtonItem from '../ButtonItem/ButtonItem';
 import i18n from '../../locales/index.js';
 import Delete from '../Delete/Delete';
 import JobDetails from '../JobDetails/JobDetails';
-import {
-  fetchCurrentAttributes,
-  publishCatchment,
-  unPublishCatchment,
-} from '../../api/requests';
+import { fetchCurrentAttributes, publishCatchment, unPublishCatchment } from '../../api/requests';
 import { getUser } from '../../services/JWTManager';
 
 function JobItem(props) {
@@ -31,9 +22,7 @@ function JobItem(props) {
     details,
   } = props;
   const [showDelete, setShowDelete] = useState(false);
-  const [publishStatus, setPublishStatus] = useState(
-    i18n.t('Publish to DHIS2')
-  );
+  const [publishStatus, setPublishStatus] = useState(i18n.t('Publish to DHIS2'));
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showJobDetailsModal, setShowJobDetailsModal] = useState(false);
@@ -88,17 +77,13 @@ function JobItem(props) {
     try {
       const resp = await fetchCurrentAttributes();
       const found = resp.find(
-        (attribute) =>
-          attribute.name.toLowerCase().split('crosscut ')[1] ===
-          name.toLowerCase()
+        (attribute) => attribute.name.toLowerCase().split('crosscut ')[1] === name.toLowerCase()
       );
 
       if (found !== undefined) {
         // alert the user if the name is already in use
         setAlert({
-          text: i18n.t(
-            'Name is already in use. Create a new catchment with a different name.'
-          ),
+          text: i18n.t('Name is already in use. Create a new catchment with a different name.'),
           critical: true,
         });
         setTimeout(() => {
@@ -212,9 +197,7 @@ function JobItem(props) {
         <DataTableCell>
           <ButtonItem
             value={id}
-            disabled={
-              status === i18n.t('Pending') || status === i18n.t('Failed')
-            }
+            disabled={status === i18n.t('Pending') || status === i18n.t('Failed')}
             handleClick={handleConnectionDHIS2}
             loading={isLoading}
             buttonText={publishStatus}

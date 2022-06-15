@@ -40,19 +40,13 @@ function ListCatchmentJobs(props) {
 
   return (
     <>
-      <h2 className={styles.headerTitle}>
-        Crosscut {i18n.t('Catchment Areas')}
-      </h2>
+      <h2 className={styles.headerTitle}>Crosscut {i18n.t('Catchment Areas')}</h2>
       <div className={styles.container}>
         <Card>
           <DataTable>
             <TableHead>
               <DataTableRow>
-                <DataTableColumnHeader
-                  fixed
-                  top="0"
-                  width="48px"
-                ></DataTableColumnHeader>
+                <DataTableColumnHeader fixed top="0" width="48px"></DataTableColumnHeader>
                 <DataTableColumnHeader
                   fixed
                   top="0"
@@ -85,11 +79,7 @@ function ListCatchmentJobs(props) {
                 <DataTableColumnHeader fixed top="0">
                   {i18n.t('Publish/Unpublish')}
                 </DataTableColumnHeader>
-                <DataTableColumnHeader
-                  fixed
-                  top="0"
-                  width="48px"
-                ></DataTableColumnHeader>
+                <DataTableColumnHeader fixed top="0" width="48px"></DataTableColumnHeader>
               </DataTableRow>
             </TableHead>
             <TableBody loading>

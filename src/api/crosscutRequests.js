@@ -24,9 +24,7 @@ export const fetchCatchmentJobs = async () => {
       FAILURE: i18n.t('Failed'),
     };
     // filter out jobs that aren't site-based
-    const siteBasedJobs = resp.jobs.filter(
-      (job) => job.algorithm === 'site-based'
-    );
+    const siteBasedJobs = resp.jobs.filter((job) => job.algorithm === 'site-based');
     siteBasedJobs.sort((a, b) => {
       if (a.id > b.id) return -1;
       if (a.id < b.id) return 1;
@@ -43,22 +41,16 @@ export const fetchCatchmentJobs = async () => {
         job.status = statuses[job.status];
 
         if (job.properties !== null) {
-          const attribute = job.properties.find(
-            (prop) => prop.field === 'attributeId'
-          );
+          const attribute = job.properties.find((prop) => prop.field === 'attributeId');
 
-          const detail = job.properties.find(
-            (prop) => prop.field === 'dhisFormInputs'
-          );
+          const detail = job.properties.find((prop) => prop.field === 'dhisFormInputs');
 
           if (detail !== undefined) {
             job.jobDetails = detail.value;
           }
 
           if (attribute !== undefined) {
-            const found = allAttributes.find(
-              (att) => att.id === attribute.value
-            );
+            const found = allAttributes.find((att) => att.id === attribute.value);
 
             // if the attribute is in DHIS2 and in Crosscut then show the published status
             if (attribute !== undefined && found !== undefined) {
@@ -69,9 +61,7 @@ export const fetchCatchmentJobs = async () => {
               if (job.properties.length === 1) {
                 job.properties = null;
               } else if (job.properties.length > 1) {
-                job.properties = job.properties.filter(
-                  (prop) => prop.field !== 'attributeId'
-                );
+                job.properties = job.properties.filter((prop) => prop.field !== 'attributeId');
               }
               await updateCatchmentItem(job.id, {
                 field: 'attributeId',
@@ -192,9 +182,7 @@ export const createCatchmentJob = async (body) => {
         invalidCsvToAdd = chunkResponse.value.csvDetails;
       } else {
         errorEncountered = true;
-        exceptionCaught = JSON.parse(
-          await chunkResponse.reason.response.text()
-        ); // overwrite with the most recent error
+        exceptionCaught = JSON.parse(await chunkResponse.reason.response.text()); // overwrite with the most recent error
         invalidCsvToAdd = exceptionCaught.csvDetails;
       }
 
@@ -214,9 +202,7 @@ export const createCatchmentJob = async (body) => {
         }
 
         // turn the rows back into a string joined by a newline
-        const chunkCsvError = errorRows
-          .slice(sliceStart, errorRows.length)
-          .join('\n');
+        const chunkCsvError = errorRows.slice(sliceStart, errorRows.length).join('\n');
 
         // append the additional errors
         errorCsv = `${errorCsv}${chunkCsvError}`;

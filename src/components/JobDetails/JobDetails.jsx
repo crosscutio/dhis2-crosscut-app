@@ -13,10 +13,7 @@ import {
 } from '@dhis2/ui';
 import ButtonItem from '../ButtonItem/ButtonItem';
 import { fetchOrgUnitLevels, fetchOrgUnitGroups } from '../../api/requests.js';
-import {
-  getCatchmentJob,
-  fetchSupportedBoundaries,
-} from '../../api/crosscutRequests';
+import { getCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests';
 import styles from './JobDetails.module.css';
 
 function JobDetails(props) {
@@ -92,13 +89,7 @@ function JobDetails(props) {
             <SingleSelect selected={levels ? selectedLevel : null} disabled>
               {levels &&
                 levels.map((level, index) => {
-                  return (
-                    <SingleSelectOption
-                      key={index}
-                      label={level.name}
-                      value={level.id}
-                    />
-                  );
+                  return <SingleSelectOption key={index} label={level.name} value={level.id} />;
                 })}
             </SingleSelect>
           </Field>
@@ -106,13 +97,7 @@ function JobDetails(props) {
             <MultiSelect selected={groups ? selectedGroup : []} disabled>
               {groups &&
                 groups.map((group, index) => {
-                  return (
-                    <MultiSelectOption
-                      key={index}
-                      label={group.name}
-                      value={group.id}
-                    />
-                  );
+                  return <MultiSelectOption key={index} label={group.name} value={group.id} />;
                 })}
             </MultiSelect>
           </Field>

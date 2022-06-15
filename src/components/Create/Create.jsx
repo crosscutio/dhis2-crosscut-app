@@ -25,17 +25,13 @@ import {
   fetchOrgUnitGroups,
   fetchCurrentAttributes,
 } from '../../api/requests.js';
-import {
-  createCatchmentJob,
-  fetchSupportedBoundaries,
-} from '../../api/crosscutRequests';
+import { createCatchmentJob, fetchSupportedBoundaries } from '../../api/crosscutRequests';
 import i18n from '../../locales/index.js';
 import papaparse from 'papaparse';
 import styles from './Create.module.css';
 
 function Create(props) {
-  const { title, action, setShowCreateModal, jobs, toggle, setCreateAlert } =
-    props;
+  const { title, action, setShowCreateModal, jobs, toggle, setCreateAlert } = props;
   const [formInputs, setFormInputs] = useState({
     country: '',
     level: '',
@@ -155,13 +151,10 @@ function Create(props) {
     if (count > maxCharacters) return;
     setCharacterCount(count);
 
-    const catchmentNames = jobs?.find(
-      (name) => name.name.toLowerCase() === e.value.toLowerCase()
-    );
+    const catchmentNames = jobs?.find((name) => name.name.toLowerCase() === e.value.toLowerCase());
     // crosscut was prepended to published catchments
     const publishedNames = currentNames.find(
-      (name) =>
-        name.name.toLowerCase().split('crosscut ')[1] === e.value.toLowerCase()
+      (name) => name.name.toLowerCase().split('crosscut ')[1] === e.value.toLowerCase()
     );
 
     if (publishedNames !== undefined || catchmentNames !== undefined) {
@@ -206,9 +199,7 @@ function Create(props) {
     );
     // crosscut was prepended to published catchments
     const publishedNames = currentNames.find(
-      (name) =>
-        name.name.toLowerCase().split('crosscut ')[1] ===
-        formInputs.name.toLowerCase()
+      (name) => name.name.toLowerCase().split('crosscut ')[1] === formInputs.name.toLowerCase()
     );
 
     if (publishedNames !== undefined || catchmentNames !== undefined)
@@ -240,12 +231,8 @@ function Create(props) {
             const resp = papaparse.parse(response.csv.trim(), {
               header: true,
             });
-            const errors = resp.data.filter(
-              (data) => data['cc:ErrorMessage'] !== ''
-            );
-            const clean = resp.data.filter(
-              (data) => data['cc:ErrorMessage'] === ''
-            );
+            const errors = resp.data.filter((data) => data['cc:ErrorMessage'] !== '');
+            const clean = resp.data.filter((data) => data['cc:ErrorMessage'] === '');
 
             if (clean.length === 0) {
               setErrorMessage(null);
@@ -308,7 +295,7 @@ function Create(props) {
 
   // remove rows with errors and create
   const createWithoutErrors = () => {
-    let newData = errorData.data.filter((d) => {
+    const newData = errorData.data.filter((d) => {
       return d['cc:ErrorMessage'] === '';
     });
     newData.map((d) => {
@@ -327,16 +314,8 @@ function Create(props) {
   const renderForm = () => {
     return (
       <form>
-        <Field
-          label={i18n.t('Select the country')}
-          required
-          validationText={countryText}
-          error
-        >
-          <SingleSelect
-            onChange={handleCountryChange}
-            selected={formInputs.country}
-          >
+        <Field label={i18n.t('Select the country')} required validationText={countryText} error>
+          <SingleSelect onChange={handleCountryChange} selected={formInputs.country}>
             {boundaries &&
               boundaries.map((bound, index) => {
                 return (
@@ -353,17 +332,13 @@ function Create(props) {
           label={i18n.t('Name the catchment areas')}
           required
           validationText={nameText}
-          helpText={`${characterCount}/${maxCharacters} ${i18n.t(
-            'characters'
-          )}`}
+          helpText={`${characterCount}/${maxCharacters} ${i18n.t('characters')}`}
           warning
         >
           <Input onChange={handleNameChange} value={formInputs.name} />
         </Field>
         <Field
-          label={i18n.t(
-            'Filter by level or groups where facilities are located'
-          )}
+          label={i18n.t('Filter by level or groups where facilities are located')}
           required
           validationText={filterText}
           error
@@ -377,18 +352,9 @@ function Create(props) {
             >
               {levels &&
                 levels.map((level, index) => {
-                  return (
-                    <SingleSelectOption
-                      key={index}
-                      label={level.name}
-                      value={level.id}
-                    />
-                  );
+                  return <SingleSelectOption key={index} label={level.name} value={level.id} />;
                 })}
-              <ButtonItem
-                buttonText={i18n.t('Clear')}
-                handleClick={handleClear}
-              />
+              <ButtonItem buttonText={i18n.t('Clear')} handleClick={handleClear} />
             </SingleSelect>
           </Field>
           <Field label={i18n.t('Select the organisational unit groups')}>
@@ -399,13 +365,7 @@ function Create(props) {
             >
               {groups &&
                 groups.map((group, index) => {
-                  return (
-                    <MultiSelectOption
-                      key={index}
-                      label={group.name}
-                      value={group.id}
-                    />
-                  );
+                  return <MultiSelectOption key={index} label={group.name} value={group.id} />;
                 })}
             </MultiSelect>
           </Field>
@@ -425,9 +385,7 @@ function Create(props) {
                 errorData.fields.map((field, index) => {
                   return (
                     <DataTableColumnHeader key={index} fixed top="0">
-                      {field === 'cc:ErrorMessage'
-                        ? i18n.t('Error Message')
-                        : field}
+                      {field === 'cc:ErrorMessage' ? i18n.t('Error Message') : field}
                     </DataTableColumnHeader>
                   );
                 })}
@@ -439,11 +397,7 @@ function Create(props) {
                 return (
                   <DataTableRow key={`row-${index}`}>
                     {Object.values(rowData).map((error, index) => {
-                      return (
-                        <DataTableCell key={`cell-${index}`}>
-                          {error}
-                        </DataTableCell>
-                      );
+                      return <DataTableCell key={`cell-${index}`}>{error}</DataTableCell>;
                     })}
                   </DataTableRow>
                 );
@@ -474,10 +428,7 @@ function Create(props) {
               {renderTable()}
             </ModalContent>
             <ModalActions>
-              <ButtonItem
-                buttonText={i18n.t('Cancel')}
-                handleClick={clearErrors}
-              />
+              <ButtonItem buttonText={i18n.t('Cancel')} handleClick={clearErrors} />
               {errorMessage.proceed ? (
                 <ButtonItem
                   buttonText={'Proceed'}
@@ -490,11 +441,7 @@ function Create(props) {
         )}
       </ModalContent>
       <ModalActions>
-        <ButtonItem
-          handleClick={close}
-          buttonText={i18n.t('Cancel')}
-          secondary={true}
-        />
+        <ButtonItem handleClick={close} buttonText={i18n.t('Cancel')} secondary={true} />
         <ButtonItem
           buttonText={action}
           handleClick={handleCreate}

@@ -21,11 +21,7 @@ function Nav(props) {
           />
         </div>
         <div className={styles.sidebar}>
-          <ButtonItem
-            handleClick={sendEmail}
-            buttonText={<IconMail24 />}
-            borderless={true}
-          />
+          <ButtonItem handleClick={sendEmail} buttonText={<IconMail24 />} borderless={true} />
           <ButtonItem
             handleClick={props.handleInfo}
             buttonText={<IconInfo24 />}
