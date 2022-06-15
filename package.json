@@ -32,7 +32,6 @@
     "@dhis2/app-runtime": "^3.2.8",
     "@dhis2/ui": "^7.16.2",
     "aws-amplify": "^4.3.19",
-    "aws-amplify-react": "^5.1.9",
     "ky": "^0.28.7",
     "papaparse": "^5.3.2"
   },
