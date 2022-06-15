@@ -21,8 +21,8 @@
         "comma-dangle": 0,
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "no-useless-catch": "off",
-        // "no-console": "error",
         "react/prop-types": "off",
-        "prefer-const": 2
+        "prefer-const": 2,
+        "no-console": "error"
     }
 }
