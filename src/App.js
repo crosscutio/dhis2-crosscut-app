@@ -9,7 +9,7 @@ import i18n from './locales/index.js';
 import { useConfig } from '@dhis2/app-runtime';
 import { setupDHIS2Api } from './api/requests';
 import { getAmplifyPoolData } from './env';
-import ButtonItem from './components/ButtonItem/ButtonItem';
+
 const poolData = getAmplifyPoolData();
 
 Amplify.configure({
