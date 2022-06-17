@@ -125,7 +125,11 @@ const MyApp = () => {
           <div className={classes.instructions}>
             <p className={classes.instructionText}>
               {i18n.t(
-                "To use the Microplanning app, you need to log in to your Crosscut account. Don't have an account? You can create one for free by clicking the 'Create Account' tab above or visit "
+                'To use the Microplanning app, you need to log in to your Crosscut account. '
+              )}
+              {i18n.t("Don't have an account? ")}
+              {i18n.t(
+                " You can create one for free by clicking the 'Create Account' tab above or visit "
               )}
               <a
                 style={{ color: '#0d47a1' }}
