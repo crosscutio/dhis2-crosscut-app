@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-06-17T13:32:32.411Z\n"
-"PO-Revision-Date: 2022-06-17T13:32:32.411Z\n"
+"POT-Creation-Date: 2022-06-18T20:35:28.995Z\n"
+"PO-Revision-Date: 2022-06-18T20:35:28.995Z\n"
 
 msgid "Email"
 msgstr "Email"
@@ -17,15 +17,18 @@ msgstr "Enter your password"
 msgid "Name"
 msgstr "Name"
 
-msgid "To use the Microplanning app, you need to log in to your Crosscut account."
-msgstr "To use the Microplanning app, you need to log in to your Crosscut account."
+msgid "To use the Microplanning app, you need to log in to your Crosscut account. "
+msgstr "To use the Microplanning app, you need to log in to your Crosscut account. "
+
+msgid "Don't have an account? "
+msgstr "Don't have an account? "
 
 msgid ""
-"Don't have an account? You can create one for free by clicking the 'Create "
-"Account' tab above or visit "
+" You can create one for free by clicking the 'Create Account' tab above or "
+"visit "
 msgstr ""
-"Don't have an account? You can create one for free by clicking the 'Create "
-"Account' tab above or visit "
+" You can create one for free by clicking the 'Create Account' tab above or "
+"visit "
 
 msgid "Ready"
 msgstr "Ready"
@@ -131,9 +134,6 @@ msgstr "How to create new catchment areas"
 msgid "Click"
 msgstr "Click"
 
-msgid "Create catchment areas"
-msgstr "Create catchment areas"
-
 msgid "Select the country you want to target."
 msgstr "Select the country you want to target."
 
@@ -187,17 +187,11 @@ msgstr ""
 msgid "Publish your catchment areas to DHIS2"
 msgstr "Publish your catchment areas to DHIS2"
 
-msgid "Publish"
-msgstr "Publish"
-
 msgid "to connect your catchments to DHIS2."
 msgstr "to connect your catchments to DHIS2."
 
 msgid "Once published, you can access the catchment areas in DHIS2"
 msgstr "Once published, you can access the catchment areas in DHIS2"
-
-msgid "Unpublish"
-msgstr "Unpublish"
 
 msgid "to remove access to the catchment areas in DHIS2."
 msgstr "to remove access to the catchment areas in DHIS2."
