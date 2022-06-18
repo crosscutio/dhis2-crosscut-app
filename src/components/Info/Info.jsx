@@ -111,7 +111,10 @@ function Info(props) {
             </ModalTitle>
             <p className={styles.align}>
               {i18n.t('Click')}
-              <ButtonItem buttonText={i18n.t('Publish')} primary={true} />
+              <ButtonItem
+                buttonText={i18n.t('Publish to DHIS2')}
+                primary={true}
+              />
               {i18n.t('to connect your catchments to DHIS2.')}
             </p>
             <p>
@@ -121,7 +124,10 @@ function Info(props) {
             </p>
             <p className={styles.align}>
               {i18n.t('Click')}
-              <ButtonItem buttonText={i18n.t('Unpublish')} primary={true} />
+              <ButtonItem
+                buttonText={i18n.t('Unpublish from DHIS2')}
+                primary={true}
+              />
               {i18n.t('to remove access to the catchment areas in DHIS2.')}
             </p>
             <Divider />
