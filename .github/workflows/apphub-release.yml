@@ -32,4 +32,4 @@ jobs:
 
             - name: Release to DHIS2 App Hub
               run: yarn run d2-app-scripts publish
-              
+
