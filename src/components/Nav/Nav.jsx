@@ -1,8 +1,7 @@
 import React from 'react';
 import ButtonItem from '../ButtonItem/ButtonItem';
 import { IconInfo24, IconMail24 } from '@dhis2/ui';
-import i18n from '../../locales/index.js';
-
+import * as textConstants from '../../constants/text.js';
 import styles from './Nav.module.css';
 
 function Nav(props) {
@@ -15,7 +14,7 @@ function Nav(props) {
       <nav className={styles.navbar}>
         <div>
           <ButtonItem
-            buttonText={i18n.t('Create catchment areas')}
+            buttonText={textConstants.CREATE_CATCHMENT}
             handleClick={props.handleClick}
             primary={true}
           />

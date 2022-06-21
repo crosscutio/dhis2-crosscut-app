@@ -42,9 +42,9 @@ Submit requests and issues here: [GitHub Issues](https://github.com/crosscutio/d
 
 ### Publish your catchment areas to DHIS2
 
-- Click `Publish` button to connect your catchments to DHIS2.
+- Click `Publish to DHIS2` button to connect your catchments to DHIS2.
 - Once published, you can access the catchment areas in DHIS2
-- Click `Unpublish` button to remove access to the catchment areas in DHIS2.
+- Click `Unpublish from DHIS2` button to remove access to the catchment areas in DHIS2.
 
 ### Catchment areas details
 

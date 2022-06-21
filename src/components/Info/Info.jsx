@@ -11,6 +11,7 @@ import {
   Divider,
 } from '@dhis2/ui';
 import ButtonItem from '../ButtonItem/ButtonItem';
+import * as textConstants from '../../constants/text.js';
 import i18n from '../../locales/index.js';
 import styles from './Info.module.css';
 
@@ -55,7 +56,7 @@ function Info(props) {
               {i18n.t('Click')}
               <ButtonItem
                 primary={true}
-                buttonText={i18n.t('Create catchment areas')}
+                buttonText={textConstants.CREATE_CATCHMENT}
               />
             </p>
             <p>{i18n.t('Select the country you want to target.')}</p>
@@ -111,7 +112,10 @@ function Info(props) {
             </ModalTitle>
             <p className={styles.align}>
               {i18n.t('Click')}
-              <ButtonItem buttonText={i18n.t('Publish')} primary={true} />
+              <ButtonItem
+                buttonText={textConstants.PUBLISH_DHIS2}
+                primary={true}
+              />
               {i18n.t('to connect your catchments to DHIS2.')}
             </p>
             <p>
@@ -121,7 +125,10 @@ function Info(props) {
             </p>
             <p className={styles.align}>
               {i18n.t('Click')}
-              <ButtonItem buttonText={i18n.t('Unpublish')} primary={true} />
+              <ButtonItem
+                buttonText={textConstants.UNPUBLISH_DHIS2}
+                primary={true}
+              />
               {i18n.t('to remove access to the catchment areas in DHIS2.')}
             </p>
             <Divider />
