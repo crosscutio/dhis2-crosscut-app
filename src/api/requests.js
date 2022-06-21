@@ -1,7 +1,6 @@
 import ky from 'ky';
 import { options } from './apiConfig';
 import { getCatchmentGeoJSON, updateCatchmentItem } from './crosscutRequests';
-import i18n from '../locales/index';
 import * as textConstants from '../constants/text';
 
 let dhis2Api = {
@@ -164,7 +163,7 @@ export const publishCatchment = async (body) => {
       })
       .json();
 
-    body.setStatus(i18n.t(textConstants.UNPUBLISH_DHIS2));
+    body.setStatus(textConstants.UNPUBLISH_DHIS2);
 
     // add attribute id to catchment areas on Crosscut
     await updateCatchmentItem(body.id, {
@@ -176,7 +175,7 @@ export const publishCatchment = async (body) => {
     if (attributeId !== null) {
       await deleteAttribute(attributeId);
     }
-    body.setStatus(i18n.t(textConstants.PUBLISH_DHIS2));
+    body.setStatus(textConstants.PUBLISH_DHIS2);
     throw err;
   }
 };
@@ -210,12 +209,12 @@ export const unPublishCatchment = async (body) => {
     // delete attribute
     await deleteAttribute(body.attributeId);
 
-    body.setStatus(i18n.t(textConstants.PUBLISH_DHIS2));
+    body.setStatus(textConstants.PUBLISH_DHIS2);
 
     // remove the attribute id from the catchment ares on Crosscut
     await updateCatchmentItem(body.id, { field: 'attributeId' });
   } catch (err) {
-    body.setStatus(i18n.t(textConstants.UNPUBLISH_DHIS2));
+    body.setStatus(textConstants.UNPUBLISH_DHIS2);
     throw err;
   }
 };

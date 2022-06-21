@@ -56,7 +56,7 @@ function Info(props) {
               {i18n.t('Click')}
               <ButtonItem
                 primary={true}
-                buttonText={i18n.t(textConstants.CREATE_CATCHMENT)}
+                buttonText={textConstants.CREATE_CATCHMENT}
               />
             </p>
             <p>{i18n.t('Select the country you want to target.')}</p>
@@ -113,7 +113,7 @@ function Info(props) {
             <p className={styles.align}>
               {i18n.t('Click')}
               <ButtonItem
-                buttonText={i18n.t(textConstants.PUBLISH_DHIS2)}
+                buttonText={textConstants.PUBLISH_DHIS2}
                 primary={true}
               />
               {i18n.t('to connect your catchments to DHIS2.')}
@@ -126,7 +126,7 @@ function Info(props) {
             <p className={styles.align}>
               {i18n.t('Click')}
               <ButtonItem
-                buttonText={i18n.t(textConstants.UNPUBLISH_DHIS2)}
+                buttonText={textConstants.UNPUBLISH_DHIS2}
                 primary={true}
               />
               {i18n.t('to remove access to the catchment areas in DHIS2.')}

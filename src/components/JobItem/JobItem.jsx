@@ -33,7 +33,7 @@ function JobItem(props) {
   } = props;
   const [showDelete, setShowDelete] = useState(false);
   const [publishStatus, setPublishStatus] = useState(
-    i18n.t(textConstants.PUBLISH_DHIS2)
+    textConstants.PUBLISH_DHIS2
   );
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -42,14 +42,14 @@ function JobItem(props) {
 
   useEffect(() => {
     if (attributeId !== undefined) {
-      setPublishStatus(i18n.t(textConstants.UNPUBLISH_DHIS2));
+      setPublishStatus(textConstants.UNPUBLISH_DHIS2);
     }
   }, [attributeId]);
 
   const handleConnectionDHIS2 = async () => {
-    if (publishStatus === i18n.t(textConstants.PUBLISH_DHIS2)) {
+    if (publishStatus === textConstants.PUBLISH_DHIS2) {
       await handlePublish();
-    } else if (publishStatus === i18n.t(textConstants.UNPUBLISH_DHIS2)) {
+    } else if (publishStatus === textConstants.UNPUBLISH_DHIS2) {
       await handleUnpublish();
     }
   };
@@ -79,7 +79,7 @@ function JobItem(props) {
         // 5s
       }, 5000);
       setIsLoading(false);
-      setPublishStatus(i18n.t(textConstants.UNPUBLISH_DHIS2));
+      setPublishStatus(textConstants.UNPUBLISH_DHIS2);
     }
   };
 
@@ -140,7 +140,7 @@ function JobItem(props) {
         setPublishAlert(null);
         // 5s
       }, 5000);
-      setPublishStatus(i18n.t(textConstants.PUBLISH_DHIS2));
+      setPublishStatus(textConstants.PUBLISH_DHIS2);
       setIsLoading(false);
     }
   };

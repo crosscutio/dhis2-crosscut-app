@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-06-18T20:35:28.995Z\n"
-"PO-Revision-Date: 2022-06-18T20:35:28.995Z\n"
+"POT-Creation-Date: 2022-06-21T15:04:36.097Z\n"
+"PO-Revision-Date: 2022-06-21T15:04:36.097Z\n"
 
 msgid "Email"
 msgstr "Email"
@@ -41,12 +41,6 @@ msgstr "Pending"
 
 msgid "Failed"
 msgstr "Failed"
-
-msgid "Unpublish from DHIS2"
-msgstr "Unpublish from DHIS2"
-
-msgid "Publish to DHIS2"
-msgstr "Publish to DHIS2"
 
 msgid "Name is already in use"
 msgstr "Name is already in use"
@@ -231,6 +225,15 @@ msgstr "Unpublished"
 
 msgid "Name is already in use. Create a new catchment with a different name."
 msgstr "Name is already in use. Create a new catchment with a different name."
+
+msgid "Publish to DHIS2"
+msgstr "Publish to DHIS2"
+
+msgid "Unpublish from DHIS2"
+msgstr "Unpublish from DHIS2"
+
+msgid "Create catchment areas"
+msgstr "Create catchment areas"
 
 msgid "Create new catchment areas"
 msgstr "Create new catchment areas"
