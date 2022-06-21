@@ -129,7 +129,7 @@ const MyApp = () => {
               )}
               {i18n.t("Don't have an account? ")}
               {i18n.t(
-                " You can create one for free by clicking the 'Create Account' tab above or visit "
+                "You can create one for free by clicking the 'Create Account' tab above or visit "
               )}
               <a
                 style={{ color: '#0d47a1' }}
