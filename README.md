@@ -1,6 +1,6 @@
 # DHIS2 Crosscut Microplanning App
 
-A DHIS2 application to create catchment areas for health facilities. The DHIS2 Crosscut Microplanning app is designed for non-technical users. 
+A DHIS2 application to create catchment areas for health facilities. The DHIS2 Crosscut Microplanning app is designed for non-technical users.
 
 The app lets you:
 
@@ -15,6 +15,7 @@ Submit requests and issues here: [GitHub Issues](https://github.com/crosscutio/d
 ## User Guide
 
 ### App setup
+
 - Install the Microplanning app.
 - Set up a free account with Crosscut within the Microplanning app. It takes less than a minute and allows your Microplanning app to access the Crosscut analytics engine. It also allows you to manually edit catchment areas, visualize health site accessibility heat maps, and access other features at [app.crosscut.io](https://app.crosscut.io/).
 - Internet access (specifically to [api-production.app.crosscut.io](https://api-production.app.crosscut.io)) is required to use the Microplanning app.

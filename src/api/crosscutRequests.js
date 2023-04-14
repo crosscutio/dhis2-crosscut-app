@@ -281,15 +281,89 @@ export const fetchSupportedBoundaries = async () => {
         authorization: getToken(),
       },
     }).json();
+    // sort/organize the boundary list
+    const boundaryList = Object.values(resp.boundaryList);
 
-    return resp.boundaryList
-      .filter((bound) => bound.featureFlags.includes('all'))
-      .filter((bound) => bound.entireCountry === true)
-      .sort((a, b) => {
-        if (a.countryName > b.countryName) return 1;
-        if (a.countryName < b.countryName) return -1;
+    const entireCountries = boundaryList.filter(
+      (boundary) => boundary.entireCountry === true
+    );
+
+    const partialCountries = boundaryList.filter(
+      (boundary) => boundary.entireCountry === false
+    );
+
+    const countries = [];
+    entireCountries.forEach((country) => {
+      countries.push({
+        name: country.countryName,
+        id: country.id,
+        areas: [],
+        featureFlags: country.featureFlags,
+        minPopulation: country.minPopulation,
+      });
+    });
+
+    partialCountries.forEach((country) => {
+      const found = countries.find((item) => item.name === country.countryName);
+      if (found !== undefined) {
+        // add an entry for the entire country
+        if (found.id !== undefined) {
+          found['areas'].push({
+            name: 'Entire Country',
+            id: found.id,
+            featureFlags: found.featureFlags,
+            minPopulation: found.minPopulation,
+          });
+          found.id = undefined;
+        }
+        found['areas'].push({
+          name: country.areaName,
+          id: country.id,
+          featureFlags: country.featureFlags,
+          minPopulation: country.minPopulation,
+        });
+      } else {
+        countries.push({
+          name: country.countryName,
+          areas: [
+            {
+              name: country.areaName,
+              id: country.id,
+              featureFlags: country.featureFlags,
+              minPopulation: country.minPopulation,
+            },
+          ],
+        });
+      }
+    });
+
+    // sort country areas alphabetically
+    countries.forEach((country) => {
+      country.areas.sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
         return 0;
       });
+    });
+
+    // sort countries alphabetically
+    countries.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    return countries;
+    // console.log(resp.boundaryList);
+    // return (
+    //   resp.boundaryList
+    //     .filter((bound) => bound.featureFlags.includes('all'))
+    //     // .filter((bound) => bound.entireCountry === true)
+    //     .sort((a, b) => {
+    //       if (a.countryName > b.countryName) return 1;
+    //       if (a.countryName < b.countryName) return -1;
+    //       return 0;
+    //     })
+    // );
   } catch (err) {
     throw err;
   }

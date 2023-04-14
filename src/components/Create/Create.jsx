@@ -57,6 +57,7 @@ function Create(props) {
   const [characterCount, setCharacterCount] = useState(0);
   const [filterText, setFilterText] = useState(null);
   const maxCharacters = 40;
+  const [areas, setAreas] = useState(null);
 
   useEffect(() => {
     fetchBoundaries();
@@ -109,6 +110,14 @@ function Create(props) {
 
   // handle form changes
   const handleCountryChange = (e) => {
+    const found = boundaries.find((country) => country.name === e.selected);
+
+    if (found.areas.length === 0) {
+      if (areas !== null) setAreas(null);
+    } else {
+      setAreas(found.areas);
+    }
+
     // if there are errors then clear out groups and levels as that should be different
     if (hasErrors === true) {
       setFormInputs((prevState) => ({
@@ -342,13 +351,37 @@ function Create(props) {
                 return (
                   <SingleSelectOption
                     key={`boundary-${index}`}
-                    value={bound.id}
-                    label={`${bound.countryName}`}
+                    value={bound.name}
+                    label={`${bound.name}`}
                   />
                 );
               })}
           </SingleSelect>
         </Field>
+        {areas && (
+          <Field
+            label={i18n.t('Select the country')}
+            required
+            validationText={countryText}
+            error
+          >
+            <SingleSelect
+              onChange={handleCountryChange}
+              selected={formInputs.country}
+            >
+              {boundaries &&
+                boundaries.map((bound, index) => {
+                  return (
+                    <SingleSelectOption
+                      key={`boundary-${index}`}
+                      value={bound.name}
+                      label={`${bound.name}`}
+                    />
+                  );
+                })}
+            </SingleSelect>
+          </Field>
+        )}
         <Field
           label={i18n.t('Name the catchment areas')}
           required
@@ -391,6 +424,7 @@ function Create(props) {
               />
             </SingleSelect>
           </Field>
+
           <Field label={i18n.t('Select the organisational unit groups')}>
             <MultiSelect
               onChange={handleGroupChange}
