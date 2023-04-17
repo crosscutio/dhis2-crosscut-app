@@ -81,6 +81,16 @@ function Create(props) {
     };
   }, [formInputs.csv]);
 
+  useEffect(() => {
+    setFormInputs((prevState) => ({
+      ...prevState,
+      country: selectedCountryId,
+    }));
+    return () => {
+      // This is the cleanup function
+    };
+  }, [selectedCountryId]);
+
   const fetchBoundaries = async () => {
     const respBoundaries = await fetchSupportedBoundaries();
     setBoundaries(respBoundaries);
