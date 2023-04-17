@@ -76,6 +76,9 @@ msgstr "INTERNAL ERROR"
 msgid "Select the country"
 msgstr "Select the country"
 
+msgid "Select the area"
+msgstr "Select the area"
+
 msgid "Name the catchment areas"
 msgstr "Name the catchment areas"
 

@@ -358,30 +358,33 @@ function Create(props) {
               })}
           </SingleSelect>
         </Field>
-        {areas && (
-          <Field
-            label={i18n.t('Select the country')}
-            required
-            validationText={countryText}
-            error
-          >
-            <SingleSelect
-              onChange={handleCountryChange}
-              selected={formInputs.country}
+        {
+          // Render field, if there are areas for the selected country
+          areas && (
+            <Field
+              label={i18n.t('Select the area')}
+              required
+              validationText={countryText}
+              error
             >
-              {boundaries &&
-                boundaries.map((bound, index) => {
-                  return (
-                    <SingleSelectOption
-                      key={`boundary-${index}`}
-                      value={bound.name}
-                      label={`${bound.name}`}
-                    />
-                  );
-                })}
-            </SingleSelect>
-          </Field>
-        )}
+              <SingleSelect
+                onChange={handleCountryChange}
+                selected={formInputs.country}
+              >
+                {boundaries &&
+                  boundaries.map((bound, index) => {
+                    return (
+                      <SingleSelectOption
+                        key={`boundary-${index}`}
+                        value={bound.name}
+                        label={`${bound.name}`}
+                      />
+                    );
+                  })}
+              </SingleSelect>
+            </Field>
+          )
+        }
         <Field
           label={i18n.t('Name the catchment areas')}
           required
