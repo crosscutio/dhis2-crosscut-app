@@ -285,11 +285,14 @@ export const fetchSupportedBoundaries = async () => {
     const boundaryList = Object.values(resp.boundaryList);
 
     const entireCountries = boundaryList.filter(
-      (boundary) => boundary.entireCountry === true
+      (boundary) =>
+        boundary.featureFlags.includes('all') && boundary.entireCountry === true
     );
 
     const partialCountries = boundaryList.filter(
-      (boundary) => boundary.entireCountry === false
+      (boundary) =>
+        boundary.featureFlags.includes('all') &&
+        boundary.entireCountry === false
     );
 
     const countries = [];
