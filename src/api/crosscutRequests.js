@@ -353,17 +353,6 @@ export const fetchSupportedBoundaries = async () => {
       return 0;
     });
     return countries;
-    // console.log(resp.boundaryList);
-    // return (
-    //   resp.boundaryList
-    //     .filter((bound) => bound.featureFlags.includes('all'))
-    //     // .filter((bound) => bound.entireCountry === true)
-    //     .sort((a, b) => {
-    //       if (a.countryName > b.countryName) return 1;
-    //       if (a.countryName < b.countryName) return -1;
-    //       return 0;
-    //     })
-    // );
   } catch (err) {
     throw err;
   }
