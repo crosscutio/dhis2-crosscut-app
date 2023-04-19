@@ -23,6 +23,9 @@ function JobDetails(props) {
   const { title, action, setShowJobDetailsModal, name, details, id } = props;
   const [boundaries, setBoundaries] = useState(null);
   const [country, setCountry] = useState(null);
+  const [areas, setAreas] = useState(null);
+  const [countryName, setCountryName] = useState('');
+  const [areaName, setAreaName] = useState('');
   const [levels, setLevels] = useState(null);
   const [groups, setGroups] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState();
@@ -42,6 +45,25 @@ function JobDetails(props) {
     setSelectedGroup(details.groupId);
     setSelectedLevel(details.levelId);
   }, [details]);
+
+  useEffect(() => {
+    if (country !== null) {
+      const found = boundaries.find((bound) => {
+        if (bound.areas.length !== 0) {
+          return bound.areas.some((area) => {
+            if (area.id === country) {
+              setAreaName(area.name);
+              return true;
+            }
+          });
+        } else {
+          return bound.id === country;
+        }
+      });
+      setAreas(found.areas);
+      setCountryName(found.name);
+    }
+  }, [country]);
 
   const fetchJob = async () => {
     const resp = await getCatchmentJob(id);
@@ -71,25 +93,44 @@ function JobDetails(props) {
     return (
       <form>
         <Field label="Select the country">
-          <SingleSelect selected={boundaries ? country : null} disabled>
+          <SingleSelect selected={countryName} disabled>
             {boundaries &&
               boundaries.map((bound, index) => {
                 return (
                   <SingleSelectOption
                     key={`boundary-${index}`}
-                    value={bound.id}
-                    label={`${bound.countryName}`}
+                    value={bound.name}
+                    label={`${bound.name}`}
                   />
                 );
               })}
           </SingleSelect>
         </Field>
+        {
+          // Render field, if there are areas for the selected country
+          areaName && (
+            <Field label={'Select the area'}>
+              <SingleSelect selected={areaName} disabled>
+                {areas &&
+                  areas.map((area, index) => {
+                    return (
+                      <SingleSelectOption
+                        key={`area-${index}`}
+                        value={area.name}
+                        label={`${area.name}`}
+                      />
+                    );
+                  })}
+              </SingleSelect>
+            </Field>
+          )
+        }
         <Field label="Name the catchment areas">
           <Input value={name} disabled />
         </Field>
         <div className={styles.filter}>
           <Field label="Select the facility level" readOnly>
-            <SingleSelect selected={levels ? selectedLevel : null} disabled>
+            <SingleSelect selected={levels ? selectedLevel : ''} disabled>
               {levels &&
                 levels.map((level, index) => {
                   return (

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-06-21T15:17:47.921Z\n"
-"PO-Revision-Date: 2022-06-21T15:17:47.921Z\n"
+"POT-Creation-Date: 2023-04-14T20:41:28.798Z\n"
+"PO-Revision-Date: 2023-04-14T20:41:28.798Z\n"
 
 msgid "Email"
 msgstr "Email"
@@ -75,6 +75,9 @@ msgstr "INTERNAL ERROR"
 
 msgid "Select the country"
 msgstr "Select the country"
+
+msgid "Select the area"
+msgstr "Select the area"
 
 msgid "Name the catchment areas"
 msgstr "Name the catchment areas"

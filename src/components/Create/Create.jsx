@@ -57,6 +57,10 @@ function Create(props) {
   const [characterCount, setCharacterCount] = useState(0);
   const [filterText, setFilterText] = useState(null);
   const maxCharacters = 40;
+  const [areas, setAreas] = useState(null);
+  const [selectedCountryId, setSelectedCountryId] = useState('');
+  const [selectedCountryName, setSelectedCountryName] = useState('');
+  const [selectedAreaName, setSelectedAreaName] = useState('');
 
   useEffect(() => {
     fetchBoundaries();
@@ -76,6 +80,16 @@ function Create(props) {
       // This is the cleanup function
     };
   }, [formInputs.csv]);
+
+  useEffect(() => {
+    setFormInputs((prevState) => ({
+      ...prevState,
+      country: selectedCountryId,
+    }));
+    return () => {
+      // This is the cleanup function
+    };
+  }, [selectedCountryId]);
 
   const fetchBoundaries = async () => {
     const respBoundaries = await fetchSupportedBoundaries();
@@ -109,11 +123,41 @@ function Create(props) {
 
   // handle form changes
   const handleCountryChange = (e) => {
+    setSelectedAreaName('');
+    const found = boundaries.find((country) => country.name === e.selected);
+    setSelectedCountryName(found.name);
+    if (found.areas.length === 0) {
+      setSelectedCountryId(found.id);
+      if (areas !== null) {
+        setAreas(null);
+      }
+      if (hasErrors === true) {
+        setFormInputs((prevState) => ({
+          ...prevState,
+          country: selectedCountryId,
+          level: '',
+          groups: [],
+        }));
+        clearErrors();
+      } else {
+        setFormInputs((prevState) => ({
+          ...prevState,
+          country: selectedCountryId,
+        }));
+      }
+    } else {
+      setAreas(found.areas);
+    }
     // if there are errors then clear out groups and levels as that should be different
+  };
+  const handleAreaChange = (e) => {
+    const foundArea = areas.find((area) => area.name === e.selected);
+    setSelectedAreaName(foundArea.name);
+    setSelectedCountryId(foundArea.id);
     if (hasErrors === true) {
       setFormInputs((prevState) => ({
         ...prevState,
-        country: e.selected,
+        country: selectedCountryId,
         level: '',
         groups: [],
       }));
@@ -121,7 +165,7 @@ function Create(props) {
     } else {
       setFormInputs((prevState) => ({
         ...prevState,
-        country: e.selected,
+        country: selectedCountryId,
       }));
     }
   };
@@ -335,20 +379,47 @@ function Create(props) {
         >
           <SingleSelect
             onChange={handleCountryChange}
-            selected={formInputs.country}
+            selected={selectedCountryName}
           >
             {boundaries &&
               boundaries.map((bound, index) => {
                 return (
                   <SingleSelectOption
                     key={`boundary-${index}`}
-                    value={bound.id}
-                    label={`${bound.countryName}`}
+                    value={bound.name}
+                    label={`${bound.name}`}
                   />
                 );
               })}
           </SingleSelect>
         </Field>
+        {
+          // Render field, if there are areas for the selected country
+          areas && (
+            <Field
+              label={i18n.t('Select the area')}
+              required
+              validationText={countryText}
+              error
+            >
+              <SingleSelect
+                onChange={handleAreaChange}
+                selected={selectedAreaName}
+              >
+                {areas &&
+                  areas.map((area, index) => {
+                    return (
+                      <SingleSelectOption
+                        key={`area-${index}`}
+                        value={area.name}
+                        label={`${area.name}`}
+                      />
+                    );
+                  })}
+              </SingleSelect>
+            </Field>
+          )
+        }
         <Field
           label={i18n.t('Name the catchment areas')}
           required
@@ -391,6 +462,7 @@ function Create(props) {
               />
             </SingleSelect>
           </Field>
+
           <Field label={i18n.t('Select the organisational unit groups')}>
             <MultiSelect
               onChange={handleGroupChange}
