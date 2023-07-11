@@ -314,7 +314,7 @@ function Create(props) {
             setHasErrors(true);
             setIsLoading(false);
             return { error: resp };
-          } else if (response.status === 204) {
+          } else if (response.response.status === 204) {
             setAlertError(null);
             setAlertError({
               text: i18n.t('No sites were found'),
