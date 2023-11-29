@@ -272,8 +272,7 @@ export const deleteCatchmentJob = async (id) => {
 };
 
 export const fetchSupportedBoundaries = async () => {
-  const boundaryVerion = 'v3';
-  const url = `${baseURL}/boundaries/${boundaryVerion}`;
+  const url = `${baseURL}/boundaries`;
   try {
     const resp = await ky(url, {
       mode: 'cors',
