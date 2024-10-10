@@ -1,7 +1,7 @@
 {
   "name": "dhis2-crosscut-app",
   "author": "crosscut.io",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "license": "BSD-3-Clause",
   "private": true,
