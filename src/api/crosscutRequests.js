@@ -134,8 +134,14 @@ export const createCatchmentJob = async (body) => {
       country: body.country,
       csv,
       algorithm: 'site-based',
-      // TODO: add restricted admin level
     };
+    if (
+      body.adminRestrictions !== undefined &&
+      body.adminRestrictions.restrictedAdminIds !== undefined &&
+      body.adminRestrictions.restrictedAdminIds.length > 0
+    ) {
+      json.adminRestrictions = body.adminRestrictions;
+    }
 
     const verify_url = `${baseURL}/catchment-jobs/verify`;
 
