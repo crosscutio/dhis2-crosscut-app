@@ -21,6 +21,7 @@ export const fetchCatchmentJobs = async () => {
       SUCCESS: i18n.t('Ready'),
       PUBLISHED: i18n.t('Published'),
       PENDING: i18n.t('Pending'),
+      UPDATING: i18n.t('Updating'),
       FAILURE: i18n.t('Failed'),
     };
     // filter out jobs that aren't site-based
@@ -88,6 +89,10 @@ export const fetchCatchmentJobs = async () => {
       if (job.status === 'FAILURE') {
         job.status = statuses[job.status];
       }
+
+      if (job.status === 'UPDATING') {
+        job.status = statuses[job.status];
+      }
     });
     return siteBasedJobs;
   } catch (err) {
@@ -130,6 +135,13 @@ export const createCatchmentJob = async (body) => {
       csv,
       algorithm: 'site-based',
     };
+    if (
+      body.adminRestrictions !== undefined &&
+      body.adminRestrictions.restrictedAdminIds !== undefined &&
+      body.adminRestrictions.restrictedAdminIds.length > 0
+    ) {
+      json.adminRestrictions = body.adminRestrictions;
+    }
 
     const verify_url = `${baseURL}/catchment-jobs/verify`;
 
@@ -291,7 +303,16 @@ export const fetchSupportedBoundaries = async () => {
     const partialCountries = boundaryList.filter(
       (boundary) =>
         boundary.featureFlags.includes('all') &&
-        boundary.entireCountry === false
+        boundary.entireCountry === false &&
+        boundary.restrictedAreas.length === 0
+    );
+
+    const countriesWithRestrictedAreas = boundaryList.filter(
+      (boundary) =>
+        boundary.featureFlags.includes('all') &&
+        boundary.entireCountry === false &&
+        boundary.restrictedAreas !== undefined &&
+        boundary.restrictedAreas.length > 0
     );
 
     const countries = [];
@@ -302,6 +323,8 @@ export const fetchSupportedBoundaries = async () => {
         areas: [],
         featureFlags: country.featureFlags,
         minPopulation: country.minPopulation,
+        adminLevels: country.adminLevels,
+        boundaryVersion: country.boundaryVersion,
       });
     });
 
@@ -315,6 +338,11 @@ export const fetchSupportedBoundaries = async () => {
             id: found.id,
             featureFlags: found.featureFlags,
             minPopulation: found.minPopulation,
+            boundaryVersion: found.boundaryVersion,
+            adminLevels:
+              found.boundaryVersion === 'v3'
+                ? found.adminLevels
+                : [0].concat(found.adminLevels), // add admin 0 back if there is entire country for boundary above v3
           });
           found.id = undefined;
         }
@@ -323,6 +351,8 @@ export const fetchSupportedBoundaries = async () => {
           id: country.id,
           featureFlags: country.featureFlags,
           minPopulation: country.minPopulation,
+          boundaryVersion: country.boundaryVersion,
+          adminLevels: country.adminLevels,
         });
       } else {
         countries.push({
@@ -333,8 +363,46 @@ export const fetchSupportedBoundaries = async () => {
               id: country.id,
               featureFlags: country.featureFlags,
               minPopulation: country.minPopulation,
+              boundaryVersion: country.boundaryVersion,
+              adminLevels: country.adminLevels,
             },
           ],
+        });
+      }
+    });
+
+    countriesWithRestrictedAreas.forEach((country) => {
+      const found = countries.find((item) => item.name === country.countryName);
+      if (found !== undefined) {
+        country.restrictedAreas.forEach((area) => {
+          found['areas'].push({
+            name: area.RESTRICT_NAME,
+            id: country.id,
+            isRestricted: true,
+            restrictedAdminIds: area.RESTRICT_ID,
+            restrictedAdminIdLevel: area.RESTRICT_ADMIN_LEVEL,
+            featureFlags: country.featureFlags,
+            minPopulation: country.minPopulation,
+            boundaryVersion: country.boundaryVersion,
+            adminLevels: country.adminLevels,
+          });
+        });
+      } else {
+        countries.push({
+          name: country.countryName,
+          areas: country.restrictedAreas.map((area) => {
+            return {
+              name: area.RESTRICT_NAME,
+              id: country.id,
+              isRestricted: true,
+              restrictedAdminIds: area.RESTRICT_ID,
+              restrictedAdminIdLevel: area.RESTRICT_ADMIN_LEVEL,
+              featureFlags: country.featureFlags,
+              minPopulation: country.minPopulation,
+              boundaryVersion: country.boundaryVersion,
+              adminLevels: country.adminLevels,
+            };
+          }),
         });
       }
     });

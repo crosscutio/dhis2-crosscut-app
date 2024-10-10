@@ -4,3 +4,4 @@ node_modules
 src/locales
 build
 dhis2-db-sierra-leone.sql.gz
+.DS_Store

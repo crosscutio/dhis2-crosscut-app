@@ -42,6 +42,10 @@ function Create(props) {
     group: [],
     csv: '',
     name: '',
+    adminRestrictions: {
+      restrictedAdminIdLevel: '',
+      restrictedAdminIds: [],
+    },
   });
   const [boundaries, setBoundaries] = useState(null);
   const [levels, setLevels] = useState([]);
@@ -61,6 +65,10 @@ function Create(props) {
   const [selectedCountryId, setSelectedCountryId] = useState('');
   const [selectedCountryName, setSelectedCountryName] = useState('');
   const [selectedAreaName, setSelectedAreaName] = useState('');
+  const [selectedAdminRestrictions, setSelectedAdminRestrictions] = useState({
+    restrictedAdminIdLevel: '',
+    restrictedAdminIds: [],
+  });
 
   useEffect(() => {
     fetchBoundaries();
@@ -90,6 +98,16 @@ function Create(props) {
       // This is the cleanup function
     };
   }, [selectedCountryId]);
+
+  useEffect(() => {
+    setFormInputs((prevState) => ({
+      ...prevState,
+      adminRestrictions: selectedAdminRestrictions,
+    }));
+    return () => {
+      // This is the cleanup function
+    };
+  }, [selectedAdminRestrictions]);
 
   const fetchBoundaries = async () => {
     const respBoundaries = await fetchSupportedBoundaries();
@@ -154,18 +172,36 @@ function Create(props) {
     const foundArea = areas.find((area) => area.name === e.selected);
     setSelectedAreaName(foundArea.name);
     setSelectedCountryId(foundArea.id);
+    if (foundArea.isRestricted) {
+      setSelectedAdminRestrictions((prevAdminRestrictions) => ({
+        ...prevAdminRestrictions,
+        restrictedAdminIdLevel: foundArea.restrictedAdminIdLevel,
+        restrictedAdminIds: foundArea.restrictedAdminIds,
+      }));
+    } else {
+      setSelectedAdminRestrictions({
+        restrictedAdminIdLevel: '',
+        restrictedAdminIds: [],
+      });
+    }
+
     if (hasErrors === true) {
       setFormInputs((prevState) => ({
         ...prevState,
         country: selectedCountryId,
         level: '',
         groups: [],
+        adminRestrictions: {
+          restrictedAdminIdLevel: '',
+          restrictedAdminIds: [],
+        },
       }));
       clearErrors();
     } else {
       setFormInputs((prevState) => ({
         ...prevState,
         country: selectedCountryId,
+        adminRestrictions: selectedAdminRestrictions,
       }));
     }
   };
